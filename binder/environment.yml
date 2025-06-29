@@ -1,7 +1,17 @@
+name: Aiyagari1994QJE
 channels:
   - conda-forge
+  - econ-ark
 
 dependencies:
   - python=3.11.7
-  - ipython
-  - econ-ark==0.13.0
+  - pip=23.3.1
+  - jupyter=1.0.0
+  - notebook=7.0.6
+  - matplotlib=3.7.4
+  - numpy=1.24.4
+  - scipy=1.10.1
+  - pandas=2.0.3
+  - ipython=8.18.1
+  - pip:
+    - econ-ark==0.13.0

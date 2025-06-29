@@ -1,0 +1,47 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+authors:
+  - family-names: "Edwards"
+    given-names: "Adam"
+    email: "edwardsadam01@gmail.com"
+    affiliation: "Johns Hopkins University"
+title: "Aiyagari (1994QJE): Uninsured Idiosyncratic Risk and Aggregate Saving - Computational Implementation"
+version: 1.0.0
+date-released: 2024-01-15
+url: "https://github.com/econ-ark/Aiyagari1994QJE"
+repository-code: "https://github.com/econ-ark/Aiyagari1994QJE"
+abstract: >-
+  This repository provides a computational implementation of the Aiyagari (1994) model 
+  of uninsured idiosyncratic risk and aggregate saving. The implementation includes 
+  two Jupyter notebooks demonstrating different solution approaches using the HARK 
+  (Heterogeneous Agents Resources and toolKit) framework. The model examines how 
+  precautionary saving motives and liquidity constraints affect aggregate saving 
+  rates, asset trading importance, and wealth/income distribution inequality in a 
+  heterogeneous agent framework.
+keywords:
+  - "computational economics"
+  - "heterogeneous agents"
+  - "Aiyagari model"
+  - "incomplete markets"
+  - "precautionary saving"
+  - "dynamic programming"
+  - "HARK"
+  - "numerical methods"
+  - "macroeconomics"
+license: Apache-2.0
+references:
+  - type: article
+    authors:
+      - family-names: "Aiyagari"
+        given-names: "S. Rao"
+    title: "Uninsured idiosyncratic risk and aggregate saving"
+    journal: "The Quarterly Journal of Economics"
+    volume: 109
+    issue: 3
+    start: 659
+    end: 684
+    year: 1994
+    publisher: "Oxford University Press"
+    doi: "10.2307/2118417"
+    url: "https://academic.oup.com/qje/article-abstract/109/3/659/1838287" 
