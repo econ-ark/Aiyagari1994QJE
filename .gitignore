@@ -37,3 +37,4 @@ benchmark_results_*.json
 
 # VS Code / Cursor
 .vscode/
+pyrightconfig.json
