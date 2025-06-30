@@ -1,0 +1,24 @@
+{
+  // Enable all rules by default
+  "default": true,
+  
+  // MD013: Line length - disable to allow long lines in academic content
+  "MD013": false,
+  
+  // MD033: Inline HTML - disable to allow HTML tags in markdown
+  "MD033": false,
+  
+  // MD034: Bare URLs - disable to allow URLs without angle brackets
+  "MD034": false,
+  
+  // MD007: Unordered list indentation - require 4 spaces for nested items
+  "MD007": {
+    "indent": 4
+  },
+  
+  // MD024: Multiple headings with same content - disable for repeated sections
+  "MD024": false,
+  
+  // MD036: Emphasis used instead of heading - disable for styled text
+  "MD036": false
+}

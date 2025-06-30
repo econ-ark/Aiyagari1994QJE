@@ -11,6 +11,7 @@ This guide explains how to use Docker to run the Aiyagari (1994) QJE model repli
 ## Quick Start
 
 ### 1. Clone and Navigate
+
 ```bash
 git clone <repository-url>
 cd Aiyagari1994QJE
@@ -19,17 +20,21 @@ cd Aiyagari1994QJE
 ### 2. Run with Docker Compose (Recommended)
 
 #### Start Jupyter Lab Environment
+
 ```bash
 docker-compose up aiyagari-notebook
 ```
-Then open http://localhost:8888 in your browser.
+
+Then open <http://localhost:8888> in your browser.
 
 #### Run Baseline Reproduction (~30 seconds)
+
 ```bash
 docker-compose --profile baseline up aiyagari-baseline
 ```
 
 #### Run Full Reproduction (~10-15 minutes)
+
 ```bash
 docker-compose --profile full up aiyagari-full
 ```
@@ -37,21 +42,25 @@ docker-compose --profile full up aiyagari-full
 ### 3. Alternative: Direct Docker Commands
 
 #### Build the Image
+
 ```bash
 docker build -t aiyagari1994qje .
 ```
 
 #### Run Jupyter Lab
+
 ```bash
 docker run -p 8888:8888 -v $(pwd):/workspace aiyagari1994qje
 ```
 
 #### Run Baseline Test
+
 ```bash
 docker run -v $(pwd):/workspace aiyagari1994qje conda run -n Aiyagari1994QJE ./run_baseline.sh
 ```
 
 #### Run Full Reproduction
+
 ```bash
 docker run -v $(pwd):/workspace aiyagari1994qje conda run -n Aiyagari1994QJE ./run_full.sh
 ```
@@ -66,6 +75,7 @@ If you use VS Code, you can use the `.devcontainer` configuration:
 4. Select "Dev Containers: Reopen in Container"
 
 This will automatically:
+
 - Build the development environment
 - Install all dependencies
 - Set up the Python interpreter
@@ -74,6 +84,7 @@ This will automatically:
 ## Container Features
 
 ### Included Software
+
 - **Python 3.11** with conda environment management
 - **HARK 0.13.0** - Heterogeneous Agents Resources and toolKit
 - **Jupyter Lab** for interactive notebook execution
@@ -81,15 +92,18 @@ This will automatically:
 - **All dependencies** specified in `binder/environment.yml`
 
 ### Exposed Ports
+
 - **8888**: Jupyter Lab interface
 
 ### Volume Mounts
+
 - **Current directory** mounted to `/workspace` in container
 - **Results volume** for persistent output storage
 
 ## Usage Examples
 
 ### Interactive Development
+
 ```bash
 # Start Jupyter Lab
 docker-compose up aiyagari-notebook
@@ -99,11 +113,12 @@ docker-compose up aiyagari-notebook
 ```
 
 ### Automated Execution
+
 ```bash
 # Quick CI test (30 seconds)
 docker-compose --profile baseline up aiyagari-baseline
 
-# Full parameter sweep (10-15 minutes)  
+# Full parameter sweep (10-15 minutes)
 docker-compose --profile full up aiyagari-full
 
 # View results
@@ -111,6 +126,7 @@ ls -la results/
 ```
 
 ### Custom Commands
+
 ```bash
 # Run specific Python script
 docker run -v $(pwd):/workspace aiyagari1994qje \
@@ -124,6 +140,7 @@ docker run -it -v $(pwd):/workspace aiyagari1994qje \
 ## Troubleshooting
 
 ### Build Issues
+
 ```bash
 # Clean build (no cache)
 docker build --no-cache -t aiyagari1994qje .
@@ -133,12 +150,14 @@ docker-compose build --no-cache
 ```
 
 ### Permission Issues
+
 ```bash
 # Fix file permissions after container run
 sudo chown -R $USER:$USER results/
 ```
 
 ### Port Conflicts
+
 ```bash
 # Use different port if 8888 is busy
 docker run -p 8889:8888 -v $(pwd):/workspace aiyagari1994qje
@@ -146,6 +165,7 @@ docker run -p 8889:8888 -v $(pwd):/workspace aiyagari1994qje
 ```
 
 ### Memory Issues
+
 ```bash
 # Increase Docker memory limit in Docker Desktop settings
 # Recommended: At least 4GB RAM for full reproduction
@@ -154,6 +174,7 @@ docker run -p 8889:8888 -v $(pwd):/workspace aiyagari1994qje
 ## Environment Variables
 
 The container sets these environment variables:
+
 - `CONDA_DEFAULT_ENV=Aiyagari1994QJE`
 - `PATH` includes conda environment binaries
 - `JUPYTER_ENABLE_LAB=yes`
@@ -201,7 +222,8 @@ The Docker setup is designed for CI/CD integration:
 ## Support
 
 For issues with Docker setup:
+
 1. Check Docker and Docker Compose versions
 2. Ensure sufficient disk space (>5GB)
 3. Verify port 8888 is available
-4. Review container logs: `docker-compose logs` 
+4. Review container logs: `docker-compose logs`

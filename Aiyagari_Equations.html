@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Aiyagari Model Equations (Sympy Output)</title>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<style>
+  body { font-family: sans-serif; margin: 2em; }
+  .equation { margin: 2em; }
+</style>
+</head>
+<body>
+
+<h1>Symbolic Representation of the Aiyagari (1994) Model</h1>
+<p>This document is generated from a Python script using Sympy to create and render the model's core mathematical equations.</p>
+
+<h2>The Household's Maximization Problem</h2>
+<p>The agent seeks to solve:</p>
+<div class="equation">
+\[ \max \; E_{0} \sum_{t=0}^{\infty} \frac{β^{t} \left({c}_{t}^{1 - μ} - 1\right)}{1 - μ} \]
+</div>
+<p>Subject to:</p>
+<div class="equation">
+\[ {a}_{t + 1} + {c}_{t} = w {ℓ}_{t} + \left(r + 1\right) {a}_{t} \]
+</div>
+<div class="equation">
+\[ {a}_{t} \geq 0 \]
+</div>
+
+<h2>The Income Process</h2>
+<p>The logarithm of the labor endowment shock follows an AR(1) process:</p>
+<div class="equation">
+\[ \log{\left({ℓ}_{t} \right)} = ρ \log{\left({ℓ}_{t - 1} \right)} + σ ϵ_{t} \sqrt{1 - ρ^{2}}, \quad \epsilon_{t \sim N(0,1)} \]
+</div>
+
+<h2>Utility Function</h2>
+<p>The period utility function is assumed to be CRRA:</p>
+<div class="equation">
+\[ u{\left(c \right)} = \frac{c^{1 - μ} - 1}{1 - μ} \]
+</div>
+
+</body>
+</html>

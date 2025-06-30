@@ -18,16 +18,19 @@
 ## Model Specification and Variables
 
 ### Household Problem
+
 - **State Variables**: Assets (a), income shock (e)
 - **Control Variable**: Consumption (c)
 - **Parameters**: Discount factor (β), risk aversion (θ), borrowing constraint (B)
 
 ### Income Process
+
 - **AR(1) Process**: log(e') = ρ*log(e) + ε, where ε ~ N(0, σ²)
 - **Discretization**: Tauchen method for computational tractability
 - **Grid Points**: 7-point Markov chain approximation
 
 ### Technology
+
 - **Production Function**: Y = F(K,L) = K^α * L^(1-α)
 - **Capital Share**: α = 0.36
 - **Depreciation Rate**: δ = 0.08
@@ -37,24 +40,24 @@
 ### Solution Methods
 
 - **Value Function Iteration**: Solves individual dynamic programming problem
-  - Bellman equation: V(a,e) = max{u(c) + β*E[V(a',e')|e]}
-  - Grid search over consumption choices
-  - Convergence criterion: ||V^(n+1) - V^n|| < tolerance
+    - Bellman equation: V(a,e) = max{u(c) + β*E[V(a',e')|e]}
+    - Grid search over consumption choices
+    - Convergence criterion: ||V^(n+1) - V^n|| < tolerance
 
 - **Equilibrium Computation**: Bisection method for interest rate
-  - Asset market clearing: Aggregate assets = Capital demand
-  - Convergence criterion: |Asset supply - Asset demand| < tolerance
+    - Asset market clearing: Aggregate assets = Capital demand
+    - Convergence criterion: |Asset supply - Asset demand| < tolerance
 
 ### Computational Framework
 
 - **HARK Toolkit**: Two implementation approaches
-  - MarkovConsumerType: Built-in Markov consumer framework
-  - DolARK Methods: Alternative computational approach
+    - MarkovConsumerType: Built-in Markov consumer framework
+    - DolARK Methods: Alternative computational approach
 
 - **Monte Carlo Simulation**: Large sample for aggregate statistics
-  - Sample size: 10,000+ agents
-  - Simulation length: 1,000+ periods
-  - Statistical accuracy: Standard errors < 0.01
+    - Sample size: 10,000+ agents
+    - Simulation length: 1,000+ periods
+    - Statistical accuracy: Standard errors < 0.01
 
 ### Numerical Specifications
 
@@ -73,7 +76,7 @@
 ### Parameter Effects
 
 - **Risk Aversion (θ)**: Higher θ → lower interest rates, higher saving rates
-- **Income Persistence (ρ)**: Higher ρ → lower interest rates, higher saving rates  
+- **Income Persistence (ρ)**: Higher ρ → lower interest rates, higher saving rates
 - **Income Volatility (σ)**: Higher σ → lower interest rates, higher saving rates
 
 ### Methodological Contributions
@@ -186,9 +189,9 @@ This repository adheres to REMARK standards for computational reproducibility:
 **Implementation Author**: Adam Edwards <edwardsadam01@gmail.com>, Johns Hopkins University
 **Original Research**: S. Rao Aiyagari (1994), "Uninsured idiosyncratic risk and aggregate saving"
 **Computational Framework**: Econ-ARK development team
-**Repository**: https://github.com/econ-ark/Aiyagari1994QJE
+**Repository**: <https://github.com/econ-ark/Aiyagari1994QJE>
 **License**: Apache 2.0
 
 ---
 
-*This description is optimized for AI discovery, academic indexing, and research applications. Repository status: Active, maintained, fully reproducible, educational focus.* 
+*This description is optimized for AI discovery, academic indexing, and research applications. Repository status: Active, maintained, fully reproducible, educational focus.*

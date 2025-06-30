@@ -162,11 +162,13 @@ The Aiyagari model examines an economy populated by infinitely-lived households 
 ## Key Economic Insights
 
 ### Individual Behavior
+
 - **Precautionary Saving**: Households save more than they would under certainty to self-insure against income shocks
 - **Borrowing Constraints**: Agents cannot borrow against future income, amplifying the need for precautionary savings
 - **State-Dependent Policies**: Consumption and saving decisions depend on both current assets and current income realizations
 
 ### Aggregate Implications
+
 - **Higher Capital Stock**: Precautionary saving increases aggregate capital above the complete markets level
 - **Lower Interest Rates**: Increased saving demand drives down equilibrium interest rates
 - **Wealth Inequality**: Heterogeneous income realizations lead to persistent wealth differences across agents
@@ -174,19 +176,21 @@ The Aiyagari model examines an economy populated by infinitely-lived households 
 ## Implementation Features
 
 ### Solution Methods
+
 The implementation provides two complementary approaches:
 
 1. **MarkovConsumerType** (`AiyagariMarkovHARK.ipynb`):
-   - Uses HARK's built-in Markov consumer framework
-   - Handles transition matrices automatically
-   - Provides detailed equilibrium analysis and comparison with original results
+    - Uses HARK's built-in Markov consumer framework
+    - Handles transition matrices automatically
+    - Provides detailed equilibrium analysis and comparison with original results
 
 2. **DolARK Methods** (`AiyagariDolARK.ipynb`):
-   - Alternative solution approach for comparison
-   - Demonstrates different computational techniques
-   - Allows verification of results across methods
+    - Alternative solution approach for comparison
+    - Demonstrates different computational techniques
+    - Allows verification of results across methods
 
 ### Computational Techniques
+
 - **Tauchen Discretization**: Converts continuous AR(1) process to discrete Markov chain
 - **Value Function Iteration**: Solves individual dynamic programming problem
 - **Bisection Search**: Finds equilibrium interest rate satisfying aggregate consistency
@@ -197,12 +201,15 @@ The implementation provides two complementary approaches:
 The implementation replicates the complete parameter space from Aiyagari (1994):
 
 ### Income Process Parameters
+
 - **Volatility (σ)**: {0.2, 0.4} - controls magnitude of income shocks
 - **Persistence (ρ)**: {0.0, 0.3, 0.6, 0.9} - controls autocorrelation of income
 - **Risk Aversion (θ)**: {1, 3, 5} - determines strength of precautionary motive
 
 ### Results Validation
+
 The implementation achieves high accuracy in replicating:
+
 - Equilibrium interest rates (within 0.05 percentage points)
 - Aggregate saving rates (within 0.2 percentage points)
 - Cross-parameter comparative statics
@@ -210,11 +217,13 @@ The implementation achieves high accuracy in replicating:
 ## Educational Applications
 
 ### Graduate Courses
+
 - **Heterogeneous Agent Models**: Core foundation for understanding distribution effects
 - **Incomplete Markets Theory**: Practical application of theoretical concepts
 - **Computational Macroeconomics**: Hands-on training with industry-standard tools
 
 ### Research Training
+
 - **HARK Toolkit Mastery**: Essential for modern computational macroeconomics research
 - **Numerical Methods**: Experience with equilibrium computation and solution algorithms
 - **Model Validation**: Techniques for verifying computational implementations
@@ -222,19 +231,22 @@ The implementation achieves high accuracy in replicating:
 ## Getting Started
 
 ### Quick Start
+
 1. **Environment Setup**: Use Poetry (`poetry install`) or conda (`conda env create -f binder/environment.yml`)
 2. **Basic Execution**: Run `./reproduce_min.sh` for quick demonstration
 3. **Full Analysis**: Execute `./reproduce.sh` for complete replication
 
 ### Deep Dive
+
 1. **Primary Notebook**: Start with `AiyagariMarkovHARK.ipynb` for detailed analysis
 2. **Alternative Methods**: Compare with `AiyagariDolARK.ipynb` implementation
 3. **Parameter Exploration**: Modify parameters to explore different scenarios
 
 ### Extension Opportunities
+
 - Experiment with different utility functions
 - Add government sector (taxes, transfers)
 - Implement welfare analysis
 - Extend to multiple asset types
 
-This implementation provides a comprehensive foundation for understanding one of the most influential models in modern macroeconomics while demonstrating state-of-the-art computational techniques. 
+This implementation provides a comprehensive foundation for understanding one of the most influential models in modern macroeconomics while demonstrating state-of-the-art computational techniques.

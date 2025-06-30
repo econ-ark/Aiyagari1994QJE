@@ -17,6 +17,7 @@ This repository provides a computational implementation of the seminal **Aiyagar
 ## Quick Start
 
 ### Option 1: Poetry (Recommended for Development)
+
 ```bash
 # Install dependencies
 poetry install
@@ -24,11 +25,12 @@ poetry install
 # Quick baseline test (~30 seconds)
 ./run_baseline.sh
 
-# Full parameter sweep (~10-15 minutes)  
+# Full parameter sweep (~10-15 minutes)
 ./run_full.sh
 ```
 
 ### Option 2: Conda (MyBinder Compatible)
+
 ```bash
 # Create environment
 conda env create -f binder/environment.yml
@@ -42,6 +44,7 @@ conda activate Aiyagari1994QJE
 ```
 
 ### Option 3: Docker (Containerized Environment)
+
 ```bash
 # Start Jupyter Lab environment
 docker-compose up aiyagari-notebook
@@ -55,29 +58,35 @@ docker-compose --profile full up aiyagari-full
 ```
 
 ### Option 4: Cloud Execution
+
 Click the Binder badge above to run in your browser without local installation.
 
-### Execution Modes
+## Execution Modes
 
 The repository provides dedicated scripts for different execution modes:
 
-#### Quick Testing (Baseline Mode)
+### Quick Testing (Baseline Mode)
+
 ```bash
 ./run_baseline.sh
 ```
+
 - **Runtime**: ~30 seconds
 - **Purpose**: Single parameter combination (σ=0.2, ρ=0.6, μ=1)
 - **Use case**: Quick verification, CI testing, development
 
-#### Full Replication (Complete Analysis)
+### Full Replication (Complete Analysis)
+
 ```bash
 ./run_full.sh
 ```
-- **Runtime**: ~10-15 minutes  
+
+- **Runtime**: ~10-15 minutes
 - **Purpose**: All 24 parameter combinations with comparison tables
 - **Use case**: Complete research replication, final results
 
-#### Legacy Scripts (Alternative)
+### Legacy Scripts (Alternative)
+
 ```bash
 # Quick demonstration (one notebook, ~5 minutes)
 ./reproduce_min.sh
@@ -89,16 +98,18 @@ The repository provides dedicated scripts for different execution modes:
 ## Repository Contents
 
 ### Notebooks
+
 - **`AiyagariMarkovHARK.ipynb`**: Primary implementation using MarkovConsumerType
-  - Detailed equilibrium analysis
-  - Complete parameter space exploration
-  - Comparison with original Aiyagari results
-  
+    - Detailed equilibrium analysis
+    - Complete parameter space exploration
+    - Comparison with original Aiyagari results
+
 - **`AiyagariDolARK.ipynb`**: Alternative implementation using DolARK methods
-  - Different solution approach for verification
-  - Computational method comparison
+    - Different solution approach for verification
+    - Computational method comparison
 
 ### Key Files
+
 - **`CITATION.cff`**: Bibliographic metadata for proper citation
 - **`reproduce.sh`**: Complete reproduction script (both notebooks)
 - **`reproduce_min.sh`**: Quick demonstration script (primary notebook only)
@@ -131,12 +142,14 @@ This implementation successfully replicates:
 ## Educational Applications
 
 ### Prerequisites
+
 - Graduate-level macroeconomic theory
-- Some Python programming experience  
+- Some Python programming experience
 - Basic dynamic programming knowledge
 - Familiarity with numerical methods
 
 ### Learning Objectives
+
 - Understand incomplete markets with heterogeneous agents
 - Master HARK computational framework
 - Analyze precautionary saving effects
@@ -145,12 +158,14 @@ This implementation successfully replicates:
 ## Technical Implementation
 
 ### Solution Methods
+
 - **Tauchen Discretization**: AR(1) income process → discrete Markov chain
 - **Value Function Iteration**: Individual dynamic programming
 - **Bisection Search**: Equilibrium interest rate computation
 - **Monte Carlo Simulation**: Aggregate consistency verification
 
 ### Computational Features
+
 - Vectorized operations for efficiency
 - Robust numerical methods
 - Comprehensive error handling
