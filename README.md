@@ -41,7 +41,20 @@ conda activate Aiyagari1994QJE
 ./run_full.sh
 ```
 
-### Option 3: Cloud Execution
+### Option 3: Docker (Containerized Environment)
+```bash
+# Start Jupyter Lab environment
+docker-compose up aiyagari-notebook
+# Then open http://localhost:8888
+
+# Quick baseline test (~30 seconds)
+docker-compose --profile baseline up aiyagari-baseline
+
+# Full parameter sweep (~10-15 minutes)
+docker-compose --profile full up aiyagari-full
+```
+
+### Option 4: Cloud Execution
 Click the Binder badge above to run in your browser without local installation.
 
 ### Execution Modes
@@ -89,8 +102,13 @@ The repository provides dedicated scripts for different execution modes:
 - **`CITATION.cff`**: Bibliographic metadata for proper citation
 - **`reproduce.sh`**: Complete reproduction script (both notebooks)
 - **`reproduce_min.sh`**: Quick demonstration script (primary notebook only)
+- **`run_baseline.sh`**: Quick testing script (30 seconds)
+- **`run_full.sh`**: Full replication script (10-15 minutes)
 - **`pyproject.toml`**: Poetry configuration for local development
 - **`binder/environment.yml`**: Conda environment for reproducibility
+- **`Dockerfile`**: Container image specification
+- **`docker-compose.yml`**: Multi-service container orchestration
+- **`DOCKER.md`**: Comprehensive Docker usage guide
 
 ## Model Description
 

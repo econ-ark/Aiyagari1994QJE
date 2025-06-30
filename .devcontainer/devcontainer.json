@@ -1,0 +1,65 @@
+{
+  "name": "Aiyagari1994QJE Research Environment",
+  "image": "mcr.microsoft.com/devcontainers/miniconda:0-3",
+  
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        "ms-toolsai.jupyter-keymap",
+        "ms-toolsai.jupyter-renderers",
+        "ms-vscode.vscode-json"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/opt/conda/envs/Aiyagari1994QJE/bin/python",
+        "jupyter.kernels.filter": [
+          {
+            "path": "/opt/conda/envs/Aiyagari1994QJE/bin/python",
+            "type": "pythonEnvironment"
+          }
+        ]
+      }
+    }
+  },
+
+  "onCreateCommand": [
+    "bash",
+    "-c",
+    "echo 'Setting up Aiyagari1994QJE environment...' && mamba env create -f binder/environment.yml && echo 'Environment created successfully!'"
+  ],
+
+  "postCreateCommand": [
+    "bash", 
+    "-c",
+    "echo 'Activating environment and testing setup...' && source /opt/conda/etc/profile.d/conda.sh && conda activate Aiyagari1994QJE && python -c 'import HARK; print(f\"HARK version: {HARK.__version__}\")' && echo 'Setup complete! Ready to run Aiyagari model.'"
+  ],
+
+  "forwardPorts": [8888],
+  "portsAttributes": {
+    "8888": {
+      "label": "Jupyter Lab",
+      "onAutoForward": "notify"
+    }
+  },
+
+  "remoteUser": "vscode",
+  "containerUser": "vscode",
+
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
+  ],
+
+  "workspaceFolder": "/workspace",
+
+  "containerEnv": {
+    "CONDA_DEFAULT_ENV": "Aiyagari1994QJE",
+    "PATH": "/opt/conda/envs/Aiyagari1994QJE/bin:/opt/conda/bin:${PATH}"
+  }
+} 

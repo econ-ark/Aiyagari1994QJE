@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  aiyagari-notebook:
+    build: .
+    container_name: aiyagari1994qje
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/workspace
+      - aiyagari-results:/workspace/results
+    environment:
+      - CONDA_DEFAULT_ENV=Aiyagari1994QJE
+      - JUPYTER_ENABLE_LAB=yes
+    command: >
+      bash -c "
+        echo 'Starting Aiyagari (1994) QJE Research Environment...' &&
+        conda run -n Aiyagari1994QJE jupyter lab 
+          --ip=0.0.0.0 
+          --port=8888 
+          --no-browser 
+          --allow-root 
+          --NotebookApp.token='' 
+          --NotebookApp.password=''
+      "
+    restart: unless-stopped
+
+  # Service for running baseline reproduction
+  aiyagari-baseline:
+    build: .
+    container_name: aiyagari1994qje-baseline
+    volumes:
+      - .:/workspace
+      - aiyagari-results:/workspace/results
+    environment:
+      - CONDA_DEFAULT_ENV=Aiyagari1994QJE
+    command: >
+      bash -c "
+        echo 'Running Aiyagari baseline reproduction...' &&
+        conda run -n Aiyagari1994QJE ./run_baseline.sh
+      "
+    profiles:
+      - baseline
+
+  # Service for running full reproduction
+  aiyagari-full:
+    build: .
+    container_name: aiyagari1994qje-full
+    volumes:
+      - .:/workspace
+      - aiyagari-results:/workspace/results
+    environment:
+      - CONDA_DEFAULT_ENV=Aiyagari1994QJE
+    command: >
+      bash -c "
+        echo 'Running Aiyagari full reproduction...' &&
+        conda run -n Aiyagari1994QJE ./run_full.sh
+      "
+    profiles:
+      - full
+
+volumes:
+  aiyagari-results:
+    driver: local 

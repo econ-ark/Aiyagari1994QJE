@@ -25,3 +25,6 @@ __pycache__/
 # Environment files (if using conda-lock or pip-tools)
 conda-lock.yml
 requirements-dev.txt
+
+# Docker
+.dockerignore
