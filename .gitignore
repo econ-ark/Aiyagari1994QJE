@@ -26,5 +26,11 @@ __pycache__/
 conda-lock.yml
 requirements-dev.txt
 
+# Benchmark results
+benchmark_results_*.json
+
+# GitHub Actions artifacts
+.github/workflows/artifacts/
+
 # Docker
 .dockerignore

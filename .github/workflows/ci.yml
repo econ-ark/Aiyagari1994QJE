@@ -1,0 +1,212 @@
+name: Aiyagari (1994) QJE Model - CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master, cdc-remarkification-updates ]
+  pull_request:
+    branches: [ main, master ]
+  schedule:
+    # Run weekly on Sundays at 2 AM UTC
+    - cron: '0 2 * * 0'
+
+jobs:
+  # Quick validation job
+  validate:
+    name: Quick Validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Validate CITATION.cff
+      uses: citation-file-format/cffconvert-github-action@2.0.0
+      with:
+        args: "--validate"
+        
+    - name: Check file structure
+      run: |
+        echo "=== Checking required files ==="
+        test -f "AiyagariMarkovHARK.ipynb" || { echo "❌ Main notebook missing"; exit 1; }
+        test -f "binder/environment.yml" || { echo "❌ Environment file missing"; exit 1; }
+        test -f "reproduce_min.sh" || { echo "❌ Quick reproduction script missing"; exit 1; }
+        test -f "reproduce.sh" || { echo "❌ Full reproduction script missing"; exit 1; }
+        test -f "README.md" || { echo "❌ README missing"; exit 1; }
+        echo "✅ All required files present"
+        
+    - name: Validate Docker configuration
+      run: |
+        echo "=== Validating Docker setup ==="
+        test -f "Dockerfile" || { echo "❌ Dockerfile missing"; exit 1; }
+        test -f "docker-compose.yml" || { echo "❌ Docker Compose missing"; exit 1; }
+        # Basic syntax check for docker-compose
+        docker-compose config --quiet || { echo "❌ Docker Compose syntax error"; exit 1; }
+        echo "✅ Docker configuration valid"
+
+  # Baseline model test
+  baseline-test:
+    name: Baseline Model Test
+    runs-on: ubuntu-latest
+    needs: validate
+    timeout-minutes: 15
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Miniconda
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        miniforge-version: latest
+        activate-environment: Aiyagari1994QJE
+        environment-file: binder/environment.yml
+        python-version: 3.11
+        auto-activate-base: false
+        
+    - name: Verify environment
+      shell: bash -l {0}
+      run: |
+        echo "=== Environment verification ==="
+        conda info
+        conda list | grep -E "(hark|numpy|matplotlib|pandas)"
+        python -c "import HARK; print(f'HARK version: {HARK.__version__}')"
+        
+    - name: Run baseline reproduction
+      shell: bash -l {0}
+      run: |
+        echo "=== Running baseline test ==="
+        chmod +x reproduce_min.sh
+        timeout 300 ./reproduce_min.sh || { echo "❌ Baseline test failed or timed out"; exit 1; }
+        echo "✅ Baseline test completed successfully"
+        
+    - name: Archive test results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: baseline-test-results
+        path: |
+          *.log
+          results/
+        retention-days: 7
+
+  # Docker build test
+  docker-test:
+    name: Docker Build Test
+    runs-on: ubuntu-latest
+    needs: validate
+    timeout-minutes: 20
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+      
+    - name: Build Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: false
+        tags: aiyagari1994qje:test
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        
+    - name: Test Docker container
+      run: |
+        echo "=== Testing Docker container ==="
+        # Test that the container can start and has the right environment
+        docker run --rm aiyagari1994qje:test conda list | grep -E "(hark|numpy|matplotlib|pandas)"
+        echo "✅ Docker container test passed"
+
+  # Full reproduction test (only on main branch or manual trigger)
+  full-reproduction:
+    name: Full Model Reproduction
+    runs-on: ubuntu-latest
+    needs: [validate, baseline-test]
+    if: github.ref == 'refs/heads/main' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    timeout-minutes: 30
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Miniconda
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        miniforge-version: latest
+        activate-environment: Aiyagari1994QJE
+        environment-file: binder/environment.yml
+        python-version: 3.11
+        auto-activate-base: false
+        
+    - name: Run full reproduction
+      shell: bash -l {0}
+      run: |
+        echo "=== Running full reproduction ==="
+        chmod +x reproduce.sh
+        timeout 1800 ./reproduce.sh || { echo "❌ Full reproduction failed or timed out"; exit 1; }
+        echo "✅ Full reproduction completed successfully"
+        
+    - name: Archive full results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: full-reproduction-results
+        path: |
+          *.log
+          results/
+          *.ipynb
+        retention-days: 30
+
+  # Documentation and quality checks
+  quality-checks:
+    name: Quality & Documentation
+    runs-on: ubuntu-latest
+    needs: validate
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Install quality tools
+      run: |
+        pip install nbqa black flake8 markdownlint-cli
+        
+    - name: Check notebook formatting
+      run: |
+        echo "=== Checking notebook quality ==="
+        # Check if notebooks have outputs cleared (for version control)
+        if jupyter nbconvert --to notebook --ClearOutputPreprocessor.enabled=True --stdout AiyagariMarkovHARK.ipynb | diff - AiyagariMarkovHARK.ipynb > /dev/null; then
+          echo "✅ Main notebook has cleared outputs"
+        else
+          echo "⚠️ Main notebook contains outputs (consider clearing for version control)"
+        fi
+        
+    - name: Check Markdown formatting
+      run: |
+        echo "=== Checking Markdown files ==="
+        markdownlint README.md DOCKER.md || echo "⚠️ Markdown formatting issues found"
+        
+    - name: Generate quality report
+      run: |
+        echo "=== Quality Report ===" > quality-report.txt
+        echo "Repository: Aiyagari1994QJE" >> quality-report.txt
+        echo "Date: $(date)" >> quality-report.txt
+        echo "Commit: ${{ github.sha }}" >> quality-report.txt
+        echo "" >> quality-report.txt
+        echo "Files checked:" >> quality-report.txt
+        find . -name "*.ipynb" -o -name "*.py" -o -name "*.md" | sort >> quality-report.txt
+        
+    - name: Upload quality report
+      uses: actions/upload-artifact@v4
+      with:
+        name: quality-report
+        path: quality-report.txt
+        retention-days: 7 
