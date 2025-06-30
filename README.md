@@ -21,11 +21,11 @@ This repository provides a computational implementation of the seminal **Aiyagar
 # Install dependencies
 poetry install
 
-# Run quick demonstration (one notebook, ~5 minutes)
-./reproduce_min.sh
+# Quick baseline test (~30 seconds)
+./run_baseline.sh
 
-# Run full reproduction (both notebooks, ~20 minutes)
-./reproduce.sh
+# Full parameter sweep (~10-15 minutes)  
+./run_full.sh
 ```
 
 ### Option 2: Conda (MyBinder Compatible)
@@ -34,12 +34,44 @@ poetry install
 conda env create -f binder/environment.yml
 conda activate Aiyagari1994QJE
 
-# Run reproduction
-./reproduce.sh
+# Quick baseline test (~30 seconds)
+./run_baseline.sh
+
+# Full parameter sweep (~10-15 minutes)
+./run_full.sh
 ```
 
 ### Option 3: Cloud Execution
 Click the Binder badge above to run in your browser without local installation.
+
+### Execution Modes
+
+The repository provides dedicated scripts for different execution modes:
+
+#### Quick Testing (Baseline Mode)
+```bash
+./run_baseline.sh
+```
+- **Runtime**: ~30 seconds
+- **Purpose**: Single parameter combination (σ=0.2, ρ=0.6, μ=1)
+- **Use case**: Quick verification, CI testing, development
+
+#### Full Replication (Complete Analysis)
+```bash
+./run_full.sh
+```
+- **Runtime**: ~10-15 minutes  
+- **Purpose**: All 24 parameter combinations with comparison tables
+- **Use case**: Complete research replication, final results
+
+#### Legacy Scripts (Alternative)
+```bash
+# Quick demonstration (one notebook, ~5 minutes)
+./reproduce_min.sh
+
+# Full reproduction (both notebooks, ~20 minutes)
+./reproduce.sh
+```
 
 ## Repository Contents
 

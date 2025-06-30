@@ -1,0 +1,27 @@
+=== Aiyagari (1994QJE) Model - Quick CI Reproduction ===
+Starting minimal reproduction at Sun Jun 29 22:03:12 EDT 2025
+Using conda environment: Aiyagari1994QJE
+
+=== Creating baseline parameter test for CI ===
+✓ Created baseline test script
+
+=== Executing baseline Aiyagari model (σ=0.2, ρ=0.6, μ=1) ===
+Expected runtime: ~10 seconds
+=== Baseline Aiyagari Model Test ===
+Parameters: σ=0.2, ρ=0.6, μ=1
+Creating income process...
+Generating shock history...
+Time to generate shock history: 3.85 seconds
+Solving for equilibrium interest rate...
+Input R:  1.040970 | Implied R:  1.041104 | Diff:  1.337906e-04
+Input R:  1.040980 | Implied R:  1.040591 | Diff: -3.887056e-04
+Input R:  1.040973 | Implied R:  1.040973 | Diff: -5.451320e-08
+Input R:  1.040973 | Implied R:  1.040973 | Diff: -6.590728e-12
+Input R:  1.040973 | Implied R:  1.040973 | Diff:  4.569833e-11
+Equilibrium solving time: 2.86 seconds
+σ: 0.2 ρ: 0.6 μ: 1 || Interest rate: 4.0973% || Aggregate saving rate: 23.97%
+✓ Baseline Aiyagari model test completed successfully!
+✓ All validation checks passed
+
+=== Quick CI reproduction completed successfully at Sun Jun 29 22:03:19 EDT 2025 ===
+Baseline model executed in ~10 seconds. Run reproduce.sh for full parameter sweep.

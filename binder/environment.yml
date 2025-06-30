@@ -4,13 +4,13 @@ channels:
   - econ-ark
 
 dependencies:
-  - python=3.11.7
-  - pip=23.3.1
-  - jupyter=1.0.0
-  - notebook=7.0.6
-  - matplotlib=3.7.4
-  - numpy=1.24.4
-  - scipy=1.10.1
+  - python=3.11.13
+  - pip=24.3.1
+  - jupyter=1.1.1
+  - notebook=7.2.2
+  - matplotlib=3.7.3
+  - numpy=1.25.2
+  - scipy=1.11.4
   - pandas=2.0.3
   - ipython=8.18.1
   - pip:
