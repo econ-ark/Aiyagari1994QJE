@@ -34,3 +34,6 @@ benchmark_results_*.json
 
 # Docker
 .dockerignore
+
+# VS Code / Cursor
+.vscode/
