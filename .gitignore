@@ -1,2 +1,27 @@
 # MyST build outputs
 /_build/
+
+# Execution logs
+*.log
+
+# Temporary notebooks created by scripts
+*_temp.ipynb
+*_temporary.ipynb
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Results directory (optional - remove this line if you want to track results)
+# results/
+
+# macOS
+.DS_Store
+
+# Environment files (if using conda-lock or pip-tools)
+conda-lock.yml
+requirements-dev.txt
