@@ -4,7 +4,7 @@ from scipy.optimize import brentq
 import pandas as pd
 
 from HARK.ConsumptionSaving.ConsMarkovModel import MarkovConsumerType
-from HARK.distribution import make_tauchen_ar1, DiscreteDistributionLabeled
+from HARK.distributions import make_tauchen_ar1, DiscreteDistributionLabeled
 
 # --- Model Parameters ---
 DEFAULT_PARAMS = {
@@ -54,6 +54,12 @@ def create_aiyagari_agent(μ, ρ, σ, N, T):
         "aXtraExtra": np.array([0.005, 0.01]),
         "aXtraNestFac": 3,
         "aXtraCount": 48,
+        "UnempPrb": 0.0,
+        "UnempPrbRet": 0.0,
+        "IncUnemp": 0.0,
+        "IncUnempRet": 0.0,
+        "tax_rate": 0.0,
+        "T_retire": 0,
         "BoroCnstArt": 0.0,
         "CubicBool": False,
         "vFuncBool": False,
@@ -70,7 +76,6 @@ def create_aiyagari_agent(μ, ρ, σ, N, T):
     agent.IncShkDstn = [
         [DiscreteDistributionLabeled(pmv=np.ones(1), atoms=np.array([[1.0], [np.exp(x)]]), var_names=["PermShk", "TranShk"]) for x in incomes]
     ]
-    agent.make_shock_history()
     return agent
 
 # --- Equilibrium Solver ---
@@ -83,6 +88,7 @@ def solve_equilibrium(agent, alpha, delta, T, T_sum):
         wRte = w_func(r_inv_func(R_guess, alpha, delta), alpha)
         agent.Rfree = np.array(np.array(agent.MrkvArray[0].shape[0] * [R_guess]))
         
+        agent.make_shock_history()
         agent.solve()
         agent.initialize_sim()
         agent.simulate()

@@ -12,7 +12,7 @@ if conda info --envs | grep -q "Aiyagari1994QJE" && [[ "$CONDA_DEFAULT_ENV" != "
     conda activate Aiyagari1994QJE
 fi
 
-echo "\nRunning baseline computation via compute.py..."
-python compute.py --mode=baseline
+echo "\nRunning baseline CI test..."
+python baseline_ci_test.py
 
 echo "\n=== Baseline reproduction completed successfully. ===" 
