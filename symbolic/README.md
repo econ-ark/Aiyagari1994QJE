@@ -24,15 +24,15 @@ budget_constraint = expressions['budget_constraint']
 
 The loaded `expressions` object is a Python dictionary with the following keys:
 
-| Key | Description |
-|---|---|
-| `utility_function` | The CRRA utility function `u(c)`. |
-| `household_objective` | The full household objective function `E_0 * Sum(...)`. |
-| `budget_constraint` | The household's budget constraint. |
-| `borrowing_constraint`| The non-negative asset constraint. |
-| `income_process` | The AR(1) process for the log of the labor endowment. |
-| `firm_interest_rate`| The equation for the interest rate `r` from the firm's problem. |
-| `firm_wage_rate` | The equation for the wage `w` from the firm's problem. |
+| Key                   | Description                                                      |
+| --------------------- | ---------------------------------------------------------------- |
+| `utility_function`    | The CRRA utility function `u(c)`.                                |
+| `household_objective` | The full household objective function `E_0 * Sum(...)`.          |
+| `budget_constraint`   | The household's budget constraint.                               |
+| `borrowing_constraint`| The non-negative asset constraint.                               |
+| `income_process`      | The AR(1) process for the log of the labor endowment.            |
+| `firm_interest_rate`  | The equation for the interest rate `r` from the firm's problem. |
+| `firm_wage_rate`      | The equation for the wage `w` from the firm's problem.          |
 
 ## 3. Sample Usage
 
@@ -52,8 +52,10 @@ budget = expressions['budget_constraint']
 # Pretty-print it in the console
 pprint(budget, use_unicode=True)
 ```
+
 **Expected Output:**
-```
+
+```text
 cₜ + aₜ₊₁ = w⋅ℓₜ + (r + 1)⋅aₜ
 ```
 
@@ -72,8 +74,10 @@ income_eq = expressions['income_process']
 latex_code = latex(income_eq)
 print(latex_code)
 ```
+
 **Expected Output:**
-```
+
+```text
 \log{\left(\ell_{t} \right)} = \rho \log{\left(\ell_{t - 1} \right)} + \sigma \sqrt{1 - \rho^{2}} \epsilon_{t}
 ```
 
@@ -120,8 +124,10 @@ for symbol in interest_rate_eq.free_symbols:
     if symbol in descriptions:
         print(f"  - {latex(symbol)}: {descriptions[symbol]}")
 ```
+
 **Expected Output:**
-```
+
+```text
 Firm's interest rate equation:
      α - 1
 r = α⋅k      - δ
@@ -131,4 +137,4 @@ Symbols in this equation and their meanings:
   - k: Aggregate capital-to-labor ratio
   - α: Capital's share of income in the production function
   - δ: Depreciation rate of capital
-``` 
+```

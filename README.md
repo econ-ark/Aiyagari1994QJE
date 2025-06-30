@@ -8,168 +8,69 @@ This repository provides a computational implementation of the seminal **Aiyagar
 
 ## Key Features
 
-- **Two Solution Approaches**: MarkovConsumerType and DolARK methods using the HARK framework
-- **Complete Parameter Replication**: All parameter combinations from original Aiyagari (1994) Table II
-- **High Accuracy Results**: Replication within 0.05 percentage points for interest rates
-- **Modern Tools**: Poetry and conda environment management for reproducibility
-- **Educational Focus**: Detailed documentation for learning heterogeneous agent models
+- **Solution Approach**: A fast, script-based computational backend with an interactive notebook frontend.
+- **Complete Parameter Replication**: All 24 parameter combinations from original Aiyagari (1994) Table II.
+- **High Accuracy Results**: Replication within 0.05 percentage points for interest rates.
+- **Modern Tools**: `jupytext` for notebook versioning and `conda` for environment management.
+- **Educational Focus**: Detailed documentation and a clear separation of logic for learning.
 
 ## Quick Start
 
-### Option 1: Poetry (Recommended for Development)
+### Minimal Reproduction (Quick Test)
+
+This runs the baseline (single parameter) computation directly for a fast result.
 
 ```bash
-# Install dependencies
-poetry install
-
-# Quick baseline test (~30 seconds)
-./run_baseline.sh
-
-# Full parameter sweep (~10-15 minutes)
-./run_full.sh
-```
-
-### Option 2: Conda (MyBinder Compatible)
-
-```bash
-# Create environment
-conda env create -f binder/environment.yml
-conda activate Aiyagari1994QJE
-
-# Quick baseline test (~30 seconds)
-./run_baseline.sh
-
-# Full parameter sweep (~10-15 minutes)
-./run_full.sh
-```
-
-### Option 3: Docker (Containerized Environment)
-
-```bash
-# Start Jupyter Lab environment
-docker-compose up aiyagari-notebook
-# Then open http://localhost:8888
-
-# Quick baseline test (~30 seconds)
-docker-compose --profile baseline up aiyagari-baseline
-
-# Full parameter sweep (~10-15 minutes)
-docker-compose --profile full up aiyagari-full
-```
-
-### Option 4: Cloud Execution
-
-Click the Binder badge above to run in your browser without local installation.
-
-## Execution Modes
-
-The repository provides dedicated scripts for different execution modes:
-
-### Quick Testing (Baseline Mode)
-
-```bash
-./run_baseline.sh
-```
-
-- **Runtime**: ~30 seconds
-- **Purpose**: Single parameter combination (σ=0.2, ρ=0.6, μ=1)
-- **Use case**: Quick verification, CI testing, development
-
-### Full Replication (Complete Analysis)
-
-```bash
-./run_full.sh
-```
-
-- **Runtime**: ~10-15 minutes
-- **Purpose**: All 24 parameter combinations with comparison tables
-- **Use case**: Complete research replication, final results
-
-### Legacy Scripts (Alternative)
-
-```bash
-# Quick demonstration (one notebook, ~5 minutes)
 ./reproduce_min.sh
+```
 
-# Full reproduction (both notebooks, ~20 minutes)
+- **Runtime**: ~5-10 seconds.
+- **Output**: Console display of the equilibrium interest and saving rates.
+
+### Full Reproduction (Complete Analysis)
+
+This runs the full 24-parameter sweep from the Aiyagari (1994) paper.
+
+```bash
 ./reproduce.sh
 ```
 
+- **Runtime**: ~2-3 minutes.
+- **Output**: Console display of the results for all parameter combinations.
+
+### Interactive Exploration
+
+For an interactive experience, open the `AiyagariMarkovHARK.ipynb` notebook in Jupyter Lab. You can execute the cells to see how the model works step-by-step.
+
 ## Repository Contents
-
-### Notebooks
-
-- **`AiyagariMarkovHARK.ipynb`**: Primary implementation using MarkovConsumerType
-    - Detailed equilibrium analysis
-    - Complete parameter space exploration
-    - Comparison with original Aiyagari results
-
-- **`AiyagariDolARK.ipynb`**: Alternative implementation using DolARK methods
-    - Different solution approach for verification
-    - Computational method comparison
 
 ### Key Files
 
-- **`CITATION.cff`**: Bibliographic metadata for proper citation
-- **`reproduce.sh`**: Complete reproduction script (both notebooks)
-- **`reproduce_min.sh`**: Quick demonstration script (primary notebook only)
-- **`run_baseline.sh`**: Quick testing script (30 seconds)
-- **`run_full.sh`**: Full replication script (10-15 minutes)
-- **`pyproject.toml`**: Poetry configuration for local development
-- **`binder/environment.yml`**: Conda environment for reproducibility
-- **`Dockerfile`**: Container image specification
-- **`docker-compose.yml`**: Multi-service container orchestration
-- **`DOCKER.md`**: Comprehensive Docker usage guide
+- **`aiyagari/core.py`**: The core computational library containing the model's logic.
+- **`compute.py`**: The command-line script that runs the baseline or full replication.
+- **`reproduce.sh`**: The official script for full reproduction (calls `compute.py`).
+- **`reproduce_min.sh`**: The official script for minimal reproduction (calls `compute.py`).
+- **`AiyagariMarkovHARK.ipynb`**: The interactive notebook for exploration and visualization.
+- **`binder/environment.yml`**: The conda environment file for reproducibility.
+- **`CITATION.cff`**: Bibliographic metadata for proper citation.
 
 ## Model Description
 
 The Aiyagari model features:
 
-- **Heterogeneous Agents**: Infinitely-lived households facing idiosyncratic income shocks
-- **Incomplete Markets**: No insurance against individual income risk
-- **Borrowing Constraints**: Agents cannot borrow against future income
-- **Precautionary Saving**: Individual risk leads to aggregate capital accumulation
-- **Equilibrium Analysis**: Endogenous interest rate clears asset market
+- **Heterogeneous Agents**: Infinitely-lived households facing idiosyncratic income shocks.
+- **Incomplete Markets**: No insurance against individual income risk.
+- **Borrowing Constraints**: Agents cannot borrow against future income.
+- **Precautionary Saving**: Individual risk leads to aggregate capital accumulation.
+- **Equilibrium Analysis**: Endogenous interest rate clears asset market.
 
 ## Key Results
 
 This implementation successfully replicates:
 
-- **Table II from Aiyagari (1994)**: Interest rates and saving rates across parameter combinations
-- **Parameter Effects**: How risk aversion (θ), income persistence (ρ), and volatility (σ) affect outcomes
-- **Comparative Statics**: Systematic analysis of equilibrium responses
-
-## Educational Applications
-
-### Prerequisites
-
-- Graduate-level macroeconomic theory
-- Some Python programming experience
-- Basic dynamic programming knowledge
-- Familiarity with numerical methods
-
-### Learning Objectives
-
-- Understand incomplete markets with heterogeneous agents
-- Master HARK computational framework
-- Analyze precautionary saving effects
-- Compare numerical with analytical solutions
-
-## Technical Implementation
-
-### Solution Methods
-
-- **Tauchen Discretization**: AR(1) income process → discrete Markov chain
-- **Value Function Iteration**: Individual dynamic programming
-- **Bisection Search**: Equilibrium interest rate computation
-- **Monte Carlo Simulation**: Aggregate consistency verification
-
-### Computational Features
-
-- Vectorized operations for efficiency
-- Robust numerical methods
-- Comprehensive error handling
-- Detailed logging and progress tracking
+- **Table II from Aiyagari (1994)**: Interest rates and saving rates across parameter combinations.
+- **Parameter Effects**: How risk aversion (θ), income persistence (ρ), and volatility (σ) affect outcomes.
+- **Comparative Statics**: Systematic analysis of equilibrium responses.
 
 ## Citation
 
