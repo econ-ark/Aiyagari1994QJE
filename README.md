@@ -164,7 +164,7 @@ If you use this implementation, please cite:
   author = {Edwards, Adam},
   title = {Aiyagari (1994QJE): Uninsured Idiosyncratic Risk and Aggregate Saving - Computational Implementation},
   url = {https://github.com/econ-ark/Aiyagari1994QJE},
-  version = {1.0.0},
+  version = {1.0.1},
   year = {2024}
 }
 ```

@@ -137,8 +137,7 @@ technical_implementation:
 reproducibility_notes: |
   Every package version is pinned in uv.lock, and the simulations use HARK's default random
   seed, so reproduce.sh regenerates the same tables on every run. The replicated values are close
-  to, but not identical to, Aiyagari's (1994) published Table II; see the README for the gaps. The HARK framework ensures that the implementation follows
-  best practices for heterogeneous agent modeling.
+  to, but not identical to, Aiyagari's (1994) published Table II; see the README for the gaps.
 
 extensions_and_variations:
 

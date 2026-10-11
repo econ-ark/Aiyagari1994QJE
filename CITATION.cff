@@ -7,18 +7,18 @@ authors:
     email: "edwardsadam01@gmail.com"
     affiliation: "Johns Hopkins University"
 title: "Aiyagari (1994QJE): Uninsured Idiosyncratic Risk and Aggregate Saving - Computational Implementation"
-version: 1.0.0
+version: 1.0.1
 date-released: 2026-10-11
 url: "https://github.com/econ-ark/Aiyagari1994QJE"
 repository-code: "https://github.com/econ-ark/Aiyagari1994QJE"
 abstract: >-
-  This repository provides a computational implementation of the Aiyagari (1994) model 
-  of uninsured idiosyncratic risk and aggregate saving. The implementation includes 
-  two Jupyter notebooks demonstrating different solution approaches using the HARK 
-  (Heterogeneous Agents Resources and toolKit) framework. The model examines how 
-  precautionary saving motives and liquidity constraints affect aggregate saving 
-  rates, asset trading importance, and wealth/income distribution inequality in a 
-  heterogeneous agent framework.
+  This repository replicates Table II of Aiyagari (1994), "Uninsured Idiosyncratic
+  Risk and Aggregate Saving": the steady-state interest rate and aggregate saving
+  rate for all 24 combinations of risk aversion and income persistence and
+  volatility. It does so twice, in two Jupyter notebooks. One uses HARK's
+  (Heterogeneous Agents Resources and toolKit) MarkovConsumerType; the other uses
+  DolARK, dolo's extension to heterogeneous agents. Each compares its results with
+  the published table.
 keywords:
   - "computational economics"
   - "heterogeneous agents"
