@@ -7,6 +7,8 @@
 
 **Author**: Adam Edwards, Johns Hopkins University
 
+**Website**: the notebooks, rendered with their outputs, at https://econ-ark.github.io/Aiyagari1994QJE/
+
 ## Overview
 
 This repository computes the steady-state interest rate and aggregate saving rate of the **Aiyagari (1994)** economy for every parameter combination in the paper's Table II, in two independent ways, and compares both with the published numbers. The model shows how precautionary saving by households facing uninsurable income risk and a borrowing constraint raises aggregate capital and lowers the interest rate.
@@ -91,6 +93,7 @@ Both use Python 3.9. To work in the notebooks interactively after running `./set
 | `pyproject.toml`, `uv.lock` | Dependency specification and the lockfile that pins every version |
 | `Dockerfile` | Container that runs `reproduce.sh` |
 | `binder/environment.yml`, `binder/postBuild` | Binder and REMARK-tooling adapter: installs uv, then builds the environments |
+| `myst.yml`, `.github/workflows/myst-deploy.yml` | Publishes the notebooks as a website on GitHub Pages on every push to `main` |
 | `.github/workflows/reproduce.yml` | CI: runs `reproduce_min.sh` and builds the Docker image on every push; runs the full reproduction in Docker on release tags and on demand |
 | `Aiyagari.yaml` | The DolARK model definition |
 | `CITATION.cff`, `REMARK.md` | Citation and REMARK metadata |
