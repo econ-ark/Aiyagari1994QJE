@@ -1,24 +1,48 @@
-[tool.poetry]
+[project]
 name = "aiyagari1994qje"
 version = "1.0.0"
 description = "Computational implementation of Aiyagari (1994) model of uninsured idiosyncratic risk and aggregate saving"
-authors = ["Adam Edwards <edwardsadam01@gmail.com>"]
+authors = [{ name = "Adam Edwards", email = "edwardsadam01@gmail.com" }]
 readme = "README.md"
-license = "Apache-2.0"
-package-mode = false
+license = { text = "Apache-2.0" }
+# dolark declares python <3.10, so the REMARK runs on Python 3.9
+requires-python = "==3.9.*"
+dependencies = [
+    "ipykernel",
+    "jupyterlab",
+    "nbconvert",
+]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-econ-ark = "0.13.0"
-jupyter = "^1.0.0"
-notebook = "^7.0.0"
-matplotlib = "^3.7.0"
-numpy = "^1.24.0"
-scipy = "^1.9.0"
-pandas = "^2.0.0"
-ipython = "^8.12.0"
+# The two notebooks need environments that cannot be merged: econ-ark 0.13.0 requires
+# xarray>=2023, while every dolo release that dolark can use requires xarray<2023.
+# Each notebook gets its own group; uv.lock pins both.
+[dependency-groups]
+hark = [
+    "econ-ark==0.13.0",
+    "matplotlib",
+    "numpy<2",  # econ-ark 0.13.0 predates numpy 2
+    "pandas",
+    "scipy",
+]
+dolark = [
+    "dolark",
+    "matplotlib",
+    "numpy",
+    "pandas",
+]
 
-[tool.poetry.group.dev.dependencies]
-pytest = "^7.4.0"
-black = "^23.0.0"
-flake8 = "^6.0.0" 
+[tool.uv]
+package = false
+default-groups = []
+conflicts = [[{ group = "hark" }, { group = "dolark" }]]
+# dolark asks for dolo and dolang from git with a tag uv cannot read, so it would get
+# their current heads (which need numpy 2). These are the newest releases that support
+# Python 3.9 and numpy 1.
+override-dependencies = [
+    "dolo==0.4.9.20",
+    "dolang==0.0.20",
+]
+
+[tool.uv.sources]
+# dolark has never been released to PyPI or conda-forge; pin the last commit on master (2023-04-12)
+dolark = { git = "https://github.com/EconForge/dolark", rev = "b0eef38c3335731c998457813923512a2632353f" }

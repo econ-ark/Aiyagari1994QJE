@@ -8,17 +8,11 @@ set -e  # Exit on any error
 echo "=== Aiyagari (1994QJE) Model - Quick CI Reproduction ==="
 echo "Starting minimal reproduction at $(date)"
 
-# Check if we're in a conda environment or need to use poetry
-if [[ "$CONDA_DEFAULT_ENV" == "Aiyagari1994QJE" ]]; then
-    echo "Using conda environment: $CONDA_DEFAULT_ENV"
-    PYTHON_CMD="python"
-elif command -v poetry &> /dev/null; then
-    echo "Using Poetry environment"
-    PYTHON_CMD="poetry run python"
-else
-    echo "Using system Python (not recommended for reproducibility)"
-    PYTHON_CMD="python"  
-fi
+cd "$(dirname "$0")"
+
+# Build the pinned environments from uv.lock; this test needs only the HARK one
+./setup_envs.sh
+PYTHON_CMD=".venv-hark/bin/python"
 
 # Create a simple baseline test script
 echo ""

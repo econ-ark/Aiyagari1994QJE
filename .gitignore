@@ -1,2 +1,9 @@
 # MyST build outputs
 /_build/
+
+# Environments built by setup_envs.sh, and reproduction outputs
+.venv*/
+.cache/
+results/
+
+.DS_Store

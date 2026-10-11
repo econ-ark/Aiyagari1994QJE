@@ -8,7 +8,7 @@ authors:
     affiliation: "Johns Hopkins University"
 title: "Aiyagari (1994QJE): Uninsured Idiosyncratic Risk and Aggregate Saving - Computational Implementation"
 version: 1.0.0
-date-released: 2024-01-15
+date-released: 2026-10-11
 url: "https://github.com/econ-ark/Aiyagari1994QJE"
 repository-code: "https://github.com/econ-ark/Aiyagari1994QJE"
 abstract: >-
@@ -42,6 +42,7 @@ references:
     start: 659
     end: 684
     year: 1994
-    publisher: "Oxford University Press"
+    publisher:
+      name: "Oxford University Press"
     doi: "10.2307/2118417"
     url: "https://academic.oup.com/qje/article-abstract/109/3/659/1838287" 

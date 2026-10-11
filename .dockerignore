@@ -1,0 +1,7 @@
+.git
+.venv*
+.cache
+results
+_build
+.specstory
+.DS_Store

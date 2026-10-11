@@ -1,0 +1,4 @@
+#!/bin/bash
+# Binder: build the pinned environments and make both kernels available in JupyterLab.
+set -euo pipefail
+SETUP_USER_KERNELS=1 ./setup_envs.sh

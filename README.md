@@ -1,82 +1,124 @@
-# Aiyagari (1994QJE): Uninsured Idiosyncratic Risk and Aggregate Saving
+# Aiyagari (1994 QJE): Uninsured Idiosyncratic Risk and Aggregate Saving
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/econ-ark/Aiyagari1994QJE/HEAD)
 
+**A Reproducible REMARK (Tier 2)** replicating Table II of Aiyagari, S. Rao (1994), "Uninsured Idiosyncratic Risk and Aggregate Saving," *Quarterly Journal of Economics*, 109(3), 659–684.
+
+**Author**: Adam Edwards, Johns Hopkins University
+
 ## Overview
 
-This repository provides a computational implementation of the seminal **Aiyagari (1994)** model of uninsured idiosyncratic risk and aggregate saving. The model demonstrates how precautionary saving motives and liquidity constraints affect aggregate economic outcomes in a heterogeneous agent framework.
+This repository computes the steady-state interest rate and aggregate saving rate of the **Aiyagari (1994)** economy for every parameter combination in the paper's Table II, in two independent ways, and compares both with the published numbers. The model shows how precautionary saving by households facing uninsurable income risk and a borrowing constraint raises aggregate capital and lowers the interest rate.
 
 ## Key Features
 
-- **Two Solution Approaches**: MarkovConsumerType and DolARK methods using the HARK framework
-- **Complete Parameter Replication**: All parameter combinations from original Aiyagari (1994) Table II
-- **High Accuracy Results**: Replication within 0.05 percentage points for interest rates
-- **Modern Tools**: Poetry and conda environment management for reproducibility
-- **Educational Focus**: Detailed documentation for learning heterogeneous agent models
+- **Two Solution Approaches**: HARK's `MarkovConsumerType`, and DolARK (dolo's extension to heterogeneous agents)
+- **Complete Parameter Replication**: All 24 parameter combinations of Aiyagari (1994) Table II
+- **Pinned Environments**: Every package version is fixed in `uv.lock`; a `Dockerfile` reproduces everything in a container
+- **Educational Focus**: Notebooks that walk through the fixed-point problem step by step
 
 ## Quick Start
 
-### Option 1: Poetry (Recommended for Development)
+### Option 1: Docker
+
 ```bash
-# Install dependencies
-poetry install
-
-# Run quick demonstration (one notebook, ~5 minutes)
-./reproduce_min.sh
-
-# Run full reproduction (both notebooks, ~20 minutes)
-./reproduce.sh
+docker build -t aiyagari1994qje .
+docker run --rm -v "$PWD/results:/app/results" aiyagari1994qje
 ```
 
-### Option 2: Conda (MyBinder Compatible)
+The executed notebooks appear in `results/`.
+
+### Option 2: uv (recommended for native runs)
+
+Requires [uv](https://docs.astral.sh/uv/getting-started/installation/) and git.
+
 ```bash
-# Create environment
-conda env create -f binder/environment.yml
+./reproduce.sh       # full reproduction, both notebooks (about 8 minutes)
+./reproduce_min.sh   # quick check, one parameter combination (about 1 minute)
+```
+
+Both scripts first run `setup_envs.sh`, which builds the environments from `uv.lock`; uv downloads Python 3.9 if it is not already installed.
+
+### Option 3: Conda
+
+```bash
+conda env create -f binder/environment.yml   # installs Python 3.9 and uv
 conda activate Aiyagari1994QJE
-
-# Run reproduction
 ./reproduce.sh
 ```
 
-### Option 3: Cloud Execution
-Click the Binder badge above to run in your browser without local installation.
+### Option 4: Cloud Execution
+
+Click the Binder badge above to open the notebooks in your browser without installing anything. Choose the kernel named after each notebook's method: **Aiyagari (HARK 0.13.0)** or **Aiyagari (DolARK)**.
+
+## Why There Are Two Environments
+
+The two notebooks need package versions that cannot be installed together. `econ-ark` 0.13.0 requires `xarray` 2023 or later, while every release of `dolo` that `dolark` can use requires `xarray` earlier than 2023. `dolark` itself has never been released to PyPI and supports only Python earlier than 3.10. So `pyproject.toml` defines two dependency groups, which `uv.lock` pins separately:
+
+| Environment | Pinned key packages | Runs |
+|---|---|---|
+| `.venv-hark` | `econ-ark` 0.13.0, `numpy` 1.26.4 | `AiyagariMarkovHARK.ipynb` |
+| `.venv-dolark` | `dolark` at commit `b0eef38`, `dolo` 0.4.9.20, `dolang` 0.0.20 | `AiyagariDolARK.ipynb` |
+
+Both use Python 3.9. To work in the notebooks interactively after running `./setup_envs.sh`:
+
+```bash
+.venv-hark/bin/jupyter lab   # both kernels are available from either environment
+```
 
 ## Repository Contents
 
 ### Notebooks
-- **`AiyagariMarkovHARK.ipynb`**: Primary implementation using MarkovConsumerType
-  - Detailed equilibrium analysis
-  - Complete parameter space exploration
-  - Comparison with original Aiyagari results
-  
-- **`AiyagariDolARK.ipynb`**: Alternative implementation using DolARK methods
-  - Different solution approach for verification
-  - Computational method comparison
+
+- **`AiyagariMarkovHARK.ipynb`**: Primary implementation using HARK's `MarkovConsumerType` (about 5–6 minutes)
+  - Solves the household problem and simulates 1,000 agents for 1,000 periods
+  - Finds the equilibrium interest rate with Brent's method
+  - Reproduces all of Table II and tabulates the differences from the published values
+
+- **`AiyagariDolARK.ipynb`**: Alternative implementation using DolARK (about 2.5 minutes)
+  - The household problem is written in `Aiyagari.yaml` and solved by time iteration
+  - Steady states found with `dolark.equilibrium.find_steady_state`
+  - Reproduces all of Table II for comparison
 
 ### Key Files
-- **`CITATION.cff`**: Bibliographic metadata for proper citation
-- **`reproduce.sh`**: Complete reproduction script (both notebooks)
-- **`reproduce_min.sh`**: Quick demonstration script (primary notebook only)
-- **`pyproject.toml`**: Poetry configuration for local development
-- **`binder/environment.yml`**: Conda environment for reproducibility
+
+| File | Purpose |
+|---|---|
+| `reproduce.sh` | Full reproduction: builds the environments and executes both notebooks into `results/` |
+| `reproduce_min.sh` | Quick check: one parameter combination (σ = 0.2, ρ = 0.6, μ = 1) with sanity checks |
+| `setup_envs.sh` | Builds `.venv-hark` and `.venv-dolark` from `uv.lock` and registers their Jupyter kernels |
+| `pyproject.toml`, `uv.lock` | Dependency specification and the lockfile that pins every version |
+| `Dockerfile` | Container that runs `reproduce.sh` |
+| `binder/environment.yml`, `binder/postBuild` | Binder and REMARK-tooling adapter: installs uv, then builds the environments |
+| `Aiyagari.yaml` | The DolARK model definition |
+| `CITATION.cff`, `REMARK.md` | Citation and REMARK metadata |
 
 ## Model Description
 
 The Aiyagari model features:
 
-- **Heterogeneous Agents**: Infinitely-lived households facing idiosyncratic income shocks
+- **Heterogeneous Agents**: Infinitely-lived households facing idiosyncratic labor-endowment shocks
 - **Incomplete Markets**: No insurance against individual income risk
-- **Borrowing Constraints**: Agents cannot borrow against future income
-- **Precautionary Saving**: Individual risk leads to aggregate capital accumulation
-- **Equilibrium Analysis**: Endogenous interest rate clears asset market
+- **Borrowing Constraints**: Households cannot borrow (assets must be nonnegative)
+- **Income Process**: Log labor endowment follows an AR(1), discretized as a seven-state Markov chain with the Tauchen method
+- **Equilibrium**: The interest rate is the one at which households' asset holdings equal the capital that firms demand
+
+Parameters follow the paper: β = 0.96, capital share α = 0.36, depreciation δ = 0.08, with σ ∈ {0.2, 0.4}, ρ ∈ {0, 0.3, 0.6, 0.9} and relative risk aversion μ ∈ {1, 3, 5}.
 
 ## Key Results
 
-This implementation successfully replicates:
+Each notebook prints its version of Table II next to Aiyagari's and tabulates the difference. Across the 24 cells, compared with the published values:
 
-- **Table II from Aiyagari (1994)**: Interest rates and saving rates across parameter combinations
-- **Parameter Effects**: How risk aversion (θ), income persistence (ρ), and volatility (σ) affect outcomes
-- **Comparative Statics**: Systematic analysis of equilibrium responses
+| Notebook | Largest interest-rate gap | Mean interest-rate gap | Largest saving-rate gap |
+|---|---|---|---|
+| HARK (`MarkovConsumerType`) | 0.20 pp | 0.04 pp | 0.94 pp |
+| DolARK | 1.85 pp | 0.47 pp | 7.32 pp |
+
+Both gaps are largest for the most persistent and most volatile income process (ρ = 0.9, σ = 0.4), where the HARK implementation stays close to the published values and the DolARK one does not.
+
+## Output Guide
+
+`reproduce.sh` writes executed copies of both notebooks to `results/` (the notebooks in the repository are left unchanged). In each, the final cells hold the replicated Table II, the published Table II, and their difference. The earlier cells of the HARK notebook show the consumption functions, the simulated asset path, and capital supply and demand at the baseline parameters (σ = 0.2, ρ = 0.6, μ = 3).
 
 ## Educational Applications
 
@@ -95,16 +137,23 @@ This implementation successfully replicates:
 ## Technical Implementation
 
 ### Solution Methods
-- **Tauchen Discretization**: AR(1) income process → discrete Markov chain
-- **Value Function Iteration**: Individual dynamic programming
-- **Bisection Search**: Equilibrium interest rate computation
-- **Monte Carlo Simulation**: Aggregate consistency verification
 
-### Computational Features
-- Vectorized operations for efficiency
-- Robust numerical methods
-- Comprehensive error handling
-- Detailed logging and progress tracking
+- **Tauchen Discretization**: AR(1) income process → seven-state Markov chain
+- **Household Problem**: HARK's `MarkovConsumerType` solver (endogenous grid method); dolo's time iteration in the DolARK notebook
+- **Equilibrium**: Brent's method (`scipy.optimize.brentq`) on the gap between the assumed and the implied interest rate
+- **Aggregation**: Monte Carlo simulation of 1,000 agents for 1,000 periods, averaging the last 700; HARK's default random seed makes the simulation repeatable
+
+### System Requirements
+
+- Tested on macOS (Apple silicon), with uv directly and through the conda adapter in `binder/environment.yml`, and on Linux (arm64) through the `Dockerfile`; all three produce identical tables. The run times quoted above were measured on an Apple M4 Max
+- About 1.2 GB of disk for the two environments
+- A single core suffices; the HARK notebook is the slow step
+
+## Troubleshooting
+
+- **`uv: command not found`**: install uv, or use the conda route, which installs it.
+- **`uv sync` fails with a lockfile error**: run the scripts unchanged; `--locked` refuses to proceed if `pyproject.toml` and `uv.lock` disagree, which means one of them was edited.
+- **Jupyter reports a missing kernel**: run `./setup_envs.sh`, then start Jupyter from `.venv-hark` or `.venv-dolark`.
 
 ## Citation
 

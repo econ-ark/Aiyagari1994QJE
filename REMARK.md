@@ -1,15 +1,21 @@
 ---
-# Econ-ARK website fields
+# REMARK metadata (econ-ark/REMARK STANDARD.md) and Econ-ARK website fields
 remark-name: Aiyagari1994QJE
+tier: 2
+github_repo_url: https://github.com/econ-ark/Aiyagari1994QJE
 title-original-paper: "Uninsured idiosyncratic risk and aggregate saving"
 notebooks:
   - AiyagariMarkovHARK.ipynb
   - AiyagariDolARK.ipynb
+tags:
+  - REMARK
+  - Replication
+  - Notebook
 ---
 
 # Abstract
 
-This repository provides a computational implementation of the seminal Aiyagari (1994) model of uninsured idiosyncratic risk and aggregate saving. The implementation demonstrates how precautionary saving motives and liquidity constraints affect aggregate saving rates, asset trading importance, and wealth/income distribution inequality in a heterogeneous agent framework. Two complementary approaches are provided using the HARK (Heterogeneous Agents Resources and toolKit) framework: MarkovConsumerType and DolARK methods.
+This repository provides a computational implementation of the seminal Aiyagari (1994) model of uninsured idiosyncratic risk and aggregate saving. The implementation demonstrates how precautionary saving motives and liquidity constraints affect aggregate saving rates, asset trading importance, and wealth/income distribution inequality in a heterogeneous agent framework. Two complementary approaches are provided: HARK's (Heterogeneous Agents Resources and toolKit) MarkovConsumerType, and DolARK, dolo's extension to heterogeneous agents.
 
 ---
 
@@ -36,12 +42,12 @@ jupyter_notebooks:
 - path: "AiyagariMarkovHARK.ipynb"
     description: "Primary implementation using MarkovConsumerType with detailed equilibrium analysis"
     type: "analysis"
-    estimated_runtime: "15-20 minutes"
+    estimated_runtime: "5–6 minutes"
 
 - path: "AiyagariDolARK.ipynb"
-    description: "Alternative implementation using DolARK methods for comparison"
+    description: "Alternative implementation using DolARK for comparison"
     type: "analysis"
-    estimated_runtime: "10-15 minutes"
+    estimated_runtime: "2-3 minutes"
 
 related_materials:
 
@@ -86,9 +92,11 @@ policy_relevance: |
   and how this affects capital accumulation and interest rate determination.
 
 computational_requirements:
-  python_version: "3.10+"
+  python_version: "3.9"
+  environment: "uv.lock pins two environments, one per notebook (see README)"
   key_packages:
-    - "econ-ark"
+    - "econ-ark 0.13.0"
+    - "dolark (commit b0eef38), dolo 0.4.9.20, dolang 0.0.20"
     - "numpy"
     - "matplotlib"
     - "scipy"
@@ -96,8 +104,8 @@ computational_requirements:
     - "jupyter"
   memory_requirements: "Moderate (< 4GB RAM)"
   runtime_estimates:
-    full_reproduction: "20-25 minutes"
-    quick_demonstration: "10-15 minutes"
+    full_reproduction: "8 minutes"
+    quick_demonstration: "1 minute"
 
 model_specifications:
 
@@ -113,7 +121,7 @@ model_specifications:
 
 key_results:
 
-- "Replication of Aiyagari (1994) Table II results with high accuracy"
+- "Replication of Aiyagari (1994) Table II; the HARK notebook's interest rates are within 0.20 percentage points of the published values"
 - "Demonstration of precautionary saving effects on aggregate capital"
 - "Analysis of how income risk parameters affect equilibrium outcomes"
 - "Comparison of different solution methods (Markov vs DolARK approaches)"
@@ -121,15 +129,15 @@ key_results:
 technical_implementation:
 
 - "Tauchen method for discretizing AR(1) income process"
-- "Value function iteration for individual optimization"
-- "Bisection method for equilibrium interest rate"
+- "Endogenous grid method (HARK) and time iteration (dolo) for the household problem"
+- "Brent's method for the equilibrium interest rate"
 - "Monte Carlo simulation for aggregate consistency"
 - "Comparative statics across parameter combinations"
 
 reproducibility_notes: |
-  This implementation provides exact replication of the Aiyagari (1994) results using modern
-  computational tools. All random processes are seeded for reproducibility, and the solution
-  methods are numerically stable. The HARK framework ensures that the implementation follows
+  Every package version is pinned in uv.lock, and the simulations use HARK's default random
+  seed, so reproduce.sh regenerates the same tables on every run. The replicated values are close
+  to, but not identical to, Aiyagari's (1994) published Table II; see the README for the gaps. The HARK framework ensures that the implementation follows
   best practices for heterogeneous agent modeling.
 
 extensions_and_variations:
@@ -181,15 +189,15 @@ The implementation provides two complementary approaches:
    - Handles transition matrices automatically
    - Provides detailed equilibrium analysis and comparison with original results
 
-2. **DolARK Methods** (`AiyagariDolARK.ipynb`):
+2. **DolARK** (`AiyagariDolARK.ipynb`):
    - Alternative solution approach for comparison
    - Demonstrates different computational techniques
    - Allows verification of results across methods
 
 ### Computational Techniques
 - **Tauchen Discretization**: Converts continuous AR(1) process to discrete Markov chain
-- **Value Function Iteration**: Solves individual dynamic programming problem
-- **Bisection Search**: Finds equilibrium interest rate satisfying aggregate consistency
+- **Endogenous Grid Method**: HARK's solver for the individual dynamic programming problem
+- **Brent's Method**: Finds equilibrium interest rate satisfying aggregate consistency
 - **Monte Carlo Simulation**: Generates large samples for accurate aggregate statistics
 
 ## Parameter Analysis
@@ -202,9 +210,11 @@ The implementation replicates the complete parameter space from Aiyagari (1994):
 - **Risk Aversion (θ)**: {1, 3, 5} - determines strength of precautionary motive
 
 ### Results Validation
-The implementation achieves high accuracy in replicating:
-- Equilibrium interest rates (within 0.05 percentage points)
-- Aggregate saving rates (within 0.2 percentage points)
+Compared with Aiyagari's published Table II, the HARK notebook replicates:
+- Equilibrium interest rates within 0.20 percentage points (mean gap 0.04)
+- Aggregate saving rates within 0.94 percentage points
+
+The DolARK notebook is further from the published values, especially at high persistence and volatility (largest interest-rate gap 1.85 percentage points).
 - Cross-parameter comparative statics
 
 ## Educational Applications
@@ -222,7 +232,7 @@ The implementation achieves high accuracy in replicating:
 ## Getting Started
 
 ### Quick Start
-1. **Environment Setup**: Use Poetry (`poetry install`) or conda (`conda env create -f binder/environment.yml`)
+1. **Environment Setup**: `./setup_envs.sh` builds both pinned environments with uv (or use Docker; see the README)
 2. **Basic Execution**: Run `./reproduce_min.sh` for quick demonstration
 3. **Full Analysis**: Execute `./reproduce.sh` for complete replication
 
