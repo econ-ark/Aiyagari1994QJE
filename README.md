@@ -1,6 +1,7 @@
 # Aiyagari (1994 QJE): Uninsured Idiosyncratic Risk and Aggregate Saving
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/econ-ark/Aiyagari1994QJE/HEAD)
+[![reproduce](https://github.com/econ-ark/Aiyagari1994QJE/actions/workflows/reproduce.yml/badge.svg)](https://github.com/econ-ark/Aiyagari1994QJE/actions/workflows/reproduce.yml)
 
 **A Reproducible REMARK (Tier 2)** replicating Table II of Aiyagari, S. Rao (1994), "Uninsured Idiosyncratic Risk and Aggregate Saving," *Quarterly Journal of Economics*, 109(3), 659–684.
 
@@ -90,6 +91,7 @@ Both use Python 3.9. To work in the notebooks interactively after running `./set
 | `pyproject.toml`, `uv.lock` | Dependency specification and the lockfile that pins every version |
 | `Dockerfile` | Container that runs `reproduce.sh` |
 | `binder/environment.yml`, `binder/postBuild` | Binder and REMARK-tooling adapter: installs uv, then builds the environments |
+| `.github/workflows/reproduce.yml` | CI: runs `reproduce_min.sh` and builds the Docker image on every push; runs the full reproduction in Docker on release tags and on demand |
 | `Aiyagari.yaml` | The DolARK model definition |
 | `CITATION.cff`, `REMARK.md` | Citation and REMARK metadata |
 

@@ -1,0 +1,58 @@
+# Keeps the REMARK reproducible.
+#   quick   every push and pull request: build the pinned environments with uv and run reproduce_min.sh
+#   docker  every push and pull request: build the Dockerfile (linux/amd64)
+#   full    release tags and manual runs: run the full reproduce.sh inside the Docker image
+#           and upload the executed notebooks as an artifact
+
+name: reproduce
+
+on:
+  push:
+    branches: ["**"]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quick:
+    if: github.ref_type != 'tag'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10
+        with:
+          version: "0.8.13"
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+      - name: Run reproduce_min.sh
+        run: ./reproduce_min.sh
+
+  docker:
+    if: github.ref_type != 'tag' && github.event_name != 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build the image
+        run: docker build -t aiyagari1994qje .
+
+  full:
+    if: github.ref_type == 'tag' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build the image
+        run: docker build -t aiyagari1994qje .
+      - name: Run reproduce.sh in the container
+        run: |
+          mkdir -p results
+          docker run --rm -v "$PWD/results:/app/results" aiyagari1994qje
+      - uses: actions/upload-artifact@v7
+        with:
+          name: executed-notebooks
+          path: results/*.ipynb
