@@ -25,14 +25,19 @@ display_name() {
     esac
 }
 
+# Kernels run single-threaded. With a thread per visible core, the DolARK notebook took
+# 143 s on a 16-core Mac (51 s single-threaded) and did not finish in an hour on Binder,
+# which shows its 1-CPU session 24 cores; the HARK notebook runs equally fast either way.
+THREADS=(--env OMP_NUM_THREADS 1 --env OPENBLAS_NUM_THREADS 1 --env MKL_NUM_THREADS 1 --env NUMBA_NUM_THREADS 1)
+
 # Each environment's Jupyter sees both kernels, so either notebook opens from either one.
 for group in hark dolark; do
     for target in .venv-hark .venv-dolark; do
-        ".venv-$group/bin/python" -m ipykernel install --prefix "$target" \
+        ".venv-$group/bin/python" -m ipykernel install --prefix "$target" "${THREADS[@]}" \
             --name "aiyagari-$group" --display-name "$(display_name "$group")" > /dev/null
     done
     if [[ "${SETUP_USER_KERNELS:-0}" == "1" ]]; then
-        ".venv-$group/bin/python" -m ipykernel install --user \
+        ".venv-$group/bin/python" -m ipykernel install --user "${THREADS[@]}" \
             --name "aiyagari-$group" --display-name "$(display_name "$group")"
     fi
 done

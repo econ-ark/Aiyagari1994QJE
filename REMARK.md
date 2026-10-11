@@ -47,7 +47,7 @@ jupyter_notebooks:
 - path: "AiyagariDolARK.ipynb"
     description: "Alternative implementation using DolARK for comparison"
     type: "analysis"
-    estimated_runtime: "2-3 minutes"
+    estimated_runtime: "1 minute"
 
 related_materials:
 
@@ -104,7 +104,7 @@ computational_requirements:
     - "jupyter"
   memory_requirements: "Moderate (< 4GB RAM)"
   runtime_estimates:
-    full_reproduction: "8 minutes"
+    full_reproduction: "6 minutes"
     quick_demonstration: "1 minute"
 
 model_specifications:

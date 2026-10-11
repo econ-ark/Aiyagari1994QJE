@@ -36,7 +36,7 @@ The executed notebooks appear in `results/`.
 Requires [uv](https://docs.astral.sh/uv/getting-started/installation/) and git.
 
 ```bash
-./reproduce.sh       # full reproduction, both notebooks (about 8 minutes)
+./reproduce.sh       # full reproduction, both notebooks (about 6 minutes)
 ./reproduce_min.sh   # quick check, one parameter combination (about 1 minute)
 ```
 
@@ -78,7 +78,7 @@ Both use Python 3.9. To work in the notebooks interactively after running `./set
   - Finds the equilibrium interest rate with Brent's method
   - Reproduces all of Table II and tabulates the differences from the published values
 
-- **`AiyagariDolARK.ipynb`**: Alternative implementation using DolARK (about 2.5 minutes)
+- **`AiyagariDolARK.ipynb`**: Alternative implementation using DolARK (about 1 minute)
   - The household problem is written in `Aiyagari.yaml` and solved by time iteration
   - Steady states found with `dolark.equilibrium.find_steady_state`
   - Reproduces all of Table II for comparison
@@ -152,6 +152,7 @@ Both gaps are largest for the most persistent and most volatile income process (
 
 - Tested on macOS (Apple silicon), with uv directly and through the conda adapter in `binder/environment.yml`, and on Linux (arm64) through the `Dockerfile`; all three produce identical tables. The run times quoted above were measured on an Apple M4 Max
 - About 1.2 GB of disk for the two environments
+- The Jupyter kernels are registered single-threaded (`OMP_NUM_THREADS=1` and similar). With a thread per core, the DolARK notebook ran nearly three times slower on a Mac and did not finish in an hour on Binder, whose sessions get one CPU but see every core of the host; the HARK notebook runs equally fast either way
 - A single core suffices; the HARK notebook is the slow step
 
 ## Troubleshooting
@@ -169,7 +170,7 @@ If you use this implementation, please cite:
   author = {Edwards, Adam},
   title = {Aiyagari (1994QJE): Uninsured Idiosyncratic Risk and Aggregate Saving - Computational Implementation},
   url = {https://github.com/econ-ark/Aiyagari1994QJE},
-  version = {1.0.1},
+  version = {1.0.2},
   year = {2024}
 }
 ```
