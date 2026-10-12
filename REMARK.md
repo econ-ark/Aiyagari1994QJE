@@ -15,7 +15,7 @@ tags:
 
 # Abstract
 
-This repository provides a computational implementation of the seminal Aiyagari (1994) model of uninsured idiosyncratic risk and aggregate saving. The implementation demonstrates how precautionary saving motives and liquidity constraints affect aggregate saving rates, asset trading importance, and wealth/income distribution inequality in a heterogeneous agent framework. Two complementary approaches are provided: HARK's (Heterogeneous Agents Resources and toolKit) MarkovConsumerType, and DolARK, dolo's extension to heterogeneous agents. For the baseline calibration, the HARK notebook also draws the consumption functions, the wealth distribution and the capital market, and saves the figures and the economy's key numbers for other documents to use.
+This repository provides a computational implementation of the seminal Aiyagari (1994) model of uninsured idiosyncratic risk and aggregate saving. The implementation demonstrates how precautionary saving motives and liquidity constraints affect aggregate saving rates, asset trading importance, and wealth/income distribution inequality in a heterogeneous agent framework. Two complementary approaches are provided: HARK's (Heterogeneous Agents Resources and toolKit) MarkovConsumerType, and DolARK, dolo's extension to heterogeneous agents. For the baseline calibration, the HARK notebook also draws the consumption functions, the wealth distribution and the capital market, and saves the figures and the economy's key numbers for other documents to use. The HARK computation is also an installable Python package, aiyagari1994qje, which returns the notebook's numbers exactly.
 
 ---
 
@@ -93,7 +93,7 @@ policy_relevance: |
 
 computational_requirements:
   python_version: "3.14 (HARK notebook) and 3.9 (DolARK notebook)"
-  environment: "uv.lock pins two environments, one per notebook (see README)"
+  environment: "uv.lock (HARK notebook and the aiyagari1994qje package) and dolark-environment/uv.lock (DolARK notebook) pin every version; see README"
   key_packages:
     - "econ-ark 0.17.2"
     - "dolark (commit b0eef38), dolo 0.4.9.20, dolang 0.0.20"
@@ -105,7 +105,7 @@ computational_requirements:
   memory_requirements: "Moderate (< 4GB RAM)"
   runtime_estimates:
     full_reproduction: "5–6 minutes"
-    quick_demonstration: "1 minute"
+    quick_demonstration: "15 seconds"
 
 model_specifications:
 

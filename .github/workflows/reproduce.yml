@@ -1,5 +1,8 @@
 # Keeps the REMARK reproducible.
-#   quick   every push and pull request: build the pinned environments with uv and run reproduce_min.sh
+#   quick   every push and pull request: build the pinned environments with uv and run reproduce_min.sh,
+#           which checks the package's numbers against baseline/numbers.json
+#   package every push and pull request: install the package with pip on Python 3.11 to 3.14, as
+#           another project would, and check its numbers against baseline/numbers.json
 #   docker  every push and pull request: build the Dockerfile (linux/amd64)
 #   full    release tags and manual runs: run the full reproduce.sh inside the Docker image,
 #           check the regenerated baseline/ against the committed files (numbers and pixels;
@@ -31,6 +34,26 @@ jobs:
           cache-dependency-glob: uv.lock
       - name: Run reproduce_min.sh
         run: ./reproduce_min.sh
+
+  package:
+    if: github.ref_type != 'tag'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install the package with pip
+        run: python -m pip install .
+      - name: Solve the baseline and compare with baseline/numbers.json
+        run: |
+          python -c "import json, sys; from aiyagari1994qje import Calibration, solve_equilibrium; json.dump(solve_equilibrium(Calibration()).numbers(), open(sys.argv[1], 'w'))" "$RUNNER_TEMP/numbers.json"
+          python .github/check_baseline.py --numbers-only baseline "$RUNNER_TEMP"
 
   docker:
     if: github.ref_type != 'tag' && github.event_name != 'workflow_dispatch'

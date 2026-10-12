@@ -1,0 +1,31 @@
+# The environment of AiyagariDolARK.ipynb. It cannot share the root project's: dolark
+# declares python <3.10, and every dolo release it can use requires numpy 1 and
+# xarray<2023. setup_envs.sh builds it into .venv-dolark from this directory's uv.lock.
+[project]
+name = "aiyagari1994qje-dolark"
+version = "1.1.0"
+description = "Environment for AiyagariDolARK.ipynb"
+requires-python = "==3.9.*"
+dependencies = [
+    "dolark",
+    "ipykernel",
+    "jupyterlab",
+    "matplotlib",
+    "nbconvert",
+    "numpy",
+    "pandas",
+]
+
+[tool.uv]
+package = false
+# dolark asks for dolo and dolang from git with a tag uv cannot read, so it would get
+# their current heads (which need numpy 2). These are the newest releases that support
+# Python 3.9 and numpy 1.
+override-dependencies = [
+    "dolo==0.4.9.20",
+    "dolang==0.0.20",
+]
+
+[tool.uv.sources]
+# dolark has never been released to PyPI or conda-forge; pin the last commit on master (2023-04-12)
+dolark = { git = "https://github.com/EconForge/dolark", rev = "b0eef38c3335731c998457813923512a2632353f" }

@@ -1,5 +1,5 @@
 {
-  "description": "The baseline economy of Aiyagari (1994), computed by AiyagariMarkovHARK.ipynb in econ-ark/Aiyagari1994QJE",
+  "description": "The stationary equilibrium of the Aiyagari (1994) economy at this calibration, computed by the aiyagari1994qje package (econ-ark/Aiyagari1994QJE)",
   "units": "Rates and shares are fractions (0.0386 is 3.86 percent). Capital, the wage and market resources are levels for a population of mass one. The labor endowment is not normalized, so labor supply L is about 1.02.",
   "calibration": {
     "discount_factor": 0.96,
@@ -9,7 +9,7 @@
     "income_persistence": 0.6,
     "income_standard_deviation": 0.2,
     "income_states": 7,
-    "tauchen_bound": 3,
+    "tauchen_bound": 3.0,
     "borrowing_limit": 0.0,
     "labor_endowment_by_state": [
       0.548812,
@@ -31,6 +31,7 @@
   "equilibrium": {
     "interest_rate": 0.0386222,
     "saving_rate": 0.243276,
+    "saving_rate_from_capital": 0.242788,
     "wage": 1.19504,
     "labor_supply": 1.02272,
     "capital": 5.79557,
@@ -38,6 +39,7 @@
   },
   "complete_markets": {
     "interest_rate": 0.0416667,
+    "saving_rate": 0.236712,
     "capital": 5.57057
   },
   "capital_relative_to_complete_markets": 1.04039,
@@ -60,14 +62,16 @@
     "saving_rate": 0.2425
   },
   "definitions": {
-    "simulation": "Households are simulated for periods 0 to periods - 1; statistics pool every household in first_period_averaged to last_period_averaged, the periods AverageAggregateVar averages",
+    "simulation": "Households are simulated for periods 0 to periods - 1; the equilibrium's averages and the statistics of the distribution use every household in first_period_averaged to last_period_averaged",
     "equilibrium.interest_rate": "r*, the net return on capital at which households' saving equals firms' demand for capital",
-    "equilibrium.saving_rate": "1 - C/Y with Y = (r* + depreciation_rate) K* + W L: gross saving over output, as in Aiyagari's Table II",
+    "equilibrium.saving_rate": "1 - C/Y in the simulation, with Y = (r* + depreciation_rate) K* + W L: as the REMARK's replication of Table II computes it",
+    "equilibrium.saving_rate_from_capital": "δK*/Y* = depreciation_rate capital_share / (r* + depreciation_rate): gross investment over output in a steady state, as Aiyagari (1994) computes the saving rate",
     "equilibrium.wage": "W = (1 - capital_share) k*^capital_share",
     "equilibrium.labor_supply": "L, the mean labor endowment",
     "equilibrium.capital": "K* = L k*",
     "equilibrium.capital_per_unit_of_labor": "k*, at which the marginal product of capital net of depreciation equals r*",
-    "complete_markets.interest_rate": "The time-preference rate 1/discount_factor - 1",
+    "complete_markets.interest_rate": "ϑ, the time-preference rate 1/discount_factor - 1",
+    "complete_markets.saving_rate": "depreciation_rate capital_share / (ϑ + depreciation_rate)",
     "complete_markets.capital": "K^ϑ, the capital firms demand at the time-preference rate",
     "capital_relative_to_complete_markets": "K*/K^ϑ",
     "wealth_distribution": "Of end-of-period assets",
@@ -76,7 +80,7 @@
     "average_marginal_propensity_to_consume": "Mean slope of the consumption function at each household's market resources m = (1 + r*) a + W ℓ, annual (a period is a year)",
     "return_patience_factor": "Þ_R = (R β)^(1/relative_risk_aversion) / R, at R = 1 + r* and β = discount_factor",
     "perfect_foresight_marginal_propensity_to_consume": "1 - Þ_R, the MPC of a consumer with no income risk and no borrowing constraint",
-    "aiyagari_1994": "Aiyagari (1994), Table II, at this calibration"
+    "aiyagari_1994": "Aiyagari (1994), Table II, when the calibration is one of its cells (otherwise null)"
   },
   "figures": {
     "consumption-functions": "Consumption c against market resources m, one line per labor endowment state, at r*, with the 45-degree line",

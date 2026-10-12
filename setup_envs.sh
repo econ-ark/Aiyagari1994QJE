@@ -1,10 +1,12 @@
 #!/bin/bash
-# Build the two pinned environments from uv.lock and register their Jupyter kernels.
+# Build the two pinned environments and register their Jupyter kernels.
 #
-#   .venv-hark    Python 3.14.7, econ-ark 0.17.2           runs AiyagariMarkovHARK.ipynb  (kernel: aiyagari-hark)
-#   .venv-dolark  Python 3.9.23, dolark (pinned commit)   runs AiyagariDolARK.ipynb      (kernel: aiyagari-dolark)
+#   .venv-hark    from uv.lock: Python 3.14.7, econ-ark 0.17.2 and this repository's package
+#                 aiyagari1994qje (editable)              runs AiyagariMarkovHARK.ipynb  (kernel: aiyagari-hark)
+#   .venv-dolark  from dolark-environment/uv.lock: Python 3.9.23,
+#                 dolark (pinned commit)                  runs AiyagariDolARK.ipynb      (kernel: aiyagari-dolark)
 #
-# The notebooks cannot share one environment; see the comment in pyproject.toml.
+# The notebooks cannot share one environment; see dolark-environment/pyproject.toml.
 # Safe to re-run: uv only installs what is missing. If a Python version is not installed,
 # uv downloads it.
 #
@@ -28,9 +30,16 @@ display_name() {
     esac
 }
 
+project() {
+    case "$1" in
+        hark) echo "." ;;
+        dolark) echo "dolark-environment" ;;
+    esac
+}
+
 for group in hark dolark; do
-    echo "=== Syncing .venv-$group from uv.lock (Python $(python_version "$group")) ==="
-    UV_PROJECT_ENVIRONMENT=".venv-$group" uv sync --locked --group "$group" \
+    echo "=== Syncing .venv-$group from $(project "$group")/uv.lock (Python $(python_version "$group")) ==="
+    UV_PROJECT_ENVIRONMENT="$PWD/.venv-$group" uv sync --locked --project "$(project "$group")" \
         --python "$(python_version "$group")"
 done
 

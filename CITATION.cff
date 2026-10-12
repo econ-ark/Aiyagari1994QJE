@@ -20,7 +20,9 @@ abstract: >-
   DolARK, dolo's extension to heterogeneous agents. Each compares its results with
   the published table. For the baseline calibration, the HARK notebook also draws
   the consumption functions, the wealth distribution and the supply of and demand
-  for capital, and saves those figures and the economy's key numbers.
+  for capital, and saves those figures and the economy's key numbers. The HARK
+  computation is also a Python package, aiyagari1994qje, that other programs can
+  install to compute the same numbers.
 keywords:
   - "computational economics"
   - "heterogeneous agents"

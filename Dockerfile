@@ -21,7 +21,9 @@ ENV UV_LINK_MODE=copy
 WORKDIR /app
 
 # Build the environments first, so that editing a notebook does not rebuild them
-COPY pyproject.toml uv.lock setup_envs.sh ./
+COPY pyproject.toml uv.lock README.md LICENSE setup_envs.sh ./
+COPY src/ src/
+COPY dolark-environment/ dolark-environment/
 RUN ./setup_envs.sh
 
 COPY . .

@@ -1,55 +1,35 @@
+[build-system]
+requires = ["uv_build>=0.12.19,<0.13"]
+build-backend = "uv_build"
+
+# The package aiyagari1994qje (in src/) is the computation of AiyagariMarkovHARK.ipynb.
+# Other projects install it from git; its dependencies are ranges so that it fits their
+# environments. uv.lock pins every version for this repository's own runs.
 [project]
 name = "aiyagari1994qje"
 version = "1.1.0"
-description = "Computational implementation of Aiyagari (1994) model of uninsured idiosyncratic risk and aggregate saving"
+description = "Aiyagari (1994): uninsured idiosyncratic risk and aggregate saving, solved with HARK"
 authors = [{ name = "Adam Edwards", email = "edwardsadam01@gmail.com" }]
 readme = "README.md"
-license = { text = "Apache-2.0" }
-# Each group sets its own Python below; setup_envs.sh names the exact version for each.
-requires-python = ">=3.9"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
 dependencies = [
+    "econ-ark>=0.17,<0.18",
+    "matplotlib",
+    "numpy>=2",
+    "scipy",
+    "sympy",  # econ-ark 0.17 imports sympy without declaring it
+]
+
+[dependency-groups]
+# What the notebooks need beyond the package; setup_envs.sh installs it into .venv-hark
+notebook = [
     "ipykernel",
     "jupyterlab",
     "nbconvert",
-]
-
-# The two notebooks need environments that cannot be merged: the HARK notebook runs on
-# current econ-ark, numpy 2 and Python 3.14, while dolark declares python <3.10 and every
-# dolo release it can use requires numpy 1 and xarray<2023.
-# Each notebook gets its own group; uv.lock pins both.
-[dependency-groups]
-hark = [
-    "econ-ark==0.17.2",
-    "matplotlib",
-    "numpy",
-    "pandas",
-    "scipy",
-    "sympy",  # econ-ark 0.17.2 imports sympy without declaring it
-]
-dolark = [
-    "dolark",
-    "matplotlib",
-    "numpy",
     "pandas",
 ]
 
 [tool.uv]
-package = false
-default-groups = []
-conflicts = [[{ group = "hark" }, { group = "dolark" }]]
-# dolark asks for dolo and dolang from git with a tag uv cannot read, so it would get
-# their current heads (which need numpy 2). These are the newest releases that support
-# Python 3.9 and numpy 1.
-override-dependencies = [
-    "dolo==0.4.9.20",
-    "dolang==0.0.20",
-]
-
-[tool.uv.dependency-groups]
-# The HARK group runs on 3.14; it allows 3.11 and later so other projects can share the lock.
-hark = { requires-python = ">=3.11" }
-dolark = { requires-python = "==3.9.*" }
-
-[tool.uv.sources]
-# dolark has never been released to PyPI or conda-forge; pin the last commit on master (2023-04-12)
-dolark = { git = "https://github.com/EconForge/dolark", rev = "b0eef38c3335731c998457813923512a2632353f" }
+default-groups = ["notebook"]
