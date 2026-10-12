@@ -178,7 +178,7 @@ The committed files are those the Docker image writes. They carry no timestamps 
 
 ### System Requirements
 
-- Tested on macOS (Apple silicon), with uv directly and through the conda adapter in `binder/environment.yml`, and on Linux (arm64) through the `Dockerfile`; all three produce identical tables. The run times quoted above were measured on an Apple M4 Max
+- Tested on macOS (Apple silicon), with uv directly and through the conda adapter in `binder/environment.yml`; on Linux through the `Dockerfile`, locally (arm64) and in CI (amd64); and on mybinder.org. All produce identical tables and the same baseline numbers and figures. The run times quoted above were measured on an Apple M4 Max; mybinder.org's machines are slower and vary, and in one test there the HARK notebook took 28 minutes
 - About 1.4 GB of disk for the two environments, plus about 100 MB for Python 3.14.7 if uv downloads it
 - The Jupyter kernels are registered single-threaded (`OMP_NUM_THREADS=1` and similar). With a thread per core, the DolARK notebook ran nearly three times slower on a Mac and did not finish in an hour on Binder, whose sessions get one CPU but see every core of the host; the HARK notebook runs equally fast either way
 - A single core suffices; the HARK notebook is the slow step
