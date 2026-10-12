@@ -5,3 +5,4 @@ results
 _build
 .specstory
 .DS_Store
+__pycache__
