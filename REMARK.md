@@ -15,7 +15,7 @@ tags:
 
 # Abstract
 
-This repository provides a computational implementation of the seminal Aiyagari (1994) model of uninsured idiosyncratic risk and aggregate saving. The implementation demonstrates how precautionary saving motives and liquidity constraints affect aggregate saving rates, asset trading importance, and wealth/income distribution inequality in a heterogeneous agent framework. Two complementary approaches are provided: HARK's (Heterogeneous Agents Resources and toolKit) MarkovConsumerType, and DolARK, dolo's extension to heterogeneous agents.
+This repository provides a computational implementation of the seminal Aiyagari (1994) model of uninsured idiosyncratic risk and aggregate saving. The implementation demonstrates how precautionary saving motives and liquidity constraints affect aggregate saving rates, asset trading importance, and wealth/income distribution inequality in a heterogeneous agent framework. Two complementary approaches are provided: HARK's (Heterogeneous Agents Resources and toolKit) MarkovConsumerType, and DolARK, dolo's extension to heterogeneous agents. For the baseline calibration, the HARK notebook also draws the consumption functions, the wealth distribution and the capital market, and saves the figures and the economy's key numbers for other documents to use.
 
 ---
 
@@ -40,9 +40,9 @@ prerequisites:
 jupyter_notebooks:
 
 - path: "AiyagariMarkovHARK.ipynb"
-    description: "Primary implementation using MarkovConsumerType with detailed equilibrium analysis"
+    description: "Primary implementation using MarkovConsumerType with detailed equilibrium analysis, and the baseline economy's figures and numbers"
     type: "analysis"
-    estimated_runtime: "5–6 minutes"
+    estimated_runtime: "4–5 minutes"
 
 - path: "AiyagariDolARK.ipynb"
     description: "Alternative implementation using DolARK for comparison"
@@ -92,10 +92,10 @@ policy_relevance: |
   and how this affects capital accumulation and interest rate determination.
 
 computational_requirements:
-  python_version: "3.9"
+  python_version: "3.14 (HARK notebook) and 3.9 (DolARK notebook)"
   environment: "uv.lock pins two environments, one per notebook (see README)"
   key_packages:
-    - "econ-ark 0.13.0"
+    - "econ-ark 0.17.2"
     - "dolark (commit b0eef38), dolo 0.4.9.20, dolang 0.0.20"
     - "numpy"
     - "matplotlib"
@@ -104,7 +104,7 @@ computational_requirements:
     - "jupyter"
   memory_requirements: "Moderate (< 4GB RAM)"
   runtime_estimates:
-    full_reproduction: "6 minutes"
+    full_reproduction: "5–6 minutes"
     quick_demonstration: "1 minute"
 
 model_specifications:
@@ -122,6 +122,7 @@ model_specifications:
 key_results:
 
 - "Replication of Aiyagari (1994) Table II; the HARK notebook's interest rates are within 0.20 percentage points of the published values"
+- "At the baseline calibration, capital is 4.0 percent above its complete-markets level; the wealth Gini is 0.38, the richest 1 percent hold 3.6 percent of wealth, and the average MPC is 0.054"
 - "Demonstration of precautionary saving effects on aggregate capital"
 - "Analysis of how income risk parameters affect equilibrium outcomes"
 - "Comparison of different solution methods (Markov vs DolARK approaches)"

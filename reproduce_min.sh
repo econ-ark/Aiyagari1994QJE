@@ -28,11 +28,16 @@ from copy import deepcopy
 from scipy.optimize import brentq
 from functools import lru_cache
 import random
+import warnings
+
+# Replaying a stored shock history, HARK warns that it does not store the aggregate
+# productivity level PlvlAgg; that level is constant here (PermGroFacAgg = 1).
+warnings.filterwarnings("ignore", message="The option for reading shocks was activated")
 
 # Import HARK modules
 try:
-    from HARK.ConsumptionSaving.ConsMarkovModel import MarkovConsumerType
-    from HARK.distribution import DiscreteDistributionLabeled, make_tauchen_ar1
+    from HARK.ConsumptionSaving.ConsMarkovModel import MarkovConsumerType, markov_constructor_dict
+    from HARK.distributions import DiscreteDistributionLabeled, make_tauchen_ar1
 except ImportError as e:
     print(f"Error importing HARK: {e}")
     print("Please ensure HARK is installed: pip install econ-ark")
@@ -64,12 +69,12 @@ AverageAggregateVar = lambda var: np.mean(np.sum(var[T-T_sum:T-1], axis=1))
 # Agent parameters (exact copy from notebook)
 AiyagariMarkovAgentDictionary = {
     "CRRA": 5.0,  # Coefficient of relative risk aversion
-    "Rfree": 1.03,  # Interest factor on assets
+    "Rfree": [np.array(N * [1.03])],  # Interest factor on assets, for each labor endowment state
     "DiscFac": 0.96,  # Intertemporal discount factor
     "LivPrb": [np.array(N * [1.0])],  # Survival probability
     "AgentCount": 1000,  # Number of agents of this type (only matters for simulation)
-    "aNrmInitMean": 0.0,  # Mean of log initial assets (only matters for simulation)
-    "aNrmInitStd": 1.0,  # Standard deviation of log initial assets (only for simulation)
+    "kLogInitMean": 0.0,  # Mean of log initial assets (only matters for simulation)
+    "kLogInitStd": 1.0,  # Standard deviation of log initial assets (only for simulation)
     "PermGroFacAgg": 1.0,  # Aggregate permanent income growth factor (only matters for simulation)
     "T_age": None,  # Age after which simulated agents are automatically killed
     "T_cycle": 1,  # Number of periods in the cycle for this agent type
@@ -80,21 +85,17 @@ AiyagariMarkovAgentDictionary = {
     "aXtraExtra": np.array([0.005, 0.01]),
     "aXtraNestFac": 3,  # Exponential nesting factor when constructing "assets above minimum" grid
     "aXtraCount": 48,  # Number of points in the grid of "assets above minimum"
-    # Parameters describing the income process
-    "UnempPrb": 0.0,  # Probability of unemployment while working
-    "UnempPrbRet": 0.0,  # Probability of "unemployment" while retired
-    "IncUnemp": 0.0,  # Unemployment benefits replacement rate
-    "IncUnempRet": 0.0,  # "Unemployment" benefits when retired
-    "tax_rate": 0.0,  # Flat income tax rate
-    "T_retire": 0,  # Period of retirement (0 --> no retirement)
     "BoroCnstArt": 0.0,  # Artificial borrowing constraint; imposed minimum level of end-of period assets
     "CubicBool": False,  # Use cubic spline interpolation when True, linear interpolation when False
     "vFuncBool": False,  # Whether to calculate the value function during solution
-    "global_markv": False,
+    "global_markov": False,
     "cycles": 0,
     "PermGroFac": [
         np.array(N * [1.0])
     ],
+    "MrkvPrbsInit": np.array(N * [1 / N]),  # Initial distribution of labor endowment states
+    # The labor endowment process and its transition matrix are set below
+    "constructors": {**markov_constructor_dict, "IncShkDstn": None, "MrkvArray": None},
 }
 
 # Create income process
@@ -105,18 +106,17 @@ incomes, transition_matrix = make_tauchen_ar1(N, shock_sd(ρ, σ), ρ, 3)
 AiyagariMarkovAgentDictionaryCopy = deepcopy(AiyagariMarkovAgentDictionary)
 AiyagariMarkovAgentDictionaryCopy["CRRA"] = μ
 AiyagariMarkovAgentDictionaryCopy["MrkvArray"] = [transition_matrix]
+AiyagariMarkovAgentDictionaryCopy["IncShkDstn"] = [
+    [DiscreteDistributionLabeled(pmv=np.ones(1), atoms=np.array([[1.0], [np.exp(x)]]), var_names=["PermShk", "TranShk"]) for x in incomes]
+]
 
 AiyagariMarkovType = MarkovConsumerType(**AiyagariMarkovAgentDictionaryCopy)
 AiyagariMarkovType.T_sim = T
 AiyagariMarkovType.track_vars = ["aNrm", "cNrm", "TranShk"]
-AiyagariMarkovType.MrkvPrbsInit = [1/N]*N
-AiyagariMarkovType.IncShkDstn = [
-    [DiscreteDistributionLabeled(pmv=np.ones(1), atoms=np.array([[1.0], [np.exp(x)]]), var_names=["PermShk", "TranShk"]) for x in incomes]
-]
 
 @lru_cache(maxsize=5)
 def solve_and_simulate(R):
-    AiyagariMarkovType.Rfree = np.full(N, R)
+    AiyagariMarkovType.Rfree = [np.full(N, R)]
     AiyagariMarkovType.solve()
     AiyagariMarkovType.initialize_sim()
     AiyagariMarkovType.simulate()
@@ -144,12 +144,10 @@ start_time = time.process_time()
 AiyagariMarkovType.make_shock_history()
 print(f"Time to generate shock history: {time.process_time() - start_time:.2f} seconds")
 
-# Solve for equilibrium (optimized for CI - start near known solution)
+# Solve for equilibrium over the same bracket as the notebook
 print("Solving for equilibrium interest rate...")
 start_time = time.process_time()
-# Use narrow range around known equilibrium for baseline parameters (σ=0.2, ρ=0.6, μ=1)
-# Expected equilibrium: R ≈ 1.04097 (from previous runs)
-R_star = brentq(EquilibriumFunc, 1.04097, 1.04098)
+R_star = brentq(EquilibriumFunc, 0.99, 1.05)
 solve_time = time.process_time() - start_time
 
 # Calculate results (exact copy from notebook)

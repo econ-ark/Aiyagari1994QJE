@@ -1,6 +1,7 @@
 # Adapter for Binder and the REMARK tooling: it installs Python and uv only.
 # Every Python dependency is pinned in uv.lock; setup_envs.sh (called by
-# reproduce.sh and binder/postBuild) builds the environments from it.
+# reproduce.sh and binder/postBuild) builds the environments from it, with
+# Python 3.9 for DolARK and Python 3.14, which uv downloads, for HARK.
 name: Aiyagari1994QJE
 channels:
   - conda-forge
@@ -8,4 +9,4 @@ dependencies:
   - python=3.9.23
   - pip
   - pip:
-    - uv==0.8.13
+    - uv==0.12.19

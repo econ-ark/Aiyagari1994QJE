@@ -1,8 +1,9 @@
 # Keeps the REMARK reproducible.
 #   quick   every push and pull request: build the pinned environments with uv and run reproduce_min.sh
 #   docker  every push and pull request: build the Dockerfile (linux/amd64)
-#   full    release tags and manual runs: run the full reproduce.sh inside the Docker image
-#           and upload the executed notebooks as an artifact
+#   full    release tags and manual runs: run the full reproduce.sh inside the Docker image,
+#           check the regenerated baseline/ against the committed files (numbers and pixels;
+#           see .github/check_baseline.py), and upload the executed notebooks and baseline/
 
 name: reproduce
 
@@ -25,7 +26,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v10.2.0  # setup-uv publishes no floating major tag
         with:
-          version: "0.8.13"
+          version: "0.12.19"
           enable-cache: true
           cache-dependency-glob: uv.lock
       - name: Run reproduce_min.sh
@@ -51,8 +52,15 @@ jobs:
       - name: Run reproduce.sh in the container
         run: |
           mkdir -p results
-          docker run --rm -v "$PWD/results:/app/results" aiyagari1994qje
+          docker run --rm -v "$PWD/results:/app/results" -v "$PWD/baseline:/app/baseline" aiyagari1994qje
+      - name: Check the regenerated baseline against the committed files
+        run: |
+          git archive HEAD baseline | tar -x -C "$RUNNER_TEMP"
+          docker run --rm -v "$RUNNER_TEMP/baseline:/committed" -v "$PWD/baseline:/app/baseline" \
+            aiyagari1994qje .venv-hark/bin/python .github/check_baseline.py /committed /app/baseline
       - uses: actions/upload-artifact@v7
         with:
           name: executed-notebooks
-          path: results/*.ipynb
+          path: |
+            results/*.ipynb
+            baseline/

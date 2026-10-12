@@ -1,0 +1,86 @@
+{
+  "description": "The baseline economy of Aiyagari (1994), computed by AiyagariMarkovHARK.ipynb in econ-ark/Aiyagari1994QJE",
+  "units": "Rates and shares are fractions (0.0386 is 3.86 percent). Capital, the wage and market resources are levels for a population of mass one. The labor endowment is not normalized, so labor supply L is about 1.02.",
+  "calibration": {
+    "discount_factor": 0.96,
+    "relative_risk_aversion": 3,
+    "capital_share": 0.36,
+    "depreciation_rate": 0.08,
+    "income_persistence": 0.6,
+    "income_standard_deviation": 0.2,
+    "income_states": 7,
+    "tauchen_bound": 3,
+    "borrowing_limit": 0.0,
+    "labor_endowment_by_state": [
+      0.548812,
+      0.67032,
+      0.818731,
+      1.0,
+      1.2214,
+      1.49182,
+      1.82212
+    ]
+  },
+  "simulation": {
+    "households": 1000,
+    "periods": 1000,
+    "first_period_averaged": 300,
+    "last_period_averaged": 998,
+    "observations_pooled": 699000
+  },
+  "equilibrium": {
+    "interest_rate": 0.0386222,
+    "saving_rate": 0.243276,
+    "wage": 1.19504,
+    "labor_supply": 1.02272,
+    "capital": 5.79557,
+    "capital_per_unit_of_labor": 5.6668
+  },
+  "complete_markets": {
+    "interest_rate": 0.0416667,
+    "capital": 5.57057
+  },
+  "capital_relative_to_complete_markets": 1.04039,
+  "wealth_distribution": {
+    "gini": 0.378924,
+    "share_of_richest": {
+      "1_percent": 0.0355529,
+      "5_percent": 0.143258,
+      "10_percent": 0.249932,
+      "20_percent": 0.421214,
+      "30_percent": 0.558613
+    },
+    "share_at_borrowing_constraint": 0.00260372
+  },
+  "average_marginal_propensity_to_consume": 0.0539284,
+  "return_patience_factor": 0.961875,
+  "perfect_foresight_marginal_propensity_to_consume": 0.0381249,
+  "aiyagari_1994": {
+    "interest_rate": 0.038767,
+    "saving_rate": 0.2425
+  },
+  "definitions": {
+    "simulation": "Households are simulated for periods 0 to periods - 1; statistics pool every household in first_period_averaged to last_period_averaged, the periods AverageAggregateVar averages",
+    "equilibrium.interest_rate": "r*, the net return on capital at which households' saving equals firms' demand for capital",
+    "equilibrium.saving_rate": "1 - C/Y with Y = (r* + depreciation_rate) K* + W L: gross saving over output, as in Aiyagari's Table II",
+    "equilibrium.wage": "W = (1 - capital_share) k*^capital_share",
+    "equilibrium.labor_supply": "L, the mean labor endowment",
+    "equilibrium.capital": "K* = L k*",
+    "equilibrium.capital_per_unit_of_labor": "k*, at which the marginal product of capital net of depreciation equals r*",
+    "complete_markets.interest_rate": "The time-preference rate 1/discount_factor - 1",
+    "complete_markets.capital": "K^ϑ, the capital firms demand at the time-preference rate",
+    "capital_relative_to_complete_markets": "K*/K^ϑ",
+    "wealth_distribution": "Of end-of-period assets",
+    "wealth_distribution.share_of_richest": "Share of wealth held by the richest 1, 5, 10, 20 and 30 percent of households",
+    "wealth_distribution.share_at_borrowing_constraint": "Share of households whose end-of-period assets are zero",
+    "average_marginal_propensity_to_consume": "Mean slope of the consumption function at each household's market resources m = (1 + r*) a + W ℓ, annual (a period is a year)",
+    "return_patience_factor": "Þ_R = (R β)^(1/relative_risk_aversion) / R, at R = 1 + r* and β = discount_factor",
+    "perfect_foresight_marginal_propensity_to_consume": "1 - Þ_R, the MPC of a consumer with no income risk and no borrowing constraint",
+    "aiyagari_1994": "Aiyagari (1994), Table II, at this calibration"
+  },
+  "figures": {
+    "consumption-functions": "Consumption c against market resources m, one line per labor endowment state, at r*, with the 45-degree line",
+    "wealth-lorenz": "Lorenz curve of wealth, with the U.S. shares of the richest 1, 5, 10, 20 and 30 percent (Krusell and Smith 1998, Table 1)",
+    "capital-supply-demand": "Supply of capital (households' average assets) and demand for capital against the interest rate in percent, the complete-markets line at the time-preference rate, and K* and K^ϑ marked"
+  }
+}

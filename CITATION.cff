@@ -7,8 +7,8 @@ authors:
     email: "edwardsadam01@gmail.com"
     affiliation: "Johns Hopkins University"
 title: "Aiyagari (1994QJE): Uninsured Idiosyncratic Risk and Aggregate Saving - Computational Implementation"
-version: 1.0.2
-date-released: 2026-10-11
+version: 1.1.0
+date-released: 2026-10-12
 url: "https://github.com/econ-ark/Aiyagari1994QJE"
 repository-code: "https://github.com/econ-ark/Aiyagari1994QJE"
 abstract: >-
@@ -18,7 +18,9 @@ abstract: >-
   volatility. It does so twice, in two Jupyter notebooks. One uses HARK's
   (Heterogeneous Agents Resources and toolKit) MarkovConsumerType; the other uses
   DolARK, dolo's extension to heterogeneous agents. Each compares its results with
-  the published table.
+  the published table. For the baseline calibration, the HARK notebook also draws
+  the consumption functions, the wealth distribution and the supply of and demand
+  for capital, and saves those figures and the economy's key numbers.
 keywords:
   - "computational economics"
   - "heterogeneous agents"
