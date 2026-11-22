@@ -165,7 +165,7 @@ plot_capital_market(eq, ax)             # draws on a matplotlib Axes; about 25 s
 
 `Calibration` takes any of the paper's parameters, for example `Calibration(income_standard_deviation=0.4, income_persistence=0.9, relative_risk_aversion=5)`. The steps of the computation are public too, for showing them one at a time: `tauchen_chain`, `make_households` (a HARK `MarkovConsumerType`), `simulate`, `capital_supply` and `capital_demand`. The plotting functions only draw on the Axes they are given; they set no styles and neither save nor show a figure. `table_ii()` recomputes all of Table II in about 3.5 minutes.
 
-The package's dependencies are ranges (`econ-ark>=0.17,<0.18`, `numpy>=2`, and current `scipy`, `matplotlib` and `sympy`), so it fits into other projects' environments. With econ-ark 0.17.2 it returns exactly the notebook's numbers: CI installs it with pip on Python 3.11 to 3.14 and checks every number against `baseline/numbers.json`, and the notebook asserts that the package finds the same interest rate, to the last bit, as its own step-by-step computation.
+The package's dependencies are ranges (`econ-ark>=0.17`, `numpy>=2`, and current `scipy`, `matplotlib` and `sympy`), so it fits into other projects' environments. With econ-ark 0.17.2 it returns exactly the notebook's numbers: CI installs it with pip on Python 3.11 to 3.14 and checks every number against `baseline/numbers.json`, and the notebook asserts that the package finds the same interest rate, to the last bit, as its own step-by-step computation.
 
 The saving rate comes two ways. `saving_rate_from_capital` is δK/Y = δα/(r + δ), gross investment over output in a steady state, which is how Aiyagari computes it: at his interest rates it gives his Table II saving rates exactly. `saving_rate` is 1 − C/Y in the simulation, which the notebooks' replications of Table II report; at the baseline the two are 24.28% and 24.33%.
 
@@ -225,7 +225,7 @@ If you use this implementation, please cite:
   author = {Edwards, Adam},
   title = {Aiyagari (1994QJE): Uninsured Idiosyncratic Risk and Aggregate Saving - Computational Implementation},
   url = {https://github.com/econ-ark/Aiyagari1994QJE},
-  version = {1.1.0},
+  version = {1.1.1},
   year = {2024}
 }
 ```
