@@ -7,7 +7,7 @@ authors:
     email: "edwardsadam01@gmail.com"
     affiliation: "Johns Hopkins University"
 title: "Aiyagari (1994QJE): Uninsured Idiosyncratic Risk and Aggregate Saving - Computational Implementation"
-version: 1.1.1
+version: 1.1.2
 date-released: 2026-11-22
 url: "https://github.com/econ-ark/Aiyagari1994QJE"
 repository-code: "https://github.com/econ-ark/Aiyagari1994QJE"

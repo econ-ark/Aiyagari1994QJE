@@ -138,7 +138,7 @@ At the baseline calibration (σ = 0.2, ρ = 0.6, μ = 3), from `baseline/numbers
 |---|---|
 | Equilibrium interest rate | 3.86% (Aiyagari: 3.88%) |
 | Saving rate | 24.33% (Aiyagari: 24.25%) |
-| Capital, relative to complete markets (r = 1/β − 1 = 4.17%) | 4.0% higher |
+| Capital, relative to complete markets (r = 1/β − 1 = 4.17%) | about 4% higher |
 | Wealth Gini | 0.38 |
 | Share of wealth held by the richest 1% | 3.6% |
 | Share of households at the borrowing constraint | 0.26% |
@@ -225,7 +225,7 @@ If you use this implementation, please cite:
   author = {Edwards, Adam},
   title = {Aiyagari (1994QJE): Uninsured Idiosyncratic Risk and Aggregate Saving - Computational Implementation},
   url = {https://github.com/econ-ark/Aiyagari1994QJE},
-  version = {1.1.1},
+  version = {1.1.2},
   year = {2024}
 }
 ```

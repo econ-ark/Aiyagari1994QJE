@@ -122,7 +122,7 @@ model_specifications:
 key_results:
 
 - "Replication of Aiyagari (1994) Table II; the HARK notebook's interest rates are within 0.20 percentage points of the published values"
-- "At the baseline calibration, capital is 4.0 percent above its complete-markets level; the wealth Gini is 0.38, the richest 1 percent hold 3.6 percent of wealth, and the average MPC is 0.054"
+- "At the baseline calibration, capital is about 4 percent above its complete-markets level; the wealth Gini is 0.38, the richest 1 percent hold 3.6 percent of wealth, and the average MPC is 0.054"
 - "Demonstration of precautionary saving effects on aggregate capital"
 - "Analysis of how income risk parameters affect equilibrium outcomes"
 - "Comparison of different solution methods (Markov vs DolARK approaches)"
