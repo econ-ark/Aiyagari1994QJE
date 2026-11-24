@@ -244,6 +244,38 @@ def stationary_population(households, r):
     return Population(next_assets, P, grid)
 
 
+def rule_of(households):
+    """The households' consumption rule as HARK holds it, written out as data (aiyagari1994qje.rules evaluates it
+    without HARK): for each income state, the lower envelope of the unconstrained rule, linear between its knots and
+    approaching its limiting line above the last, and the constraint c = m; market resources and consumption are in
+    units of the wage.
+
+    In econ-ark 0.17.2 the unconstrained rule's first knot is (0, 0) and the next ones lie at negative market
+    resources, where HARK's endogenous grid starts from the one-period natural limit; HARK finds the segment by a
+    binary search that is right for every positive m, which is all a household ever has, and so does rules.evaluate.
+    """
+    states = []
+    for envelope in households.solution[0].cFunc:
+        pieces = []
+        for f in envelope.functions:
+            piece = {"form": "linear-interpolation", "x": [float(v) for v in f.x_list], "y": [float(v) for v in f.y_list],
+                     "below": "extend" if f.lower_extrap else "undefined", "above": "extend"}
+            if getattr(f, "decay_extrap", False):
+                piece["above"] = {"intercept": float(f.intercept_limit), "slope": float(f.slope_limit),
+                                  "gap": float(f.decay_extrap_A), "decay": float(f.decay_extrap_B)}
+            pieces.append(piece)
+        states.append({"form": "lower-envelope", "of": pieces})
+    x, _ = households.chain
+    return {
+        "description": "HARK's consumption rule c(m) in each income state, as HARK holds it",
+        "units": "market resources m and consumption c in units of the wage; in levels, consumption at market "
+                 "resources M is W c(M / W)",
+        "interest_factor": float(households.Rfree[0][0]),
+        "labor_endowment_by_state": [float(v) for v in np.exp(x)],
+        "states": states,
+    }
+
+
 def _window(households):
     cal = households.calibration
     return slice(cal.periods - cal.periods_averaged, cal.periods - 1)
@@ -394,6 +426,12 @@ class Equilibrium:
         self.saving_rate = 1 - consumption / ((self.interest_rate + δ) * mean_wealth + self.labor_supply)
         self.saving_rate_from_capital = δ * α / (self.interest_rate + δ)
         self.saving_rate_complete_markets = δ * α / (self.time_preference_rate + δ)
+
+    def rule(self):
+        """The equilibrium's consumption rule as HARK holds it, written out as data, with the wage; see rule_of."""
+        rule = rule_of(self.households)
+        rule["wage"] = float(self.wage)
+        return rule
 
     def consumption(self, m, state=None):
         """Consumption at market resources m = (1 + r)a + Wℓ, in levels, in one labor endowment state or (state=None) each."""

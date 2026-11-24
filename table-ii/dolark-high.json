@@ -1,0 +1,852 @@
+{
+ "description": "Aiyagari (1994), Table II, every cell solved by dolark at the level 'high'",
+ "toolkit": "dolark",
+ "level": "high",
+ "settings": {
+  "rule_points": 800,
+  "rule_top": 150.0,
+  "population_points": 3000,
+  "population_top": 300.0
+ },
+ "units": "Rates and shares are fractions; capital, the wage and labor supply are levels for a population of mass one",
+ "provenance": {
+  "commit": "e7dc58ab8cbb28308ea43b7c80ce891342ec7f23",
+  "dirty": false,
+  "python": "3.9.23",
+  "packages": {
+   "numpy": "1.26.4",
+   "scipy": "1.13.1",
+   "dolo": "0.4.9.20",
+   "dolark": "0.0.1",
+   "dolang": "0.0.20"
+  },
+  "machine": {
+   "system": "Linux",
+   "machine": "x86_64",
+   "processor": "x86_64",
+   "cpus": 32
+  },
+  "threads_per_process": 1,
+  "started": "2026-11-24T15:01:34-0500",
+  "processes": 12,
+  "wall_seconds": 562.9
+ },
+ "cells": [
+  {
+   "interest_rate": 0.041450328046947635,
+   "wage": 1.1793042571625598,
+   "capital": 5.581212078599757,
+   "labor_supply": 1.0218304130175944,
+   "capital_relative_to_complete_markets": 1.0027846643440772,
+   "saving_rate": 0.23713138011593282,
+   "saving_rate_from_capital": 0.23713398278238587,
+   "gini": 0.40122571167787535,
+   "share_of_richest": {
+    "1_percent": 0.04005049231933622,
+    "5_percent": 0.1548441103023831,
+    "10_percent": 0.2670687235546906,
+    "20_percent": 0.4434493076398275,
+    "30_percent": 0.581031597087156
+   },
+   "share_at_borrowing_constraint": 0.001270105560246626,
+   "average_marginal_propensity_to_consume": 0.04866742716143284,
+   "diagnostics": {
+    "euler_equation_error": {
+     "mean_absolute": 1.2075941907143317e-06,
+     "largest_absolute": 0.009747650454018597
+    },
+    "market_clearing_residual": -1.7149128434534866e-05,
+    "goods_market_residual": -2.602666453049851e-06,
+    "share_beyond_the_rule_s_grid": 0.0,
+    "share_beyond_the_population_s_grid": 7.465403850723547e-16
+   },
+   "error": null,
+   "sigma": 0.2,
+   "rho": 0.0,
+   "mu": 1,
+   "seconds": 260.3
+  },
+  {
+   "interest_rate": 0.040880764851818116,
+   "wage": 1.1824266407939628,
+   "capital": 5.622356221159139,
+   "labor_supply": 1.0218304130175944,
+   "capital_relative_to_complete_markets": 1.0101770935521224,
+   "saving_rate": 0.23825112179722152,
+   "saving_rate_from_capital": 0.23825130520397128,
+   "gini": 0.3852862800101001,
+   "share_of_richest": {
+    "1_percent": 0.037956653529039985,
+    "5_percent": 0.14838386283106264,
+    "10_percent": 0.2575899816906615,
+    "20_percent": 0.4311854926181694,
+    "30_percent": 0.5682181261059396
+   },
+   "share_at_borrowing_constraint": 0.0007736828140948878,
+   "average_marginal_propensity_to_consume": 0.04730242892733485,
+   "diagnostics": {
+    "euler_equation_error": {
+     "mean_absolute": 9.502757079173435e-07,
+     "largest_absolute": 0.011110191983999762
+    },
+    "market_clearing_residual": -1.2028175981892986e-06,
+    "goods_market_residual": -1.8340674975969584e-07,
+    "share_beyond_the_rule_s_grid": 0.0,
+    "share_beyond_the_population_s_grid": 1.9997306023426905e-16
+   },
+   "error": null,
+   "sigma": 0.2,
+   "rho": 0.0,
+   "mu": 3,
+   "seconds": 268.0
+  },
+  {
+   "interest_rate": 0.040140370854322135,
+   "wage": 1.1865200627189065,
+   "capital": 5.676589233744519,
+   "labor_supply": 1.0218304130175944,
+   "capital_relative_to_complete_markets": 1.0199212194795932,
+   "saving_rate": 0.23972058166125332,
+   "saving_rate_from_capital": 0.23971958630726917,
+   "gini": 0.3703104388552887,
+   "share_of_richest": {
+    "1_percent": 0.03621492538690696,
+    "5_percent": 0.14283196524478603,
+    "10_percent": 0.249272686510164,
+    "20_percent": 0.4201117806229676,
+    "30_percent": 0.5563879563756448
+   },
+   "share_at_borrowing_constraint": 0.00039833349677234956,
+   "average_marginal_propensity_to_consume": 0.045969888030878966,
+   "diagnostics": {
+    "euler_equation_error": {
+     "mean_absolute": 9.662565528968257e-07,
+     "largest_absolute": 0.012330495563880994
+    },
+    "market_clearing_residual": 6.487764660834117e-06,
+    "goods_market_residual": 9.953539841511816e-07,
+    "share_beyond_the_rule_s_grid": 0.0,
+    "share_beyond_the_population_s_grid": 4.0990040697945395e-16
+   },
+   "error": null,
+   "sigma": 0.2,
+   "rho": 0.0,
+   "mu": 5,
+   "seconds": 181.5
+  },
+  {
+   "interest_rate": 0.04127198230535689,
+   "wage": 1.1802794960809804,
+   "capital": 5.59490593231323,
+   "labor_supply": 1.0219881879790853,
+   "capital_relative_to_complete_markets": 1.0050898692309236,
+   "saving_rate": 0.23748164103145497,
+   "saving_rate_from_capital": 0.23748271820512518,
+   "gini": 0.40134300021366176,
+   "share_of_richest": {
+    "1_percent": 0.03975899168642327,
+    "5_percent": 0.1538866120753778,
+    "10_percent": 0.26567159514202354,
+    "20_percent": 0.4418130104455823,
+    "30_percent": 0.5796889505153691
+   },
+   "share_at_borrowing_constraint": 0.0025181699718160476,
+   "average_marginal_propensity_to_consume": 0.0526024330654728,
+   "diagnostics": {
+    "euler_equation_error": {
+     "mean_absolute": 1.5080704965544732e-06,
+     "largest_absolute": 0.011700391580401925
+    },
+    "market_clearing_residual": -7.087165580843546e-06,
+    "goods_market_residual": -1.0771736702053225e-06,
+    "share_beyond_the_rule_s_grid": 0.0,
+    "share_beyond_the_population_s_grid": 8.797943497047079e-16
+   },
+   "error": null,
+   "sigma": 0.2,
+   "rho": 0.3,
+   "mu": 1,
+   "seconds": 291.4
+  },
+  {
+   "interest_rate": 0.04023542973647996,
+   "wage": 1.1859923069529241,
+   "capital": 5.670453783136155,
+   "labor_supply": 1.0219881879790853,
+   "capital_relative_to_complete_markets": 1.0186615682769693,
+   "saving_rate": 0.23952976011748872,
+   "saving_rate_from_capital": 0.23953006250421338,
+   "gini": 0.38150305267167217,
+   "share_of_richest": {
+    "1_percent": 0.03741976260156854,
+    "5_percent": 0.14645977034283664,
+    "10_percent": 0.2545639431757454,
+    "20_percent": 0.4270568653440737,
+    "30_percent": 0.5639568728013389
+   },
+   "share_at_borrowing_constraint": 0.0013745962314641535,
+   "average_marginal_propensity_to_consume": 0.050116583254484995,
+   "diagnostics": {
+    "euler_equation_error": {
+     "mean_absolute": 1.0202704711708592e-06,
+     "largest_absolute": 0.0014120868023250743
+    },
+    "market_clearing_residual": -1.9725239978063414e-06,
+    "goods_market_residual": -3.023867246598755e-07,
+    "share_beyond_the_rule_s_grid": 0.0,
+    "share_beyond_the_population_s_grid": 4.732856253082142e-16
+   },
+   "error": null,
+   "sigma": 0.2,
+   "rho": 0.3,
+   "mu": 3,
+   "seconds": 321.2
+  },
+  {
+   "interest_rate": 0.03890751731434529,
+   "wage": 1.1934243451217728,
+   "capital": 5.769709993729436,
+   "labor_supply": 1.0219881879790853,
+   "capital_relative_to_complete_markets": 1.036492325921953,
+   "saving_rate": 0.24220450187986808,
+   "saving_rate_from_capital": 0.24220504010578228,
+   "gini": 0.36274797930825653,
+   "share_of_richest": {
+    "1_percent": 0.03546373322898422,
+    "5_percent": 0.14003796609613206,
+    "10_percent": 0.24475671887772,
+    "20_percent": 0.41366464562279825,
+    "30_percent": 0.5493748355770645
+   },
+   "share_at_borrowing_constraint": 0.000631924828409984,
+   "average_marginal_propensity_to_consume": 0.047816525666528165,
+   "diagnostics": {
+    "euler_equation_error": {
+     "mean_absolute": 9.958955376105952e-07,
+     "largest_absolute": 0.009103765020354482
+    },
+    "market_clearing_residual": -3.4721691819505907e-06,
+    "goods_market_residual": -5.382259141983869e-07,
+    "share_beyond_the_rule_s_grid": 0.0,
+    "share_beyond_the_population_s_grid": 1.8708178548574306e-15
+   },
+   "error": null,
+   "sigma": 0.2,
+   "rho": 0.3,
+   "mu": 5,
+   "seconds": 202.3
+  },
+  {
+   "interest_rate": 0.0408713274611492,
+   "wage": 1.1824785707502699,
+   "capital": 5.627961042178574,
+   "labor_supply": 1.0227242846146125,
+   "capital_relative_to_complete_markets": 1.0103003346960233,
+   "saving_rate": 0.2382691444172701,
+   "saving_rate_from_capital": 0.23826990738772996,
+   "gini": 0.416627986532379,
+   "share_of_richest": {
+    "1_percent": 0.04052452946916274,
+    "5_percent": 0.156728876341777,
+    "10_percent": 0.2704643298970738,
+    "20_percent": 0.4495136996850909,
+    "30_percent": 0.5894028196237973
+   },
+   "share_at_borrowing_constraint": 0.006625513257537748,
+   "average_marginal_propensity_to_consume": 0.06077075372389866,
+   "diagnostics": {
+    "euler_equation_error": {
+     "mean_absolute": 1.7148623906512684e-06,
+     "largest_absolute": 0.00626524234078385
+    },
+    "market_clearing_residual": -5.003311842388669e-06,
+    "goods_market_residual": -7.629704598666187e-07,
+    "share_beyond_the_rule_s_grid": 0.0,
+    "share_beyond_the_population_s_grid": 5.570670712221091e-16
+   },
+   "error": null,
+   "sigma": 0.2,
+   "rho": 0.6,
+   "mu": 1,
+   "seconds": 266.0
+  },
+  {
+   "interest_rate": 0.03878312675230054,
+   "wage": 1.194127175700563,
+   "capital": 5.783316017857812,
+   "labor_supply": 1.0227242846146125,
+   "capital_relative_to_complete_markets": 1.0381887978088862,
+   "saving_rate": 0.24245849922273532,
+   "saving_rate_from_capital": 0.24245867900124302,
+   "gini": 0.3899923192494047,
+   "share_of_richest": {
+    "1_percent": 0.037623692020452015,
+    "5_percent": 0.1472473711655341,
+    "10_percent": 0.2560566454141878,
+    "20_percent": 0.43000948193975974,
+    "30_percent": 0.5683334564431403
+   },
+   "share_at_borrowing_constraint": 0.003318480485299393,
+   "average_marginal_propensity_to_consume": 0.055209716705100886,
+   "diagnostics": {
+    "euler_equation_error": {
+     "mean_absolute": 1.4052629743225176e-06,
+     "largest_absolute": 0.00876327630111473
+    },
+    "market_clearing_residual": -1.1585624859478116e-06,
+    "goods_market_residual": -1.7977850769179682e-07,
+    "share_beyond_the_rule_s_grid": 0.0,
+    "share_beyond_the_population_s_grid": 6.116027199841393e-16
+   },
+   "error": null,
+   "sigma": 0.2,
+   "rho": 0.6,
+   "mu": 3,
+   "seconds": 268.8
+  },
+  {
+   "interest_rate": 0.03617355874630428,
+   "wage": 1.2091419202800835,
+   "capital": 5.9875765669322,
+   "labor_supply": 1.0227242846146125,
+   "capital_relative_to_complete_markets": 1.074856518062892,
+   "saving_rate": 0.24790493243633271,
+   "saving_rate_from_capital": 0.2479049476558812,
+   "gini": 0.36491442820987885,
+   "share_of_richest": {
+    "1_percent": 0.03518862912393539,
+    "5_percent": 0.13905201412006218,
+    "10_percent": 0.24338279554802078,
+    "20_percent": 0.4124370491875473,
+    "30_percent": 0.548980823379783
+   },
+   "share_at_borrowing_constraint": 0.0008753408112224676,
+   "average_marginal_propensity_to_consume": 0.05015762893961051,
+   "diagnostics": {
+    "euler_equation_error": {
+     "mean_absolute": 1.1658597201505272e-06,
+     "largest_absolute": 0.003834690124383311
+    },
+    "market_clearing_residual": -9.59257704380434e-08,
+    "goods_market_residual": -1.521954848260343e-08,
+    "share_beyond_the_rule_s_grid": 0.0,
+    "share_beyond_the_population_s_grid": 2.180528327060369e-16
+   },
+   "error": null,
+   "sigma": 0.2,
+   "rho": 0.6,
+   "mu": 5,
+   "seconds": 295.5
+  },
+  {
+   "interest_rate": 0.0395345664916035,
+   "wage": 1.1898988116876352,
+   "capital": 5.754868685994625,
+   "labor_supply": 1.0277710292518272,
+   "capital_relative_to_complete_markets": 1.0280092666990706,
+   "saving_rate": 0.24093450334443856,
+   "saving_rate_from_capital": 0.2409344915474555,
+   "gini": 0.5209372388878597,
+   "share_of_richest": {
+    "1_percent": 0.04997177625949856,
+    "5_percent": 0.18994019937896933,
+    "10_percent": 0.3232106056743337,
+    "20_percent": 0.5249341376471612,
+    "30_percent": 0.6737877828793353
+   },
+   "share_at_borrowing_constraint": 0.050451480396114246,
+   "average_marginal_propensity_to_consume": 0.10908625563343666,
+   "diagnostics": {
+    "euler_equation_error": {
+     "mean_absolute": 2.553083799564838e-06,
+     "largest_absolute": 0.004761989658254473
+    },
+    "market_clearing_residual": 7.652249323086835e-08,
+    "goods_market_residual": 1.179698305708854e-08,
+    "share_beyond_the_rule_s_grid": 0.0,
+    "share_beyond_the_population_s_grid": 1.1320293215944839e-16
+   },
+   "error": null,
+   "sigma": 0.2,
+   "rho": 0.9,
+   "mu": 1,
+   "seconds": 320.2
+  },
+  {
+   "interest_rate": 0.03372633006239907,
+   "wage": 1.2237094229481291,
+   "capital": 6.220655889420249,
+   "labor_supply": 1.0277710292518272,
+   "capital_relative_to_complete_markets": 1.1112142167262888,
+   "saving_rate": 0.2532396574843434,
+   "saving_rate_from_capital": 0.25323950912860804,
+   "gini": 0.47703506566776954,
+   "share_of_richest": {
+    "1_percent": 0.04492153364924989,
+    "5_percent": 0.17310054948329012,
+    "10_percent": 0.2973933623045356,
+    "20_percent": 0.48984632219118074,
+    "30_percent": 0.6361803217158988
+   },
+   "share_at_borrowing_constraint": 0.026984537772662822,
+   "average_marginal_propensity_to_consume": 0.07348927264183841,
+   "diagnostics": {
+    "euler_equation_error": {
+     "mean_absolute": 1.2616627070956136e-06,
+     "largest_absolute": 0.0045560532509405505
+    },
+    "market_clearing_residual": 9.153684226159697e-07,
+    "goods_market_residual": 1.4835573536320368e-07,
+    "share_beyond_the_rule_s_grid": 0.0,
+    "share_beyond_the_population_s_grid": 0.0
+   },
+   "error": null,
+   "sigma": 0.2,
+   "rho": 0.9,
+   "mu": 3,
+   "seconds": 211.5
+  },
+  {
+   "interest_rate": 0.026758902264125597,
+   "wage": 1.268010426560913,
+   "capital": 6.866534770245072,
+   "labor_supply": 1.0277710292518272,
+   "capital_relative_to_complete_markets": 1.226589477376287,
+   "saving_rate": 0.26976672714376015,
+   "saving_rate_from_capital": 0.2697667303542304,
+   "gini": 0.43626446290000576,
+   "share_of_richest": {
+    "1_percent": 0.0408465525011229,
+    "5_percent": 0.15920814761468838,
+    "10_percent": 0.27575657761768324,
+    "20_percent": 0.45968236681966645,
+    "30_percent": 0.6030285598476526
+   },
+   "share_at_borrowing_constraint": 0.007873720987553618,
+   "average_marginal_propensity_to_consume": 0.05662339849152485,
+   "diagnostics": {
+    "euler_equation_error": {
+     "mean_absolute": 9.570983106628907e-07,
+     "largest_absolute": 0.000733359809459877
+    },
+    "market_clearing_residual": -1.8592939188266655e-08,
+    "goods_market_residual": -3.2104702230029147e-09,
+    "share_beyond_the_rule_s_grid": 0.0,
+    "share_beyond_the_population_s_grid": 0.0
+   },
+   "error": null,
+   "sigma": 0.2,
+   "rho": 0.9,
+   "mu": 5,
+   "seconds": 263.6
+  },
+  {
+   "interest_rate": 0.04059724604818139,
+   "wage": 1.1839894935346762,
+   "capital": 6.020362646612705,
+   "labor_supply": 1.090158555715362,
+   "capital_relative_to_complete_markets": 1.0138902990488599,
+   "saving_rate": 0.23881217533175414,
+   "saving_rate_from_capital": 0.23881142350874024,
+   "gini": 0.3768249341902882,
+   "share_of_richest": {
+    "1_percent": 0.03723192931384478,
+    "5_percent": 0.14501973644349186,
+    "10_percent": 0.25179826706320796,
+    "20_percent": 0.42269080779290036,
+    "30_percent": 0.5591302885134863
+   },
+   "share_at_borrowing_constraint": 0.002536130010228805,
+   "average_marginal_propensity_to_consume": 0.06102773409194676,
+   "diagnostics": {
+    "euler_equation_error": {
+     "mean_absolute": 2.7417089525055485e-06,
+     "largest_absolute": 0.020133210389492673
+    },
+    "market_clearing_residual": 4.91905166688511e-06,
+    "goods_market_residual": 7.518230139003101e-07,
+    "share_beyond_the_rule_s_grid": 0.0,
+    "share_beyond_the_population_s_grid": 8.49256854466849e-17
+   },
+   "error": null,
+   "sigma": 0.4,
+   "rho": 0.0,
+   "mu": 1,
+   "seconds": 267.4
+  },
+  {
+   "interest_rate": 0.037849973075338925,
+   "wage": 1.1994365916068064,
+   "capital": 6.241083607355252,
+   "labor_supply": 1.090158555715362,
+   "capital_relative_to_complete_markets": 1.0510619536533419,
+   "saving_rate": 0.24437873415379285,
+   "saving_rate_from_capital": 0.24437850301067768,
+   "gini": 0.3483104088651081,
+   "share_of_richest": {
+    "1_percent": 0.03433736489865813,
+    "5_percent": 0.1354689272618449,
+    "10_percent": 0.2371921653882123,
+    "20_percent": 0.4026919311263467,
+    "30_percent": 0.5372576529764876
+   },
+   "share_at_borrowing_constraint": 0.0007858952855866173,
+   "average_marginal_propensity_to_consume": 0.05631149205042925,
+   "diagnostics": {
+    "euler_equation_error": {
+     "mean_absolute": 1.948861799669371e-06,
+     "largest_absolute": 0.013129067450548426
+    },
+    "market_clearing_residual": 1.4778769894530086e-06,
+    "goods_market_residual": 2.3114311517580255e-07,
+    "share_beyond_the_rule_s_grid": 0.0,
+    "share_beyond_the_population_s_grid": 1.0213285164326632e-15
+   },
+   "error": null,
+   "sigma": 0.4,
+   "rho": 0.0,
+   "mu": 3,
+   "seconds": 288.1
+  },
+  {
+   "interest_rate": 0.03451356037160863,
+   "wage": 1.2189702726426896,
+   "capital": 6.527522705687702,
+   "labor_supply": 1.090158555715362,
+   "capital_relative_to_complete_markets": 1.0993012110062148,
+   "saving_rate": 0.2514986113577172,
+   "saving_rate_from_capital": 0.2514985990003363,
+   "gini": 0.3217568047959207,
+   "share_of_richest": {
+    "1_percent": 0.031861556083191855,
+    "5_percent": 0.12714660304483028,
+    "10_percent": 0.2243127884233328,
+    "20_percent": 0.3847451019642959,
+    "30_percent": 0.517332747176608
+   },
+   "share_at_borrowing_constraint": 0.00011128473498935131,
+   "average_marginal_propensity_to_consume": 0.052117112865929266,
+   "diagnostics": {
+    "euler_equation_error": {
+     "mean_absolute": 1.746935476844484e-06,
+     "largest_absolute": 0.00817902382375535
+    },
+    "market_clearing_residual": 7.677343871748121e-08,
+    "goods_market_residual": 1.2357380951844021e-08,
+    "share_beyond_the_rule_s_grid": 0.0,
+    "share_beyond_the_population_s_grid": 2.8648497938348336e-17
+   },
+   "error": null,
+   "sigma": 0.4,
+   "rho": 0.0,
+   "mu": 5,
+   "seconds": 257.9
+  },
+  {
+   "interest_rate": 0.039758759527011606,
+   "wage": 1.1886453087495026,
+   "capital": 6.090095632386943,
+   "labor_supply": 1.0908287954615807,
+   "capital_relative_to_complete_markets": 1.0250038610376526,
+   "saving_rate": 0.2404836234521317,
+   "saving_rate_from_capital": 0.24048345284926032,
+   "gini": 0.3894946258019292,
+   "share_of_richest": {
+    "1_percent": 0.03779196757213377,
+    "5_percent": 0.14720440989809114,
+    "10_percent": 0.25564776427743474,
+    "20_percent": 0.42915391694479543,
+    "30_percent": 0.5674024206370755
+   },
+   "share_at_borrowing_constraint": 0.004717655863188602,
+   "average_marginal_propensity_to_consume": 0.0692489402133996,
+   "diagnostics": {
+    "euler_equation_error": {
+     "mean_absolute": 3.1676025414990716e-06,
+     "largest_absolute": 0.01367529650705368
+    },
+    "market_clearing_residual": 1.1084649202963703e-06,
+    "goods_market_residual": 1.7060287138548347e-07,
+    "share_beyond_the_rule_s_grid": 0.0,
+    "share_beyond_the_population_s_grid": 4.388559905966727e-16
+   },
+   "error": null,
+   "sigma": 0.4,
+   "rho": 0.3,
+   "mu": 1,
+   "seconds": 258.5
+  },
+  {
+   "interest_rate": 0.03492984193208956,
+   "wage": 1.2164847680542494,
+   "capital": 6.49460864957653,
+   "labor_supply": 1.0908287954615807,
+   "capital_relative_to_complete_markets": 1.0930861095748252,
+   "saving_rate": 0.2505875869634312,
+   "saving_rate_from_capital": 0.25058765866064203,
+   "gini": 0.35304063358437865,
+   "share_of_richest": {
+    "1_percent": 0.03421601992296708,
+    "5_percent": 0.13532899329706127,
+    "10_percent": 0.23738666563617528,
+    "20_percent": 0.40392498395490717,
+    "30_percent": 0.5395864757393206
+   },
+   "share_at_borrowing_constraint": 0.0010406802365753945,
+   "average_marginal_propensity_to_consume": 0.0608236334368559,
+   "diagnostics": {
+    "euler_equation_error": {
+     "mean_absolute": 2.084188916814076e-06,
+     "largest_absolute": 0.011046534886265169
+    },
+    "market_clearing_residual": -4.4705626722763014e-07,
+    "goods_market_residual": -7.16972108349978e-08,
+    "share_beyond_the_rule_s_grid": 0.0,
+    "share_beyond_the_population_s_grid": 6.047020192532262e-16
+   },
+   "error": null,
+   "sigma": 0.4,
+   "rho": 0.3,
+   "mu": 3,
+   "seconds": 175.2
+  },
+  {
+   "interest_rate": 0.029378764001948304,
+   "wage": 1.2508358261621504,
+   "capital": 7.016918314883721,
+   "labor_supply": 1.0908287954615807,
+   "capital_relative_to_complete_markets": 1.1809943225017416,
+   "saving_rate": 0.2633052198635881,
+   "saving_rate_from_capital": 0.263305224398833,
+   "gini": 0.32064278848365146,
+   "share_of_richest": {
+    "1_percent": 0.03127875167075478,
+    "5_percent": 0.12546224402599582,
+    "10_percent": 0.22206928703447826,
+    "20_percent": 0.3824138727481451,
+    "30_percent": 0.5155081416788088
+   },
+   "share_at_borrowing_constraint": 0.00012329906100463217,
+   "average_marginal_propensity_to_consume": 0.05409701195048587,
+   "diagnostics": {
+    "euler_equation_error": {
+     "mean_absolute": 1.813799827757957e-06,
+     "largest_absolute": 0.0071803661527727325
+    },
+    "market_clearing_residual": -2.69128658247908e-08,
+    "goods_market_residual": -4.535244901848756e-09,
+    "share_beyond_the_rule_s_grid": 0.0,
+    "share_beyond_the_population_s_grid": 2.8039362417385023e-16
+   },
+   "error": null,
+   "sigma": 0.4,
+   "rho": 0.3,
+   "mu": 5,
+   "seconds": 199.1
+  },
+  {
+   "interest_rate": 0.038035934294975954,
+   "wage": 1.1983732869306445,
+   "capital": 6.2474083304978505,
+   "labor_supply": 1.0939550765354693,
+   "capital_relative_to_complete_markets": 1.0484757426009146,
+   "saving_rate": 0.24399357316639725,
+   "saving_rate_from_capital": 0.24399349377815563,
+   "gini": 0.4276373888580288,
+   "share_of_richest": {
+    "1_percent": 0.041035452010322104,
+    "5_percent": 0.15839979806665283,
+    "10_percent": 0.27339628322895926,
+    "20_percent": 0.45473183114581817,
+    "30_percent": 0.5964541413655471
+   },
+   "share_at_borrowing_constraint": 0.011666291814838706,
+   "average_marginal_propensity_to_consume": 0.0837032000036536,
+   "diagnostics": {
+    "euler_equation_error": {
+     "mean_absolute": 2.0238325246587797e-06,
+     "largest_absolute": 0.010052227135938896
+    },
+    "market_clearing_residual": 5.083948679818207e-07,
+    "goods_market_residual": 7.938824161946023e-08,
+    "share_beyond_the_rule_s_grid": 0.0,
+    "share_beyond_the_population_s_grid": 5.103991245967998e-16
+   },
+   "error": null,
+   "sigma": 0.4,
+   "rho": 0.6,
+   "mu": 1,
+   "seconds": 215.1
+  },
+  {
+   "interest_rate": 0.02916035910715664,
+   "wage": 1.252242943497665,
+   "capital": 7.059040151283384,
+   "labor_supply": 1.0939550765354693,
+   "capital_relative_to_complete_markets": 1.1846884296862858,
+   "saving_rate": 0.2638320131340576,
+   "saving_rate_from_capital": 0.2638320378895845,
+   "gini": 0.37806027543746534,
+   "share_of_richest": {
+    "1_percent": 0.03621706565914151,
+    "5_percent": 0.14228722019521955,
+    "10_percent": 0.24848856529336305,
+    "20_percent": 0.42008059902616,
+    "30_percent": 0.5581159344549051
+   },
+   "share_at_borrowing_constraint": 0.0014959011305359232,
+   "average_marginal_propensity_to_consume": 0.06536615825906991,
+   "diagnostics": {
+    "euler_equation_error": {
+     "mean_absolute": 1.841933582450686e-06,
+     "largest_absolute": 0.0067654726710624224
+    },
+    "market_clearing_residual": -1.4660993863380156e-07,
+    "goods_market_residual": -2.4755526906172776e-08,
+    "share_beyond_the_rule_s_grid": 0.0,
+    "share_beyond_the_population_s_grid": 2.5677181915544487e-16
+   },
+   "error": null,
+   "sigma": 0.4,
+   "rho": 0.6,
+   "mu": 3,
+   "seconds": 182.2
+  },
+  {
+   "interest_rate": 0.019985315448222907,
+   "wage": 1.3156367804543325,
+   "capital": 8.096956385311007,
+   "labor_supply": 1.0939550765354693,
+   "capital_relative_to_complete_markets": 1.3588774592263058,
+   "saving_rate": 0.28804229616231725,
+   "saving_rate_from_capital": 0.2880422977203486,
+   "gini": 0.3367496753711797,
+   "share_of_richest": {
+    "1_percent": 0.03251839642878718,
+    "5_percent": 0.12982400390411852,
+    "10_percent": 0.22905505470225895,
+    "20_percent": 0.3926216929500448,
+    "30_percent": 0.5272582987096034
+   },
+   "share_at_borrowing_constraint": 0.00019504526348077406,
+   "average_marginal_propensity_to_consume": 0.05379427215263294,
+   "diagnostics": {
+    "euler_equation_error": {
+     "mean_absolute": 1.7739687365636282e-06,
+     "largest_absolute": 0.01381450294584985
+    },
+    "market_clearing_residual": -8.45157888118564e-09,
+    "goods_market_residual": -1.558031370585411e-09,
+    "share_beyond_the_rule_s_grid": 0.0,
+    "share_beyond_the_population_s_grid": 7.027798257388314e-19
+   },
+   "error": null,
+   "sigma": 0.4,
+   "rho": 0.6,
+   "mu": 5,
+   "seconds": 211.9
+  },
+  {
+   "interest_rate": 0.033965601613100194,
+   "wage": 1.2222635913228255,
+   "capital": 6.729460356344488,
+   "labor_supply": 1.1154924224011558,
+   "capital_relative_to_complete_markets": 1.107571054649198,
+   "saving_rate": 0.25270783106466344,
+   "saving_rate_from_capital": 0.25270783106794464,
+   "gini": 0.5699945548694841,
+   "share_of_richest": {
+    "1_percent": 0.05931181216967585,
+    "5_percent": 0.21840544174800547,
+    "10_percent": 0.3636902870384954,
+    "20_percent": 0.5733739671520505,
+    "30_percent": 0.7198129033321436
+   },
+   "share_at_borrowing_constraint": 0.07006154208787634,
+   "average_marginal_propensity_to_consume": 0.1439579694614136,
+   "diagnostics": {
+    "euler_equation_error": {
+     "mean_absolute": 4.577678014194014e-06,
+     "largest_absolute": 0.014882706139873525
+    },
+    "market_clearing_residual": 2.1094237467877974e-14,
+    "goods_market_residual": -3.281208638128419e-12,
+    "share_beyond_the_rule_s_grid": 0.0,
+    "share_beyond_the_population_s_grid": 0.0
+   },
+   "error": null,
+   "sigma": 0.4,
+   "rho": 0.9,
+   "mu": 1,
+   "seconds": 187.5
+  },
+  {
+   "interest_rate": 0.015147718718920719,
+   "wage": 1.3528543483881992,
+   "capital": 8.921580800243717,
+   "labor_supply": 1.1154924224011558,
+   "capital_relative_to_complete_markets": 1.4683621171418246,
+   "saving_rate": 0.30268723358223026,
+   "saving_rate_from_capital": 0.30268723609736886,
+   "gini": 0.4875367736840339,
+   "share_of_richest": {
+    "1_percent": 0.049223825616535155,
+    "5_percent": 0.18520947387694753,
+    "10_percent": 0.31317341800617515,
+    "20_percent": 0.5056694558661154,
+    "30_percent": 0.6483390812826149
+   },
+   "share_at_borrowing_constraint": 0.010744757864201386,
+   "average_marginal_propensity_to_consume": 0.07096774744847038,
+   "diagnostics": {
+    "euler_equation_error": {
+     "mean_absolute": 2.1906099091046896e-06,
+     "largest_absolute": 0.013168698605672047
+    },
+    "market_clearing_residual": -1.2981042241122509e-08,
+    "goods_market_residual": -2.5151385973920526e-09,
+    "share_beyond_the_rule_s_grid": 0.0,
+    "share_beyond_the_population_s_grid": 0.0
+   },
+   "error": null,
+   "sigma": 0.4,
+   "rho": 0.9,
+   "mu": 3,
+   "seconds": 240.2
+  },
+  {
+   "interest_rate": -0.0008572853706429323,
+   "wage": 1.500527556355947,
+   "capital": 11.896581494442335,
+   "labor_supply": 1.1154924224011558,
+   "capital_relative_to_complete_markets": 1.9580038539192965,
+   "saving_rate": 0.3638995722455324,
+   "saving_rate_from_capital": 0.36389957224587005,
+   "gini": 0.4246413586142148,
+   "share_of_richest": {
+    "1_percent": 0.04215828506385544,
+    "5_percent": 0.16217910500897947,
+    "10_percent": 0.2781672976504802,
+    "20_percent": 0.4583522453496398,
+    "30_percent": 0.5974396442649494
+   },
+   "share_at_borrowing_constraint": 0.0010874359232481367,
+   "average_marginal_propensity_to_consume": 0.043555583083711505,
+   "diagnostics": {
+    "euler_equation_error": {
+     "mean_absolute": 1.0195554351940321e-06,
+     "largest_absolute": 0.0006502756226609563
+    },
+    "market_clearing_residual": -1.2738698984549046e-12,
+    "goods_market_residual": -3.3767433293974136e-13,
+    "share_beyond_the_rule_s_grid": 0.0,
+    "share_beyond_the_population_s_grid": 0.0
+   },
+   "error": null,
+   "sigma": 0.4,
+   "rho": 0.9,
+   "mu": 5,
+   "seconds": 205.3
+  }
+ ]
+}

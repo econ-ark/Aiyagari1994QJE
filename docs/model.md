@@ -118,7 +118,7 @@ The settings are named levels:
 | high | 800 points to 200 wage units | 800 points to 150 | 3,000 points |
 
 The population's grid runs to 300 (in wage units for HARK, in levels for dolo). At the medium level the two toolkits'
-interest rates differ by at most 0.0032 percentage points across Table II, and at the high level by 0.0003; HARK's
+interest rates differ by at most 0.0032 percentage points across Table II, and at the high level by 0.00024; HARK's
 medium is within 0.009 of its high.
 
 ## A register of conventions
@@ -147,5 +147,6 @@ Each of these made two solutions of the economy differ before it was found; each
   kink.
 - **HARK's Markov rule.** In econ-ark 0.17.2, `MarkovConsumerType`'s unconstrained consumption function for a state
   in which the artificial limit binds starts with the knot $(0, 0)$ and continues at negative market resources, where
-  the endogenous grid begins from the one-period natural limit. The function is right for every $m \geq 0$, which is
-  all a household ever has; a reader of its knots has to know that the first is out of order.
+  the endogenous grid begins from the one-period natural limit. HARK finds a segment by a binary search that is right
+  for every positive $m$, which is all a household ever has; a reader of its knots has to know that the first is out of
+  order (`Equilibrium.rule` writes them out, and `aiyagari1994qje.evaluate_rule` reads them as HARK does).

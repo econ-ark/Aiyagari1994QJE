@@ -13,7 +13,7 @@
 
 This repository computes the stationary equilibrium of the **Aiyagari (1994)** economy, its interest rate and saving rate, for every cell of the paper's Table II, with two toolkits: HARK's `MarkovConsumerType`, and dolo with its extension to heterogeneous agents, DolARK. The model shows how precautionary saving by households facing uninsurable income risk and a borrowing constraint raises aggregate capital and lowers the interest rate.
 
-The two toolkits solve one economy, Aiyagari's seven-state Tauchen chain for income, and their populations of households are computed by one code: the stationary distribution on a grid of its own (`src/aiyagari1994qje/population.py`). Their equilibrium interest rates then differ by at most 0.0032 percentage points at the notebooks' medium level across Table II, and by 0.0003 at the high level. Aiyagari's published values differ from both by up to 0.26 percentage points, where income is most persistent and volatile and households most averse to risk: they are his numerical solution, and they are not exact.
+The two toolkits solve one economy, Aiyagari's seven-state Tauchen chain for income, and their populations of households are computed by one code: the stationary distribution on a grid of its own (`src/aiyagari1994qje/population.py`). Their equilibrium interest rates then differ by at most 0.0032 percentage points at the notebooks' medium level across Table II, and by 0.00024 at the high level. Aiyagari's published values differ from both by up to 0.26 percentage points, where income is most persistent and volatile and households most averse to risk: they are his numerical solution, and they are not exact.
 
 For the baseline calibration, the HARK notebook also draws the consumption functions, the distribution of wealth, and the supply of and demand for capital, and writes those figures and the economy's key numbers to `baseline/` for other documents to use. The HARK computation is also a Python package, `aiyagari1994qje`, that other programs can install to compute the same numbers and draw the same figures. [`docs/model.md`](docs/model.md) states the economy exactly, for a comparison of toolkits.
 
@@ -55,7 +55,7 @@ The executed notebooks appear in `results/`, and the regenerated baseline figure
 Requires [uv](https://docs.astral.sh/uv/getting-started/installation/) and git. CI uses uv 0.12.19; an older uv may not be able to download Python 3.14.7 (uv 0.9 cannot).
 
 ```bash
-./reproduce.sh       # full reproduction, both notebooks (about 40 minutes on one core)
+./reproduce.sh       # full reproduction, both notebooks (about 25 minutes on one core)
 ./reproduce_min.sh   # quick check: solves the baseline with both toolkits and checks it against the committed numbers (about a minute)
 ```
 
@@ -99,7 +99,7 @@ The two notebooks need package versions that cannot be installed together. The H
   - Draws the baseline economy (σ = 0.2, ρ = 0.6, μ = 3) and saves the figures and numbers to `baseline/`
   - Reproduces all of Table II at the medium level, compares it with Aiyagari's and DolARK's, and ends with exercises
 
-- **`AiyagariDolARK.ipynb`**: the same economy with dolo and DolARK (about 15 minutes at its default, low level)
+- **`AiyagariDolARK.ipynb`**: the same economy with dolo and DolARK (about 10 minutes at its default, low level)
   - The household's problem is written in `Aiyagari.yaml` and solved by dolo's time iteration; the population by the REMARK's population code
   - Checks that its income chain is HARK's, finds the baseline equilibrium, and reproduces Table II
   - Says what the first version of the notebook got wrong, and how much each difference mattered
@@ -117,7 +117,7 @@ The two notebooks need package versions that cannot be installed together. The H
 | `Aiyagari.yaml` | The model file that dolo and DolARK read |
 | `table-ii/` | Table II solved by each toolkit at each level, Aiyagari's published table, and `record.py`, which writes them |
 | `docs/model.md` | The economy stated exactly, with a register of the conventions that made two solutions differ |
-| `tests/test_population.py` | Tests of the population code against populations known exactly, in both environments |
+| `tests/` | Tests: the population code against populations known exactly, in both environments; HARK's rule read back from its export; the README's baseline table against `baseline/numbers.json` |
 | `Dockerfile` | Container that runs `reproduce.sh` |
 | `binder/environment.yml`, `binder/postBuild` | Binder and REMARK-tooling adapter: installs uv, then builds the environments |
 | `myst.yml`, `.github/workflows/myst-deploy.yml` | Publishes the notebooks as a website on GitHub Pages on every push to `main` |
@@ -144,7 +144,7 @@ Across the 24 cells of Table II, compared with Aiyagari's published interest rat
 
 The converged gaps are largest where income is most persistent and most volatile and households most averse to risk (σ = 0.4, ρ = 0.9, μ = 5), where Aiyagari's interest rates are lower than the converged ones. The original settings' table was closer to Aiyagari's than the converged one, by its mean gap: agreement with a published table is not evidence of accuracy.
 
-HARK and DolARK agree with each other far more closely than either agrees with Aiyagari: their interest rates differ by at most 0.017 percentage points at the low level, 0.0032 at the medium level and 0.0003 at the high level. HARK's medium level is within 0.009 percentage points of its high level in every cell. Aiyagari's saving rate is $\delta\alpha/(r + \delta)$ at his interest rate in every cell, rounded, so his table holds one number per cell.
+HARK and DolARK agree with each other far more closely than either agrees with Aiyagari: their interest rates differ by at most 0.017 percentage points at the low level, 0.0032 at the medium level and 0.00024 at the high level. HARK's medium level is within 0.009 percentage points of its high level in every cell. Aiyagari's saving rate is $\delta\alpha/(r + \delta)$ at his interest rate in every cell, rounded, so his table holds one number per cell.
 
 ### The Baseline Economy
 
@@ -183,7 +183,7 @@ solve_equilibrium(Calibration(), settings=LEVELS["high"])       # converged furt
 solve_equilibrium(Calibration(), settings=LEVELS["original"])   # version 1.1's settings, number for number
 ```
 
-`Calibration` takes any of the paper's parameters, for example `Calibration(income_standard_deviation=0.4, income_persistence=0.9, relative_risk_aversion=5)`; `Settings` takes the method's choices: the grid of HARK's rule, how the population is computed (`"histogram"` or `"simulation"`), the population's grid, and the simulation's seed. The steps of the computation are public too, for showing them one at a time: `tauchen_chain`, `make_households` (a HARK `MarkovConsumerType`), `solve_households`, `stationary_population`, `simulate`, `capital_supply` and `capital_demand`; `aiyagari1994qje.population` computes a stationary population from any toolkit's rule. The plotting functions only draw on the Axes they are given; they set no styles and neither save nor show a figure. `table_ii()` recomputes all of Table II, in about ten minutes at the medium level.
+`Calibration` takes any of the paper's parameters, for example `Calibration(income_standard_deviation=0.4, income_persistence=0.9, relative_risk_aversion=5)`; `Settings` takes the method's choices: the grid of HARK's rule, how the population is computed (`"histogram"` or `"simulation"`), the population's grid, and the simulation's seed. The steps of the computation are public too, for showing them one at a time: `tauchen_chain`, `make_households` (a HARK `MarkovConsumerType`), `solve_households`, `stationary_population`, `simulate`, `capital_supply` and `capital_demand`; `aiyagari1994qje.population` computes a stationary population from any toolkit's rule, and `eq.rule()` writes HARK's rule out as data, which `aiyagari1994qje.evaluate_rule` evaluates without HARK. The plotting functions only draw on the Axes they are given; they set no styles and neither save nor show a figure. `table_ii()` recomputes all of Table II, in about ten minutes at the medium level.
 
 The package's dependencies are ranges (`econ-ark>=0.17`, `numpy>=2`, and current `scipy`, `matplotlib` and `sympy`), so it fits into other projects' environments. With econ-ark 0.17.2 it returns exactly the notebook's numbers: CI installs it with pip on Python 3.11 to 3.14 and checks every number against `baseline/numbers.json`.
 

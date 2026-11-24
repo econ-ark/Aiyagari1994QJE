@@ -26,7 +26,7 @@ This REMARK computes the stationary equilibrium of Aiyagari's (1994) economy, in
 income risk and a borrowing limit save more than they would with complete markets, raising capital and lowering the
 interest rate. It reproduces every cell of his Table II with two toolkits, HARK's `MarkovConsumerType` and dolo with
 DolARK, given one economy, his seven-state Tauchen chain for income, and one code for the stationary population of
-households. At its most refined settings the two toolkits' interest rates agree to within 0.0003 percentage points
+households. At its most refined settings the two toolkits' interest rates agree to within 0.00024 percentage points
 across the table; Aiyagari's published values differ from both by up to 0.26 percentage points, most where income is
 persistent and volatile and households averse to risk.
 
@@ -50,7 +50,7 @@ to use; the HARK computation is also an installable Python package, `aiyagari199
 
 The [README](README.md) explains how to reproduce the results with Docker, with uv, with conda or on Binder, what
 each file is for, and how to use the package and the baseline's figures and numbers in another program. The HARK
-notebook runs in about 15 minutes and the DolARK notebook, at its default level, in about 15 more.
+notebook runs in about 15 minutes and the DolARK notebook, at its default level, in about 10 more.
 
 # For teaching
 

@@ -43,8 +43,10 @@ _EXPORTS = {
     "solve_households": "model",
     "stationary_population": "model",
     "stationary_probabilities": "model",
+    "rule_of": "model",
     "Population": "population",
     "asset_grid": "population",
+    "evaluate_rule": "rules",
 }
 
 __all__ = sorted(_EXPORTS)

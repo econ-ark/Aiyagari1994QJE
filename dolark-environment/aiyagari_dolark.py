@@ -24,6 +24,7 @@ import os
 import re
 import sys
 import tempfile
+import warnings
 
 import numpy as np
 from scipy import stats
@@ -90,7 +91,11 @@ def model_text(x, P, rule_points=200, rule_top=150.0, path=MODEL_FILE):
 
 @contextlib.contextmanager
 def _silent():
-    with contextlib.redirect_stdout(io.StringIO()):
+    # dolo prints its iterations, and its inner Newton solver warns "Did not converge" when the few steps of time
+    # iteration that start a solve end before it has; improved time iteration then finishes the solve. Whether the
+    # result is a solution is checked by each equilibrium's diagnostics, not by these messages.
+    with contextlib.redirect_stdout(io.StringIO()), warnings.catch_warnings():
+        warnings.filterwarnings("ignore", message="Did not converge")
         yield
 
 

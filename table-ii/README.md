@@ -29,7 +29,7 @@ cells ran in parallel, and their times include the contention between them.
 - **The levels converge.** HARK's medium level is within 0.009 percentage points of its high level in every cell,
   and 0.003 on average; its low level within 0.04; version 1.1's original settings within 0.13.
 - **The toolkits agree.** HARK's and DolARK's interest rates differ by at most 0.017 percentage points at the low
-  level, 0.0032 at the medium level and 0.0003 at the high level, largest in every case at σ = 0.4,
+  level, 0.0032 at the medium level and 0.00024 at the high level, largest in every case at σ = 0.4,
   ρ = 0.9, μ = 5.
 - **Aiyagari's numbers are not exact.** At the high level, HARK's interest rates differ from his by up to 0.26
   percentage points, 0.07 on average: above his where income is persistent (ρ = 0.9) and volatile, below where it is

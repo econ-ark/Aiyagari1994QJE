@@ -21,50 +21,159 @@
       1.82212
     ]
   },
-  "simulation": {
-    "households": 1000,
-    "periods": 1000,
-    "first_period_averaged": 300,
-    "last_period_averaged": 998,
-    "observations_pooled": 699000
+  "effective_member": {
+    "income_process": "Tauchen's method: 7 states, the outermost 3 unconditional standard deviations out",
+    "log_labor_endowment_by_state": [
+      -0.6000000000000001,
+      -0.4,
+      -0.2,
+      0.0,
+      0.20000000000000007,
+      0.40000000000000013,
+      0.6000000000000001
+    ],
+    "transition_matrix": [
+      [
+        0.19078695285251068,
+        0.45538281382021306,
+        0.3017489539120567,
+        0.05006114192527356,
+        0.0020016007520997996,
+        1.8498446505144095e-05,
+        3.829134109789578e-08
+      ],
+      [
+        0.05208127941521956,
+        0.3017489539120566,
+        0.4553828138202132,
+        0.1739936464040619,
+        0.01642422799417376,
+        0.00036720546226951087,
+        1.8729920056026472e-06
+      ],
+      [
+        0.008774475095738369,
+        0.12152004204107048,
+        0.419443707693304,
+        0.36569605281855155,
+        0.08023327398832314,
+        0.004279136013261464,
+        5.3312349751144517e-05
+      ],
+      [
+        0.0008890252991084335,
+        0.029507336466152993,
+        0.23558916728343912,
+        0.46802894190259886,
+        0.2355891672834391,
+        0.029507336466152993,
+        0.0008890252991084319
+      ],
+      [
+        5.33123497511445e-05,
+        0.004279136013261463,
+        0.08023327398832313,
+        0.3656960528185514,
+        0.419443707693304,
+        0.12152004204107045,
+        0.008774475095738364
+      ],
+      [
+        1.8729920056026472e-06,
+        0.00036720546226950946,
+        0.016424227994173757,
+        0.17399364640406179,
+        0.4553828138202133,
+        0.3017489539120566,
+        0.05208127941521956
+      ],
+      [
+        3.829134109789578e-08,
+        1.8498446505144095e-05,
+        0.0020016007520997996,
+        0.05006114192527356,
+        0.3017489539120568,
+        0.4553828138202131,
+        0.19078695285251057
+      ]
+    ],
+    "stationary_probabilities": [
+      0.007165480670874558,
+      0.06402863868642766,
+      0.24130663465958,
+      0.3749984919662351,
+      0.24130663465958027,
+      0.06402863868642791,
+      0.007165480670874639
+    ],
+    "mean_labor_endowment": 1.0227242846146125,
+    "standard_deviation_of_log_endowment": 0.21202085094502623,
+    "autocorrelation_of_log_endowment": 0.5988166090716087,
+    "borrowing_limit": 0.0
+  },
+  "settings": {
+    "asset_grid_points": 200,
+    "asset_grid_max": 100.0,
+    "asset_grid_min": 0.001,
+    "asset_grid_nesting": 3,
+    "asset_grid_extra": [
+      0.005,
+      0.01
+    ],
+    "population": "histogram",
+    "histogram_points": 2000,
+    "histogram_max": 300.0,
+    "histogram_curvature": 3.0,
+    "seed": 0
   },
   "equilibrium": {
-    "interest_rate": 0.0386222,
-    "saving_rate": 0.243276,
-    "saving_rate_from_capital": 0.242788,
-    "wage": 1.19504,
+    "interest_rate": 0.0387658,
+    "saving_rate": 0.242494,
+    "saving_rate_from_capital": 0.242494,
+    "wage": 1.19423,
     "labor_supply": 1.02272,
-    "capital": 5.79557,
-    "capital_per_unit_of_labor": 5.6668
+    "capital": 5.78464,
+    "capital_per_unit_of_labor": 5.6561
   },
   "complete_markets": {
     "interest_rate": 0.0416667,
     "saving_rate": 0.236712,
-    "capital": 5.57057
+    "capital": 5.57058
   },
-  "capital_relative_to_complete_markets": 1.04039,
+  "capital_relative_to_complete_markets": 1.03843,
   "wealth_distribution": {
-    "gini": 0.378924,
+    "gini": 0.389423,
     "share_of_richest": {
-      "1_percent": 0.0355529,
-      "5_percent": 0.143258,
-      "10_percent": 0.249932,
-      "20_percent": 0.421214,
-      "30_percent": 0.558613
+      "1_percent": 0.0375503,
+      "5_percent": 0.14698,
+      "10_percent": 0.255661,
+      "20_percent": 0.429517,
+      "30_percent": 0.567847
     },
-    "share_at_borrowing_constraint": 0.00260372
+    "share_at_borrowing_constraint": 0.0033599
   },
-  "average_marginal_propensity_to_consume": 0.0539284,
-  "return_patience_factor": 0.961875,
-  "perfect_foresight_marginal_propensity_to_consume": 0.0381249,
+  "average_marginal_propensity_to_consume": 0.0551543,
+  "return_patience_factor": 0.961786,
+  "perfect_foresight_marginal_propensity_to_consume": 0.0382136,
+  "diagnostics": {
+    "euler_equation_error": {
+      "mean_absolute": 1.06666e-05,
+      "largest_absolute": 0.00173787
+    },
+    "market_clearing_residual": -1.0042e-12,
+    "goods_market_residual": -1.55514e-13,
+    "share_beyond_the_rule_s_grid": 0.0,
+    "share_beyond_the_population_s_grid": 8.09012e-16
+  },
   "aiyagari_1994": {
     "interest_rate": 0.038767,
     "saving_rate": 0.2425
   },
   "definitions": {
-    "simulation": "Households are simulated for periods 0 to periods - 1; the equilibrium's averages and the statistics of the distribution use every household in first_period_averaged to last_period_averaged",
+    "effective_member": "The income process the households face: the chain that represents the AR(1) of the calibration, with its own moments, which differ from the AR(1)'s",
+    "settings": "How the economy was solved: the grid of HARK's rule (asset_grid_*, in units of the wage) and how the population was computed (population: simulation or histogram; histogram_*, its grid)",
     "equilibrium.interest_rate": "r*, the net return on capital at which households' saving equals firms' demand for capital",
-    "equilibrium.saving_rate": "1 - C/Y in the simulation, with Y = (r* + depreciation_rate) K* + W L: as the REMARK's replication of Table II computes it",
+    "equilibrium.saving_rate": "1 - C/Y in the population, with Y = (r* + depreciation_rate) K* + W L: as the REMARK's replication of Table II computes it",
     "equilibrium.saving_rate_from_capital": "δK*/Y* = depreciation_rate capital_share / (r* + depreciation_rate): gross investment over output in a steady state, as Aiyagari (1994) computes the saving rate",
     "equilibrium.wage": "W = (1 - capital_share) k*^capital_share",
     "equilibrium.labor_supply": "L, the mean labor endowment",
@@ -80,6 +189,11 @@
     "average_marginal_propensity_to_consume": "Mean slope of the consumption function at each household's market resources m = (1 + r*) a + W ℓ, annual (a period is a year)",
     "return_patience_factor": "Þ_R = (R β)^(1/relative_risk_aversion) / R, at R = 1 + r* and β = discount_factor",
     "perfect_foresight_marginal_propensity_to_consume": "1 - Þ_R, the MPC of a consumer with no income risk and no borrowing constraint",
+    "diagnostics.euler_equation_error": "ĉ/c - 1 where households hold assets, with ĉ the consumption that the Euler equation implies from the rule next period: its mean absolute value over the population and its largest",
+    "diagnostics.market_clearing_residual": "households' assets over firms' capital, minus one, at r*",
+    "diagnostics.goods_market_residual": "(1 - C/Y) - δK/Y: zero in an exact stationary equilibrium, where C + δK = Y",
+    "diagnostics.share_beyond_the_rule_s_grid": "Share of households whose market resources lie above the last point of HARK's rule, where the rule is extrapolated",
+    "diagnostics.share_beyond_the_population_s_grid": "Share of the histogram's households whose assets would lie above its grid (null for a simulation)",
     "aiyagari_1994": "Aiyagari (1994), Table II, when the calibration is one of its cells (otherwise null)"
   },
   "figures": {
