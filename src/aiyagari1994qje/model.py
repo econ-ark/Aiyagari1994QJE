@@ -58,7 +58,8 @@ class Calibration:
 
 @dataclass(frozen=True)
 class Settings:
-    """How the economy is solved. The defaults are the notebook's through version 1.1.
+    """How the economy is solved. The defaults are the medium level (LEVELS["medium"]); LEVELS["original"]
+    is the notebook's through version 1.1.
 
     asset_grid_*: the grid of end-of-period assets, above the borrowing limit and in units of the
         wage, on which HARK's endogenous grid method computes the consumption rule. HARK builds
@@ -70,13 +71,13 @@ class Settings:
         asset_grid(histogram_max, histogram_points, histogram_curvature).
     """
 
-    asset_grid_points: int = 48
-    asset_grid_max: float = 20.0
+    asset_grid_points: int = 200
+    asset_grid_max: float = 100.0
     asset_grid_min: float = 0.001
     asset_grid_nesting: int = 3
     asset_grid_extra: tuple = (0.005, 0.01)
-    population: str = "simulation"
-    histogram_points: int = 3000
+    population: str = "histogram"
+    histogram_points: int = 2000
     histogram_max: float = 300.0
     histogram_curvature: float = 3.0
 
@@ -90,10 +91,10 @@ class Settings:
 # low, medium and high refine the rule's grid and compute the population as a histogram; the equilibrium
 # converges as the level rises.
 LEVELS = {
-    "original": Settings(),
-    "low": Settings(asset_grid_points=100, asset_grid_max=100.0, population="histogram", histogram_points=1000),
-    "medium": Settings(asset_grid_points=200, asset_grid_max=100.0, population="histogram", histogram_points=2000),
-    "high": Settings(asset_grid_points=800, asset_grid_max=200.0, population="histogram", histogram_points=3000),
+    "original": Settings(asset_grid_points=48, asset_grid_max=20.0, population="simulation"),
+    "low": Settings(asset_grid_points=100, asset_grid_max=100.0, histogram_points=1000),
+    "medium": Settings(),
+    "high": Settings(asset_grid_points=800, asset_grid_max=200.0, histogram_points=3000),
 }
 
 
@@ -144,7 +145,7 @@ def make_households(calibration, chain=None, settings=None):
     rate, replays the same shocks.
 
     chain: (x, P) from tauchen_chain; by default, the calibration's.
-    settings: a Settings; by default, the notebook's through version 1.1.
+    settings: a Settings; by default, the medium level.
     """
     cal, s = calibration, settings or Settings()
     x, P = chain if chain is not None else _chain(cal)
@@ -212,10 +213,14 @@ def solve_households(households, r):
 
 
 def simulate(households, r):
-    """Solve the households' problem at net interest rate r, then simulate them; the paths are in households.history."""
+    """Solve the households' problem at net interest rate r, then simulate them; the paths are in households.history.
+
+    The first simulation of households made without a shock history draws one, which later simulations replay."""
     households.Rfree = [np.array(households.MrkvArray[0].shape[0] * [1 + r])]
     households.solve()
     with _quiet():
+        if not households.read_shocks:
+            households.make_shock_history()
         households.initialize_sim()
         households.simulate()
     return households
@@ -302,8 +307,8 @@ def solve_equilibrium(calibration=None, verbose=False, settings=None):
     """The stationary equilibrium: the interest rate at which households' saving equals firms' demand for capital.
 
     Brent's method on the gap between an assumed interest factor R and the one implied by the
-    capital the households then hold, as in the notebook. With the original settings, about ten
-    seconds; with LEVELS["high"], about a minute.
+    capital the households then hold, as in the notebook. At the default, medium level, about half
+    a minute; at LEVELS["high"], about a minute; with LEVELS["original"], about ten seconds.
     """
     cal, s = calibration or Calibration(), settings or Settings()
     households = make_households(cal, settings=s)
@@ -347,10 +352,12 @@ class Equilibrium:
     calibration: Calibration
     interest_factor: float  # R* = 1 + r*
     households: MarkovConsumerType = field(repr=False)  # solved at R*, with the simulation at R* in households.history
-    settings: Settings = field(default_factory=Settings)
+    settings: Settings = None  # by default, the households'
     population: Population = field(default=None, repr=False)  # the stationary population, when it is a histogram
 
     def __post_init__(self):
+        if self.settings is None:
+            self.settings = getattr(self.households, "settings", None) or LEVELS["original"]
         cal = self.calibration
         x, self.transition_matrix = _chain(cal)
         self.labor_endowments = np.exp(x)
@@ -533,8 +540,8 @@ class Equilibrium:
 
 
 def table_ii(verbose=False, settings=None):
-    """Interest rate and saving rate (1 - C/Y), in percent, for each cell of Aiyagari's Table II; about 3.5
-    minutes with the original settings.
+    """Interest rate and saving rate (1 - C/Y), in percent, for each cell of Aiyagari's Table II: about ten
+    minutes at the default, medium level, and 3.5 with LEVELS["original"].
 
     Returns {(σ, ρ, μ): (interest rate, saving rate)}, with the keys of AIYAGARI_TABLE_II.
     """
