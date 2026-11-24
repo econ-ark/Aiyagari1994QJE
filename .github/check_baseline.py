@@ -2,7 +2,8 @@
 #
 #   python .github/check_baseline.py [--numbers-only] <committed baseline dir> <regenerated baseline dir>
 #
-# Fails if a number in numbers.json differs by more than 1e-4 relative, or (without
+# Fails if a number in numbers.json differs by more than 1e-4 relative and 1e-9 absolute (the
+# absolute tolerance is for numbers that are zero up to round-off, such as a residual), or (without
 # --numbers-only) if any pixel of a PNG differs or a file is missing. Then lists the files
 # whose bytes differ, without failing: the pixels are platform-independent, but the PNG
 # compression (and so the file bytes) can vary with the zlib that wrote the file.
@@ -22,7 +23,7 @@ def compare_numbers(a, b, path=""):
         for i, (x, y) in enumerate(zip(a, b)):
             yield from compare_numbers(x, y, f"{path}[{i}]")
     elif isinstance(a, float) and isinstance(b, float):
-        if not math.isclose(a, b, rel_tol=1e-4):
+        if not math.isclose(a, b, rel_tol=1e-4, abs_tol=1e-9):
             yield f"numbers.json{path}: committed {a}, regenerated {b}"
     elif a != b:
         yield f"numbers.json{path}: committed {a!r}, regenerated {b!r}"

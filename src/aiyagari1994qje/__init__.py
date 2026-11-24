@@ -10,52 +10,55 @@ a matplotlib Axes and do nothing else.
 
 The computation of the REMARK econ-ark/Aiyagari1994QJE: for the same calibration it
 returns the numbers its notebook writes to baseline/numbers.json.
+
+Each name is imported from its module when it is first used, so that a module that needs
+no HARK, such as aiyagari1994qje.population, can be imported where HARK is not installed.
 """
 
-from aiyagari1994qje.figures import (
-    US_WEALTH_LORENZ,
-    plot_capital_market,
-    plot_consumption_functions,
-    plot_wealth_lorenz,
-    supply_rates,
-)
-from aiyagari1994qje.model import (
-    AIYAGARI_TABLE_II,
-    Calibration,
-    Equilibrium,
-    average_assets,
-    capital_demand,
-    capital_per_unit_of_labor,
-    capital_supply,
-    interest_rate,
-    labor_supply,
-    make_households,
-    simulate,
-    solve_equilibrium,
-    table_ii,
-    tauchen_chain,
-    wage,
-)
+import importlib
 
-__all__ = [
-    "AIYAGARI_TABLE_II",
-    "Calibration",
-    "Equilibrium",
-    "US_WEALTH_LORENZ",
-    "average_assets",
-    "capital_demand",
-    "capital_per_unit_of_labor",
-    "capital_supply",
-    "interest_rate",
-    "labor_supply",
-    "make_households",
-    "plot_capital_market",
-    "plot_consumption_functions",
-    "plot_wealth_lorenz",
-    "simulate",
-    "solve_equilibrium",
-    "supply_rates",
-    "table_ii",
-    "tauchen_chain",
-    "wage",
-]
+_EXPORTS = {
+    "US_WEALTH_LORENZ": "figures",
+    "plot_capital_market": "figures",
+    "plot_consumption_functions": "figures",
+    "plot_wealth_lorenz": "figures",
+    "supply_rates": "figures",
+    "AIYAGARI_TABLE_II": "model",
+    "Calibration": "model",
+    "Equilibrium": "model",
+    "average_assets": "model",
+    "capital_demand": "model",
+    "capital_per_unit_of_labor": "model",
+    "capital_supply": "model",
+    "interest_rate": "model",
+    "labor_supply": "model",
+    "make_households": "model",
+    "simulate": "model",
+    "solve_equilibrium": "model",
+    "table_ii": "model",
+    "tauchen_chain": "model",
+    "wage": "model",
+    "LEVELS": "model",
+    "Settings": "model",
+    "solve_households": "model",
+    "stationary_population": "model",
+    "stationary_probabilities": "model",
+    "rule_of": "model",
+    "Population": "population",
+    "asset_grid": "population",
+    "evaluate_rule": "rules",
+}
+
+__all__ = sorted(_EXPORTS)
+
+
+def __getattr__(name):
+    if name in _EXPORTS:
+        value = getattr(importlib.import_module(f"aiyagari1994qje.{_EXPORTS[name]}"), name)
+        globals()[name] = value
+        return value
+    raise AttributeError(f"module 'aiyagari1994qje' has no attribute {name!r}")
+
+
+def __dir__():
+    return sorted(set(globals()) | set(__all__))

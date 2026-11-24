@@ -1,0 +1,175 @@
+{
+ "description": "Aiyagari (1994), Table II: the net return to capital and the aggregate saving rate, in percent, for each standard deviation σ and persistence ρ of log labor endowment and relative risk aversion μ",
+ "source": "S. Rao Aiyagari (1994), \"Uninsured Idiosyncratic Risk and Aggregate Saving\", Quarterly Journal of Economics 109(3), 659-684, Table II (doi:10.2307/2118417)",
+ "note": "Every saving rate is 100 δα/(r + δ) at the table's interest rate r, rounded, with α = 0.36 and δ = 0.08: the table holds one number per cell",
+ "cells": [
+  {
+   "sigma": 0.2,
+   "rho": 0.0,
+   "mu": 1,
+   "interest_rate_percent": 4.1666,
+   "saving_rate_percent": 23.67
+  },
+  {
+   "sigma": 0.2,
+   "rho": 0.0,
+   "mu": 3,
+   "interest_rate_percent": 4.1456,
+   "saving_rate_percent": 23.71
+  },
+  {
+   "sigma": 0.2,
+   "rho": 0.0,
+   "mu": 5,
+   "interest_rate_percent": 4.0858,
+   "saving_rate_percent": 23.83
+  },
+  {
+   "sigma": 0.2,
+   "rho": 0.3,
+   "mu": 1,
+   "interest_rate_percent": 4.1365,
+   "saving_rate_percent": 23.73
+  },
+  {
+   "sigma": 0.2,
+   "rho": 0.3,
+   "mu": 3,
+   "interest_rate_percent": 4.0432,
+   "saving_rate_percent": 23.91
+  },
+  {
+   "sigma": 0.2,
+   "rho": 0.3,
+   "mu": 5,
+   "interest_rate_percent": 3.9054,
+   "saving_rate_percent": 24.19
+  },
+  {
+   "sigma": 0.2,
+   "rho": 0.6,
+   "mu": 1,
+   "interest_rate_percent": 4.0912,
+   "saving_rate_percent": 23.82
+  },
+  {
+   "sigma": 0.2,
+   "rho": 0.6,
+   "mu": 3,
+   "interest_rate_percent": 3.8767,
+   "saving_rate_percent": 24.25
+  },
+  {
+   "sigma": 0.2,
+   "rho": 0.6,
+   "mu": 5,
+   "interest_rate_percent": 3.5857,
+   "saving_rate_percent": 24.86
+  },
+  {
+   "sigma": 0.2,
+   "rho": 0.9,
+   "mu": 1,
+   "interest_rate_percent": 3.9305,
+   "saving_rate_percent": 24.14
+  },
+  {
+   "sigma": 0.2,
+   "rho": 0.9,
+   "mu": 3,
+   "interest_rate_percent": 3.2903,
+   "saving_rate_percent": 25.51
+  },
+  {
+   "sigma": 0.2,
+   "rho": 0.9,
+   "mu": 5,
+   "interest_rate_percent": 2.526,
+   "saving_rate_percent": 27.36
+  },
+  {
+   "sigma": 0.4,
+   "rho": 0.0,
+   "mu": 1,
+   "interest_rate_percent": 4.0649,
+   "saving_rate_percent": 23.87
+  },
+  {
+   "sigma": 0.4,
+   "rho": 0.0,
+   "mu": 3,
+   "interest_rate_percent": 3.7816,
+   "saving_rate_percent": 24.44
+  },
+  {
+   "sigma": 0.4,
+   "rho": 0.0,
+   "mu": 5,
+   "interest_rate_percent": 3.4177,
+   "saving_rate_percent": 25.22
+  },
+  {
+   "sigma": 0.4,
+   "rho": 0.3,
+   "mu": 1,
+   "interest_rate_percent": 3.9554,
+   "saving_rate_percent": 24.09
+  },
+  {
+   "sigma": 0.4,
+   "rho": 0.3,
+   "mu": 3,
+   "interest_rate_percent": 3.4188,
+   "saving_rate_percent": 25.22
+  },
+  {
+   "sigma": 0.4,
+   "rho": 0.3,
+   "mu": 5,
+   "interest_rate_percent": 2.8032,
+   "saving_rate_percent": 26.66
+  },
+  {
+   "sigma": 0.4,
+   "rho": 0.6,
+   "mu": 1,
+   "interest_rate_percent": 3.7567,
+   "saving_rate_percent": 24.5
+  },
+  {
+   "sigma": 0.4,
+   "rho": 0.6,
+   "mu": 3,
+   "interest_rate_percent": 2.7835,
+   "saving_rate_percent": 26.71
+  },
+  {
+   "sigma": 0.4,
+   "rho": 0.6,
+   "mu": 5,
+   "interest_rate_percent": 1.807,
+   "saving_rate_percent": 29.37
+  },
+  {
+   "sigma": 0.4,
+   "rho": 0.9,
+   "mu": 1,
+   "interest_rate_percent": 3.3054,
+   "saving_rate_percent": 25.47
+  },
+  {
+   "sigma": 0.4,
+   "rho": 0.9,
+   "mu": 3,
+   "interest_rate_percent": 1.2894,
+   "saving_rate_percent": 31.0
+  },
+  {
+   "sigma": 0.4,
+   "rho": 0.9,
+   "mu": 5,
+   "interest_rate_percent": -0.3456,
+   "saving_rate_percent": 37.63
+  }
+ ]
+}
