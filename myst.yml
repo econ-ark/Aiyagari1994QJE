@@ -16,7 +16,9 @@ project:
     - file: table-ii/README.md
 
 site:
-  template: article-theme
+  # article-theme v1.4.1, pinned: since its version 2 (November 2026), `myst build --html`
+  # fails inside the theme's server, with any mystmd from 1.11.0 to 1.14.0.
+  template: https://github.com/myst-templates/article-theme/archive/4acce1eba558b301c2aadca99a7804aa6e294e1e.zip
   # options:
   #   favicon: favicon.ico
   #   logo: site_logo.png
