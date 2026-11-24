@@ -4,7 +4,7 @@
 # AiyagariDolARK.ipynb reads this file, puts in each Table II cell's income chain and parameters, and
 # solves the economy; see the notebook for what each part means.
 #
-# What changed in version 1.2, each of which moved Table II (the notebook says by how much):
+# What changed in version 2.0, each of which moved Table II (the notebook says by how much):
 #   - the Euler equation is the CRRA one, 1 - β(1+r') (c'/c)^(-θ). Until then it was written
 #     1 - (β(1+r'))^(1/θ) c/c', which is the same equation only when θ = 1;
 #   - the income process is Aiyagari's own seven-state Tauchen chain, written out below for the baseline
