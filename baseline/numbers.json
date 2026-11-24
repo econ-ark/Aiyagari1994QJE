@@ -98,17 +98,17 @@
       ]
     ],
     "stationary_probabilities": [
-      0.007165480670874558,
-      0.06402863868642766,
-      0.24130663465958,
+      0.007165480670874584,
+      0.06402863868642776,
+      0.2413066346595799,
       0.3749984919662351,
-      0.24130663465958027,
-      0.06402863868642791,
-      0.007165480670874639
+      0.2413066346595802,
+      0.0640286386864279,
+      0.007165480670874641
     ],
-    "mean_labor_endowment": 1.0227242846146125,
-    "standard_deviation_of_log_endowment": 0.21202085094502623,
-    "autocorrelation_of_log_endowment": 0.5988166090716087,
+    "mean_labor_endowment": 1.0227242846146123,
+    "standard_deviation_of_log_endowment": 0.21202085094502626,
+    "autocorrelation_of_log_endowment": 0.5988166090716088,
     "borrowing_limit": 0.0
   },
   "settings": {
@@ -160,10 +160,10 @@
       "mean_absolute": 1.06666e-05,
       "largest_absolute": 0.00173787
     },
-    "market_clearing_residual": -1.0042e-12,
-    "goods_market_residual": -1.55514e-13,
+    "market_clearing_residual": -9.60676e-13,
+    "goods_market_residual": -1.48853e-13,
     "share_beyond_the_rule_s_grid": 0.0,
-    "share_beyond_the_population_s_grid": 8.09012e-16
+    "share_beyond_the_population_s_grid": 1.02748e-15
   },
   "aiyagari_1994": {
     "interest_rate": 0.038767,

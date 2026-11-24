@@ -193,7 +193,15 @@ The saving rate comes two ways. `saving_rate_from_capital` is δK/Y = δα/(r + 
 
 The files in `baseline/` are committed, so other documents can also use them directly, without installing anything. To keep a document from changing when this repository does, link a specific commit rather than a branch or a tag, for example `https://raw.githubusercontent.com/econ-ark/Aiyagari1994QJE/<commit>/baseline/capital-supply-demand.png`. `numbers.json` records the calibration, the settings and the chain solved, and defines every number.
 
-The committed files are those the Docker image writes. They carry no timestamps or version stamps, so rerunning the notebook on the same platform rewrites every file byte for byte. On another platform the numbers, the SVG files and every pixel of the PNG files come out the same, but the PNG files' bytes can differ, because the compression depends on the zlib library that writes them. On every release, the full CI run regenerates `baseline/` in Docker and checks the numbers and pixels against the committed files with `.github/check_baseline.py`.
+The committed files are those the Docker image writes. They carry no timestamps or version stamps, so rerunning the notebook on the same machine rewrites every file byte for byte. On another machine the SVG files and every pixel of the PNG files come out the same. Two kinds of bytes can differ:
+- **the PNG files' bytes**, because the compression depends on the zlib library that writes them;
+- **the last digit or two of some numbers in `numbers.json`**, because the linear algebra library chooses its routines by processor, inside the Docker image or out.
+
+Version 2.0's image, run on a 2012 Intel Xeon, wrote figures byte for byte the same as a native run on a 2022 Intel Core. Its numbers were the same to the last digit, with two exceptions:
+- the chain's stationary probabilities and the moments computed from them, which differed by at most 4 parts in 10^15;
+- three diagnostics that are zero up to round-off.
+
+On every release, the full CI run regenerates `baseline/` in Docker and checks the numbers, to a relative tolerance of 1e-4, and the pixels against the committed files with `.github/check_baseline.py`.
 
 ## The Results of Record
 
@@ -241,7 +249,7 @@ Still open for such a comparison: whether its canonical income process is the AR
 
 ### System Requirements
 
-- Version 1.1 was tested on macOS (Apple silicon), with uv and through the conda adapter, and on Linux through the `Dockerfile`; version 2.0 was run on Linux (x86-64) with uv, and CI builds its Docker image on every push and runs it on release tags. Run times quoted are for one core of a recent machine; Binder's machines are slower and vary
+- Version 1.1 was tested on macOS (Apple silicon), with uv and through the conda adapter, and on Linux through the `Dockerfile`; version 2.0 was run on Linux (x86-64) with uv and through the `Dockerfile`, and CI builds its Docker image on every push and runs it on release tags. Run times quoted are for one core of a recent machine; Binder's machines are slower and vary
 - About 1.4 GB of disk for the two environments, plus about 100 MB for Python 3.14.7 if uv downloads it
 - The Jupyter kernels are registered single-threaded (`OMP_NUM_THREADS=1` and similar). With a thread per core, the DolARK notebook ran nearly three times slower on a Mac and did not finish in an hour on Binder, whose sessions get one CPU but see every core of the host
 - `table-ii/record.py` solves the 24 cells in parallel, one core each; dolo's high level needs about 2 GB of memory per process
