@@ -134,7 +134,7 @@ class Economy:
     def rule(self, K):
         """dolo's rule at the prices that go with K: end-of-period assets i(j, a) for state j and beginning-of-period
         assets a. Each solve starts from the last rule; where improved time iteration fails, plain time iteration
-        takes over."""
+        takes over, from the last rule and then from the model file's."""
         dp = inject_process(np.array(self.prices(K)), self.hmodel.model.exogenous)
         nodes = self.hmodel.model.endo_grid.nodes
         finite = lambda rule: rule is not None and all(np.all(np.isfinite(rule(j, nodes))) for j in range(len(self.x)))
@@ -145,10 +145,16 @@ class Economy:
                 dr = improved_time_iteration(self.hmodel.model, dr0=dr, dprocess=dp, verbose=False, interp_method="linear").dr
             except Exception:
                 dr = None
-            if not finite(dr):
-                dr = time_iteration(self.hmodel.model, dr0=self._rule, dprocess=dp, verbose=False, maxit=2000,
-                                    interp_method="linear").dr
-                dr = improved_time_iteration(self.hmodel.model, dr0=dr, dprocess=dp, verbose=False, interp_method="linear").dr
+            for start in (self._rule, None):  # time iteration from the last rule, then from the model file's
+                if finite(dr):
+                    break
+                try:
+                    dr = time_iteration(self.hmodel.model, dr0=start, dprocess=dp, verbose=False, maxit=2000,
+                                        interp_method="linear").dr
+                    dr = improved_time_iteration(self.hmodel.model, dr0=dr, dprocess=dp, verbose=False,
+                                                 interp_method="linear").dr
+                except Exception:
+                    dr = None
         if not finite(dr):
             raise RuntimeError(f"dolo found no rule at K = {K}")
         self._rule = dr
@@ -167,7 +173,7 @@ class Economy:
         excess = lambda K: self.population(K).mean_assets - K
         r_low = ϑ - 0.02
         while excess(self.capital_demand(r_low)) > 0:  # households still hold too much: the rate is lower still
-            r_low -= 0.01
+            r_low -= 0.005
         K = brentq(excess, self.capital_demand(ϑ - 1e-5), self.capital_demand(r_low), xtol=xtol)
         return self.describe(K)
 

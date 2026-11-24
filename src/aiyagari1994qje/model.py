@@ -69,6 +69,7 @@ class Settings:
         periods; or "histogram", the stationary distribution on a grid of its own (population.py):
         histogram_points points from 0 to histogram_max, in units of the wage, spaced as
         asset_grid(histogram_max, histogram_points, histogram_curvature).
+    seed: the simulation's random seed (HARK's default is 0).
     """
 
     asset_grid_points: int = 200
@@ -80,6 +81,7 @@ class Settings:
     histogram_points: int = 2000
     histogram_max: float = 300.0
     histogram_curvature: float = 3.0
+    seed: int = 0
 
     def __post_init__(self):
         if self.population not in ("simulation", "histogram"):
@@ -167,6 +169,7 @@ def make_households(calibration, chain=None, settings=None):
         aXtraNestFac=s.asset_grid_nesting,
         aXtraCount=s.asset_grid_points,
         BoroCnstArt=0.0,  # no borrowing
+        seed=s.seed,
         CubicBool=False,
         vFuncBool=False,
         global_markov=False,

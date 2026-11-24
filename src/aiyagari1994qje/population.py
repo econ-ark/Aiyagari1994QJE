@@ -122,24 +122,27 @@ class Population:
         nu = self.arriving_mass
         return float(nu[self.next_values <= level].sum())
 
-    def lorenz_curve(self, points=1001):
-        """Population shares (poorest first) and the share of assets they hold."""
+    def _lorenz_points(self):
+        # The Lorenz curve is linear between these points: the population and the assets held, poorest first,
+        # cumulated over the grid. Where a grid point has no mass, two points coincide, which interpolation allows.
         w, a = self.asset_mass, self.grid
         population = np.concatenate(([0.0], np.cumsum(w)))
         wealth = np.concatenate(([0.0], np.cumsum(w * a))) / (w @ a)
+        return population / population[-1], wealth
+
+    def lorenz_curve(self, points=1001):
+        """Population shares (poorest first) and the share of assets they hold."""
+        population, wealth = self._lorenz_points()
         shares = np.linspace(0, 1, points)
-        return shares, np.interp(shares, population / population[-1], wealth)
+        return shares, np.interp(shares, population, wealth)
 
     @property
     def gini(self):
-        """Gini coefficient of end-of-period assets: one minus twice the area under the Lorenz curve,
-        which is piecewise linear between the grid's points."""
-        w, a = self.asset_mass, self.grid
-        population = np.concatenate(([0.0], np.cumsum(w)))
-        wealth = np.concatenate(([0.0], np.cumsum(w * a))) / (w @ a)
+        """Gini coefficient of end-of-period assets: one minus twice the area under the Lorenz curve."""
+        population, wealth = self._lorenz_points()
         return float(1.0 - np.sum(np.diff(population) * (wealth[1:] + wealth[:-1])))
 
     def share_of_richest(self, fraction):
         """Share of assets held by the richest fraction of households."""
-        shares, lorenz = self.lorenz_curve(points=200001)
-        return float(1.0 - np.interp(1.0 - fraction, shares, lorenz))
+        population, wealth = self._lorenz_points()
+        return float(1.0 - np.interp(1.0 - fraction, population, wealth))
