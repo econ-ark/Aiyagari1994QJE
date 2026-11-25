@@ -120,6 +120,7 @@
       0.005,
       0.01
     ],
+    "cubic_interpolation": false,
     "population": "histogram",
     "histogram_points": 2000,
     "histogram_max": 300.0,
@@ -160,10 +161,10 @@
       "mean_absolute": 1.06666e-05,
       "largest_absolute": 0.00173787
     },
-    "market_clearing_residual": -9.60676e-13,
-    "goods_market_residual": -1.48853e-13,
+    "market_clearing_residual": -9.73333e-13,
+    "goods_market_residual": -1.51046e-13,
     "share_beyond_the_rule_s_grid": 0.0,
-    "share_beyond_the_population_s_grid": 1.02748e-15
+    "share_beyond_the_population_s_grid": 6.03052e-194
   },
   "aiyagari_1994": {
     "interest_rate": 0.038767,
@@ -171,7 +172,7 @@
   },
   "definitions": {
     "effective_member": "The income process the households face: the chain that represents the AR(1) of the calibration, with its own moments, which differ from the AR(1)'s",
-    "settings": "How the economy was solved: the grid of HARK's rule (asset_grid_*, in units of the wage) and how the population was computed (population: simulation or histogram; histogram_*, its grid)",
+    "settings": "How the economy was solved: the grid of HARK's rule (asset_grid_*, in units of the wage), whether the rule is interpolated cubically or linearly (cubic_interpolation) and how the population was computed (population: simulation or histogram; histogram_*, its grid)",
     "equilibrium.interest_rate": "r*, the net return on capital at which households' saving equals firms' demand for capital",
     "equilibrium.saving_rate": "1 - C/Y in the population, with Y = (r* + depreciation_rate) K* + W L: as the REMARK's replication of Table II computes it",
     "equilibrium.saving_rate_from_capital": "δK*/Y* = depreciation_rate capital_share / (r* + depreciation_rate): gross investment over output in a steady state, as Aiyagari (1994) computes the saving rate",

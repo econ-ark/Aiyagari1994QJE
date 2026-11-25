@@ -31,6 +31,12 @@ cells ran in parallel, and their times include the contention between them.
 - **The toolkits agree.** HARK's and DolARK's interest rates differ by at most 0.017 percentage points at the low
   level, 0.0032 at the medium level and 0.00024 at the high level, largest in every case at σ = 0.4,
   ρ = 0.9, μ = 5.
+- **Their agreement is not their accuracy.** Measured against a solution independent of both
+  (`src/aiyagari1994qje/reference.py`) at fixed prices in three cells, both toolkits' medium levels understate the
+  interest rate by about the same amount: 0.0018 percentage points at the baseline.
+  - In the riskiest cell, HARK understates it by 0.0076 and DolARK by 0.0043.
+  - At the high level the errors are under 0.0005.
+  - The cause is linear interpolation of the rule, which both use (`docs/model.md`, "A register of conventions").
 - **Aiyagari's numbers are not exact.** At the high level, HARK's interest rates differ from his by up to 0.26
   percentage points, 0.07 on average: above his where income is persistent (ρ = 0.9) and volatile, below where it is
   not (ρ = 0, σ = 0.2). His saving rates are δα/(r + δ) at his interest rates, rounded, in every cell.
@@ -39,8 +45,18 @@ cells ran in parallel, and their times include the contention between them.
 
 ## What they do not establish
 
-- **That the high level is the exact solution.** It is the most refined level computed. The two toolkits' agreement
-  bounds the error that their rules contribute; both use the same population code, so its own error is common to
-  them and is bounded only by its convergence across levels.
+- **That the high level is the exact solution.** It is the most refined level computed.
+  - The reference solution puts each toolkit's high level within 0.0005 percentage points, in the three cells where
+    it has been compared.
+  - Both toolkits use the same population code, so its own error is common to them. At its grids it is about 0.0001
+    at the medium level, measured against finer grids.
+- **The share at the borrowing limit at σ = 0.2, ρ = 0.9, μ = 3, in HARK's records.** That share is a knife edge in
+  this cell (`docs/model.md`).
+  - The reference gives 2.73 percent; DolARK's high level has 2.70.
+  - HARK's records (about 1.57 at every level) and DolARK's medium level (1.51) leave out the 1.1 percent of
+    households who have no assets and are in the third-lowest income state.
+- **DolARK's share at the limit, as the code now counts it.** These records counted a household at the limit if its
+  assets were at most 1e-8. The code now counts at most zero, as HARK does. The records have not been rewritten
+  since.
 - **Why Aiyagari's numbers differ.** That would need his code and his grids; it is not in the paper.
 - **Anything about the AR(1) economy.** Every cell is the seven-state chain's economy, as Aiyagari's table is.
