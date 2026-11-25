@@ -104,8 +104,9 @@ class Economy:
     persistence; mu, relative risk aversion. The other parameters are the model file's: β = 0.96, α = 0.36,
     δ = 0.08, and no borrowing."""
 
-    def __init__(self, sigma=0.2, rho=0.6, mu=3, level="medium", chain=None):
+    def __init__(self, sigma=0.2, rho=0.6, mu=3, level="medium", chain=None, restore_kink=False):
         self.sigma, self.rho, self.mu, self.level = sigma, rho, mu, level
+        self.restore_kink = restore_kink  # see next_assets
         self.settings = LEVELS[level] if isinstance(level, str) else dict(level)
         self.x, self.P = chain if chain is not None else tauchen_chain(7, rho, sigma, 3.0)
         self.pi = stationary_probabilities(self.P)
@@ -138,37 +139,68 @@ class Economy:
     # ---- the household
     def rule(self, K):
         """dolo's rule at the prices that go with K: end-of-period assets i(j, a) for state j and beginning-of-period
-        assets a. Each solve starts from the last rule; where improved time iteration fails, plain time iteration
-        takes over, from the last rule and then from the model file's."""
+        assets a. Each solve is a few steps of time iteration from the last rule, then improved time iteration. A
+        solve counts only if improved time iteration reports convergence (its residual below its tolerance, 1e-8, at
+        every node): when it does not, dolo returns its last iterate without an error, so the flag is checked. Where
+        a solve fails, plain time iteration takes over, from the last rule and then from the model file's."""
         dp = inject_process(np.array(self.prices(K)), self.hmodel.model.exogenous)
         nodes = self.hmodel.model.endo_grid.nodes
-        finite = lambda rule: rule is not None and all(np.all(np.isfinite(rule(j, nodes))) for j in range(len(self.x)))
-        with _silent():
+        finite = lambda rule: all(np.all(np.isfinite(rule(j, nodes))) for j in range(len(self.x)))
+
+        def solve(start, steps):
             try:
-                dr = time_iteration(self.hmodel.model, dr0=self._rule, dprocess=dp, verbose=False,
-                                    maxit=10 if self._rule is None else 3, interp_method="linear").dr
-                dr = improved_time_iteration(self.hmodel.model, dr0=dr, dprocess=dp, verbose=False, interp_method="linear").dr
+                dr = time_iteration(self.hmodel.model, dr0=start, dprocess=dp, verbose=False, maxit=steps,
+                                    interp_method="linear").dr
+                result = improved_time_iteration(self.hmodel.model, dr0=dr, dprocess=dp, verbose=False,
+                                                 interp_method="linear")
             except Exception:
-                dr = None
+                return None
+            return result.dr if result.x_converged and finite(result.dr) else None
+
+        with _silent():
+            dr = solve(self._rule, 10 if self._rule is None else 3)
             for start in (self._rule, None):  # time iteration from the last rule, then from the model file's
-                if finite(dr):
+                if dr is not None:
                     break
-                try:
-                    dr = time_iteration(self.hmodel.model, dr0=start, dprocess=dp, verbose=False, maxit=2000,
-                                        interp_method="linear").dr
-                    dr = improved_time_iteration(self.hmodel.model, dr0=dr, dprocess=dp, verbose=False,
-                                                 interp_method="linear").dr
-                except Exception:
-                    dr = None
-        if not finite(dr):
-            raise RuntimeError(f"dolo found no rule at K = {K}")
+                dr = solve(start, 2000)
+        if dr is None:
+            raise RuntimeError(f"dolo found no converged rule at K = {K}")
         self._rule = dr
         return dr
 
+    def next_assets(self, dr=None):
+        """The rule as the population and the statistics use it: next_assets(a, j) for an array a of beginning-of-
+        period assets. With restore_kink, the rule's kink is put back where it belongs: dolo's rule is linear
+        between fixed nodes, so between the last node at which the limit binds and the first at which households
+        save, it has them save a little where the rule saves nothing. In each income state the first saving
+        segment is extended down to the limit, and below its first node the rule is the larger of that line and
+        the limit. This changes the share at the limit (about fivefold closer to the reference solution at the
+        medium level), not the interest rate."""
+        dr = dr if dr is not None else self._rule
+        plain = lambda a, j: dr(j, np.asarray(a, dtype=float)[:, None])[:, 0]
+        if not self.restore_kink:
+            return plain
+        nodes = self.hmodel.model.endo_grid.nodes[:, 0]
+        B = float(self.hmodel.model.calibration["parameters"][self.hmodel.model.symbols["parameters"].index("B")])
+        lines = []
+        for j in range(len(self.x)):
+            saved = plain(nodes, j)
+            k1 = int(np.nonzero(saved + B > 1e-12)[0][0])
+            lines.append(None if k1 == 0 else
+                         (nodes[k1], (saved[k1 + 1] - saved[k1]) / (nodes[k1 + 1] - nodes[k1]), saved[k1]))
+
+        def restored(a, j):
+            a = np.asarray(a, dtype=float)
+            i = plain(a, j)
+            if lines[j] is None:
+                return i
+            a1, slope, i1 = lines[j]
+            return np.where(a < a1, np.maximum(-B, i1 + slope * (a - a1)), i)
+        return restored
+
     def population(self, K):
         """The stationary population at the prices that go with K, from dolo's rule."""
-        dr = self.rule(K)
-        return Population(lambda a, j: dr(j, a[:, None])[:, 0], self.P, self.population_grid)
+        return Population(self.next_assets(self.rule(K)), self.P, self.population_grid)
 
     # ---- the equilibrium
     def equilibrium(self, xtol=1e-10):
@@ -184,11 +216,11 @@ class Economy:
 
     def describe(self, K):
         pop, (r, w) = self.population(K), self.prices(K)
-        dr, R, income = self._rule, 1 + r, w * np.exp(self.x)
+        f, R, income = self.next_assets(), 1 + r, w * np.exp(self.x)
         α, δ = self.alpha, self.delta
-        consumption = lambda a, j: R * a + income[j] - dr(j, a[:, None])[:, 0]
+        consumption = lambda a, j: R * a + income[j] - f(a, j)
         h = 1e-7
-        mpc = lambda a, j: 1 - (dr(j, a[:, None] + h)[:, 0] - dr(j, a[:, None])[:, 0]) / (h * R)
+        mpc = lambda a, j: 1 - (f(a + h, j) - f(a, j)) / (h * R)
         C, A = pop.mean_over_arrivals(consumption), pop.mean_assets
         Y = K**α * self.L ** (1 - α)
         Kc = self.capital_demand(1 / self.beta - 1)  # with complete markets, r is the time-preference rate
@@ -203,12 +235,12 @@ class Economy:
         saved = np.empty(a.size)
         for s in range(len(self.x)):
             sel = j == s
-            saved[sel] = dr(s, a[sel][:, None])[:, 0]
+            saved[sel] = f(a[sel], s)
             c[sel] = R * a[sel] + income[s] - saved[sel]
         held = saved > 1e-8
         expected = np.zeros(a.size)
         for s_next in range(len(self.x)):
-            c_next = R * saved + income[s_next] - dr(s_next, saved[:, None])[:, 0]
+            c_next = R * saved + income[s_next] - f(saved, s_next)
             expected += self.P[j, s_next] * c_next ** (-self.mu)
         error = (self.beta * R * expected) ** (-1 / self.mu) / c - 1
         weight_held = weight[held] / weight[held].sum()
@@ -219,7 +251,10 @@ class Economy:
             "saving_rate": 1 - C / ((r + δ) * A + w * self.L),
             "saving_rate_from_capital": δ * K / Y,
             "gini": pop.gini, "share_of_richest": shares,
-            "share_at_borrowing_constraint": pop.mass_at_or_below(1e-8),
+            # households whose end-of-period assets are at the limit, -B = -1e-10: a' <= 0, as HARK's are counted.
+            # Until version 2.1 the threshold was 1e-8, improved time iteration's tolerance, so solver noise could
+            # decide who was counted (docs/model.md, "A register of conventions").
+            "share_at_borrowing_constraint": pop.mass_at_or_below(0.0),
             "average_marginal_propensity_to_consume": pop.mean_over_arrivals(mpc),
             "diagnostics": {
                 "euler_equation_error": {"mean_absolute": float(weight_held @ np.abs(error[held])),

@@ -65,6 +65,14 @@ class Settings:
         wage, on which HARK's endogenous grid method computes the consumption rule. HARK builds
         it: asset_grid_points points from asset_grid_min to asset_grid_max, equally spaced after
         log(1 + x) is taken asset_grid_nesting times, with asset_grid_extra added.
+    cubic_interpolation: whether HARK interpolates the consumption rule between the endogenous grid's
+        points with cubic splines that match the rule's slopes there (HARK's CubicBool), instead of
+        linearly. Linear interpolation of a concave rule understates consumption between the points,
+        so it overstates saving and understates the interest rate: at the medium level's 200 points by
+        0.0018 percentage points at the baseline and 0.0076 at σ = 0.4, ρ = 0.9, μ = 5, measured against
+        the reference solution (reference.py). Cubic interpolation brings that to about 0.00001 at the
+        same points, at about twice the cost of a solve. The default stays linear so that the published
+        numbers stay those of version 2.0.
     population: "simulation", Calibration.households households simulated for Calibration.periods
         periods; or "histogram", the stationary distribution on a grid of its own (population.py):
         histogram_points points from 0 to histogram_max, in units of the wage, spaced as
@@ -77,6 +85,7 @@ class Settings:
     asset_grid_min: float = 0.001
     asset_grid_nesting: int = 3
     asset_grid_extra: tuple = (0.005, 0.01)
+    cubic_interpolation: bool = False
     population: str = "histogram"
     histogram_points: int = 2000
     histogram_max: float = 300.0
@@ -170,7 +179,7 @@ def make_households(calibration, chain=None, settings=None):
         aXtraCount=s.asset_grid_points,
         BoroCnstArt=0.0,  # no borrowing
         seed=s.seed,
-        CubicBool=False,
+        CubicBool=s.cubic_interpolation,
         vFuncBool=False,
         global_markov=False,
         cycles=0,  # infinite horizon
@@ -253,7 +262,12 @@ def rule_of(households):
     In econ-ark 0.17.2 the unconstrained rule's first knot is (0, 0) and the next ones lie at negative market
     resources, where HARK's endogenous grid starts from the one-period natural limit; HARK finds the segment by a
     binary search that is right for every positive m, which is all a household ever has, and so does rules.evaluate.
+
+    Only a linearly interpolated rule can be written out this way; a rule solved with cubic_interpolation raises.
     """
+    if getattr(households, "CubicBool", False):
+        raise NotImplementedError("rule_of writes out linearly interpolated rules only; this one was solved with "
+                                  "cubic_interpolation=True")
     states = []
     for envelope in households.solution[0].cFunc:
         pieces = []
@@ -677,8 +691,9 @@ def _numbers(eq):
         "definitions": {
             "effective_member": "The income process the households face: the chain that represents the AR(1) of the "
             "calibration, with its own moments, which differ from the AR(1)'s",
-            "settings": "How the economy was solved: the grid of HARK's rule (asset_grid_*, in units of the wage) and how "
-            "the population was computed (population: simulation or histogram; histogram_*, its grid)",
+            "settings": "How the economy was solved: the grid of HARK's rule (asset_grid_*, in units of the wage), whether "
+            "the rule is interpolated cubically or linearly (cubic_interpolation) and how the population was computed "
+            "(population: simulation or histogram; histogram_*, its grid)",
             "simulation": "Households are simulated for periods 0 to periods - 1; the equilibrium's averages and the "
             "statistics of the distribution use every household in first_period_averaged to last_period_averaged",
             "equilibrium.interest_rate": "r*, the net return on capital at which households' saving equals firms' demand for capital",

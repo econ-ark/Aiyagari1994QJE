@@ -18,6 +18,7 @@ echo "=== Testing the population code in both environments ==="
 .venv-hark/bin/python tests/test_population.py
 .venv-dolark/bin/python tests/test_population.py
 .venv-hark/bin/python tests/test_rule_export.py
+.venv-hark/bin/python tests/test_reference.py
 .venv-hark/bin/python tests/test_readme_numbers.py
 
 regenerated=$(mktemp -d)

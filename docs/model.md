@@ -121,6 +121,19 @@ The population's grid runs to 300 (in wage units for HARK, in levels for dolo). 
 interest rates differ by at most 0.0032 percentage points across Table II, and at the high level by 0.00024; HARK's
 medium is within 0.009 of its high.
 
+**Agreement is not accuracy.** A third solution, independent of both toolkits
+([`src/aiyagari1994qje/reference.py`](../src/aiyagari1994qje/reference.py): the endogenous grid method in plain numpy on
+the stated chain, with up to 8,000 points for the rule), measures each one's error. Measured at fixed prices in three
+cells (the baseline; σ = 0.4, ρ = 0.9, μ = 5; and σ = 0.2, ρ = 0, μ = 3), the reference is within about 0.00002
+percentage points of its own limit.
+- **At the medium level both toolkits understate the interest rate by about the same amount,** 0.0018 percentage
+  points at the baseline, though they agree with each other to 0.00003. The shared cause is linear interpolation
+  (the register below).
+- **In the riskiest cell the two errors differ:** HARK's 0.0076 and dolo's 0.0043, and their difference is the
+  0.0033 by which the toolkits disagree there.
+- **HARK's `Settings.cubic_interpolation` removes the error:** about 0.00001 at the medium level's 200 points. It is
+  off by default, so that the published numbers stay those of version 2.0.
+
 ## A register of conventions
 
 Each of these made two solutions of the economy differ before it was found; each is now stated or fixed.
@@ -144,7 +157,49 @@ Each of these made two solutions of the economy differ before it was found; each
 - **The kink.** dolo's rule is linear between fixed points of assets and has no point at the kink where households
   begin to save, so its Euler equation errors are largest there (up to 3.4 percent at the medium level) and its share
   of households at the borrowing limit converges more slowly than HARK's, whose endogenous grid has a point at the
-  kink.
+  kink. `Economy(..., restore_kink=True)` in `dolark-environment/aiyagari_dolark.py` puts the kink back when the rule
+  is evaluated:
+  - in each income state, the first saving segment is extended down to the limit;
+  - this cuts the error in the share at the limit about fivefold, against the reference;
+  - it leaves the interest rate and the Gini unchanged.
+
+  It is off by default.
+- **Linear interpolation of the rule.** Both toolkits interpolate the rule linearly between their points. Consumption
+  is concave in resources, so a straight line between two points lies below it: households consume too little and
+  save too much, and the interest rate comes out too low.
+  - **The size of the error:** each toolkit's falls fourfold when its points double. At the medium level it is
+    0.0018 percentage points at the baseline for both, and 0.0076 (HARK) and 0.0043 (dolo) at σ = 0.4, ρ = 0.9,
+    μ = 5.
+  - **So agreement says little:** the toolkits agree at the medium level largely because they make the same error.
+  - **HARK's remedy:** cubic interpolation (`Settings.cubic_interpolation`, HARK's `CubicBool`) matches the rule's
+    slopes at its points and is within about 0.00001 at 200 points, at twice the cost of a solve. Linear
+    interpolation needs about 3,200 points for that.
+  - **dolo's remedy:** dolo offers cubic interpolation only on evenly spaced grids, so it needs more points: 800 (its
+    high level) for 0.0003.
+- **The population's grid, in different units.** The two toolkits' populations are on grids of the same number of
+  points, in units of the wage for HARK and in levels for dolo. That is a difference between the toolkits that has
+  nothing to do with their rules; it accounts for about a fifth of their gap at the baseline and less elsewhere.
+- **The population's solve.** The stationary distribution was found by replacing one of its equations with "the
+  masses sum to one", a row with no zeros in an otherwise sparse matrix. That made the solve take 25 seconds on
+  3,000 points and more than 7 GB on 20,000.
+  - Fixed: one mass is fixed instead (the largest, from a few hundred steps of the chain), and the result is scaled
+    to sum to one.
+  - The answer is the same to round-off, about 16 times faster at 3,000 points, so finer population grids are cheap.
+- **dolo's convergence.** dolo's improved time iteration returns its last iterate, without an error, when it does not
+  converge. Fixed: the dolo route now requires its convergence flag, and falls back to plain time iteration when it is
+  not set.
+- **The threshold for the borrowing limit.** The dolo route counted a household at the limit if it ended the period
+  with assets of at most 1e-8, which is improved time iteration's own tolerance, so solver noise could decide who was
+  counted. Fixed: at most zero, as HARK's are counted. dolo's limit is −1e-10.
+- **A knife edge at the limit.** In the cell σ = 0.2, ρ = 0.9, μ = 3, the share of households at the borrowing limit
+  turns on where one income state's kink falls.
+  - In the third-lowest income state, a household with no assets has market resources only 0.000014 below the kink
+    at which households start to save, so it is (just) at the limit.
+  - Households with no assets are about 1.1 percent of the population. Every solution that misplaces that kink by
+    more than 0.000014 moves them out of the share at the limit.
+  - The reference's share at the limit is 2.73 percent. In `table-ii/`, DolARK's high level has 2.70 percent, while
+    HARK's levels (about 1.57) and DolARK's medium (1.51) have misplaced the kink.
+  - An interest rate about 0.003 percentage points higher would put those households on the other side.
 - **HARK's Markov rule.** In econ-ark 0.17.2, `MarkovConsumerType`'s unconstrained consumption function for a state
   in which the artificial limit binds starts with the knot $(0, 0)$ and continues at negative market resources, where
   the endogenous grid begins from the one-period natural limit. HARK finds a segment by a binary search that is right
